@@ -10,7 +10,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
-public class ModEntityType
+public class FireplaceEntities
 {
 	public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, Main.MODID);
 	public static final RegistryObject<EntityType<EntityKaratFeng>> KARAT_FENG = ENTITY_TYPES.register("karat_feng",

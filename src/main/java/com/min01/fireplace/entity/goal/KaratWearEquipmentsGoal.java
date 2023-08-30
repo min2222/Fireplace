@@ -2,7 +2,7 @@ package com.min01.fireplace.entity.goal;
 
 import com.min01.fireplace.entity.AbstractFireplaceMember.ActiveMemberSkills;
 import com.min01.fireplace.entity.EntityKaratFeng;
-import com.min01.fireplace.init.ModItems;
+import com.min01.fireplace.init.FireplaceItems;
 
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -29,7 +29,7 @@ public class KaratWearEquipmentsGoal extends AbstractFireplaceSkillGoal
     @Override
     public boolean canUse() 
     {
-    	boolean flag = this.mob.getPhase() == 0 && this.mob.getMainHandItem().getItem() == ModItems.KING_STAFF.get() && ((EntityKaratFeng) this.mob).stopFlying();
+    	boolean flag = this.mob.getPhase() == 0 && this.mob.getMainHandItem().getItem() == FireplaceItems.KING_STAFF.get() && ((EntityKaratFeng) this.mob).stopFlying();
     	return super.canUse() && flag || ((EntityKaratFeng) this.mob).shouldChangeEquip();
     }
 
@@ -59,11 +59,11 @@ public class KaratWearEquipmentsGoal extends AbstractFireplaceSkillGoal
     	}
     	else if(this.mob.getPhase() == 1 && this.mob.getMainHandItem().getItem() == Items.AIR)
     	{
-    		this.mob.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(ModItems.KING_STAFF.get()));
+    		this.mob.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(FireplaceItems.KING_STAFF.get()));
     	}
     	else if(this.mob.getPhase() == 2 && this.mob.getMainHandItem().getItem() == Items.AIR)
     	{
-    		this.mob.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(ModItems.KING_STAFF.get()));
+    		this.mob.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(FireplaceItems.KING_STAFF.get()));
     	}
     	if(((EntityKaratFeng) this.mob).shouldChangeEquip())
     	{
@@ -77,7 +77,7 @@ public class KaratWearEquipmentsGoal extends AbstractFireplaceSkillGoal
     {
 		if(this.mob.getPhase() == 0)
 		{
-    		if(this.mob.getMainHandItem().getItem() == Items.AIR || this.mob.getMainHandItem().getItem() == ModItems.KING_STAFF.get())
+    		if(this.mob.getMainHandItem().getItem() == Items.AIR || this.mob.getMainHandItem().getItem() == FireplaceItems.KING_STAFF.get())
     		{
             	if(this.equipCount < 5 || this.mob.getMainHandItem().getItem() == Items.SHIELD)
             	{

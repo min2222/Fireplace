@@ -6,7 +6,7 @@ import java.util.Objects;
 import com.min01.fireplace.Main;
 import com.min01.fireplace.entity.render.LayerOrangeGlass;
 import com.min01.fireplace.entity.render.KaratFengRenderer;
-import com.min01.fireplace.init.ModEntityType;
+import com.min01.fireplace.init.FireplaceEntities;
 import com.min01.fireplace.item.model.ModelKingsStaff;
 
 import net.minecraft.client.model.EntityModel;
@@ -33,7 +33,7 @@ public class ClientEventHandler
     @SubscribeEvent
     public static void entityRenderers(EntityRenderersEvent.RegisterRenderers event)
     {
-    	event.registerEntityRenderer(ModEntityType.KARAT_FENG.get(), KaratFengRenderer::new);
+    	event.registerEntityRenderer(FireplaceEntities.KARAT_FENG.get(), KaratFengRenderer::new);
     }
     
 	@SubscribeEvent

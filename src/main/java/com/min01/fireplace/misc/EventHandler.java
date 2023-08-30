@@ -2,7 +2,7 @@ package com.min01.fireplace.misc;
 
 import com.min01.fireplace.Main;
 import com.min01.fireplace.entity.EntityKaratFeng;
-import com.min01.fireplace.init.ModEntityType;
+import com.min01.fireplace.init.FireplaceEntities;
 
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -14,6 +14,6 @@ public class EventHandler
     @SubscribeEvent
     public static void entityAttributes(EntityAttributeCreationEvent event) 
     {
-    	event.put(ModEntityType.KARAT_FENG.get(), EntityKaratFeng.createAttributes().build());
+    	event.put(FireplaceEntities.KARAT_FENG.get(), EntityKaratFeng.createAttributes().build());
     }
 }

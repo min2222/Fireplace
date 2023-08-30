@@ -1,8 +1,8 @@
 package com.min01.fireplace;
 
 import com.min01.fireplace.config.FireplaceConfig;
-import com.min01.fireplace.init.ModEntityType;
-import com.min01.fireplace.init.ModItems;
+import com.min01.fireplace.init.FireplaceEntities;
+import com.min01.fireplace.init.FireplaceItems;
 import com.min01.fireplace.proxy.ClientProxy;
 import com.min01.fireplace.proxy.CommonProxy;
 
@@ -28,8 +28,8 @@ public class Main
 		MOD_EVENT_BUS = FMLJavaModLoadingContext.get().getModEventBus();
 		MOD_EVENT_BUS.addListener(this::CommonSetup);
 		MOD_EVENT_BUS.addListener(this::CompleteSetup);
-		ModEntityType.ENTITY_TYPES.register(MOD_EVENT_BUS);
-		ModItems.ITEMS.register(MOD_EVENT_BUS);
+		FireplaceEntities.ENTITY_TYPES.register(MOD_EVENT_BUS);
+		FireplaceItems.ITEMS.register(MOD_EVENT_BUS);
         FireplaceConfig.loadConfig(FireplaceConfig.common_config, FMLPaths.CONFIGDIR.get().resolve("fireplace-common.toml").toString());
 	}
 	

@@ -13,7 +13,7 @@ import com.min01.fireplace.entity.goal.KaratSplashPotionsGoal;
 import com.min01.fireplace.entity.goal.KaratSummonMobGoal;
 import com.min01.fireplace.entity.goal.KaratUsingShieldGoal;
 import com.min01.fireplace.entity.goal.KaratWearEquipmentsGoal;
-import com.min01.fireplace.init.ModItems;
+import com.min01.fireplace.init.FireplaceItems;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -107,7 +107,7 @@ public class EntityKaratFeng extends AbstractFireplaceMember
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_21434_, DifficultyInstance p_21435_, MobSpawnType p_21436_, SpawnGroupData p_21437_, CompoundTag p_21438_) 
     {
-    	this.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(ModItems.KING_STAFF.get()));
+    	this.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(FireplaceItems.KING_STAFF.get()));
 		if(!this.level.isClientSide)
 		{
 			this.entityList.clear();
@@ -230,7 +230,7 @@ public class EntityKaratFeng extends AbstractFireplaceMember
     		this.setStopFlying(true);
     		this.moveControl = new MoveControl(this);
     		this.setNoGravity(false);
-    		if(this.getMainHandItem().getItem() == ModItems.KING_STAFF.get())
+    		if(this.getMainHandItem().getItem() == FireplaceItems.KING_STAFF.get())
     		{
         		if(this.getPhase() == 1)
         		{
