@@ -6,6 +6,7 @@ import com.min01.fireplace.config.FireplaceConfig;
 import com.min01.fireplace.entity.AbstractFireplaceMember;
 import com.min01.fireplace.entity.AbstractFireplaceMember.ActiveMemberSkills;
 import com.min01.fireplace.entity.EntityKaratFeng;
+import com.min01.fireplace.util.FireplaceUtil;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
@@ -68,7 +69,7 @@ public class KaratShootProjectileGoal extends AbstractFireplaceSkillGoal
 		{
 			int rand = (int)Math.floor(Math.random()*this.projectileList.size());
 			Projectile projectile = this.projectileList.get(rand);
-			projectile.level.getScoreboard().addPlayerToTeam(projectile.getStringUUID(), this.mob.team);
+			projectile.getPersistentData().putUUID(FireplaceUtil.KARAT_UUID, this.mob.getUUID());
 			projectile.setOwner(this.mob);
 			projectile.setPos(this.mob.getX(), this.mob.getEyeY() - 0.1D, this.mob.getZ());
 			double d0 = this.mob.getTarget().getX() - this.mob.getX();

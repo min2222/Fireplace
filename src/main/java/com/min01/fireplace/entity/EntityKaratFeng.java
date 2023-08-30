@@ -47,7 +47,6 @@ import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.phys.Vec3;
-import net.minecraft.world.scores.PlayerTeam;
 
 public class EntityKaratFeng extends AbstractFireplaceMember
 {
@@ -57,21 +56,12 @@ public class EntityKaratFeng extends AbstractFireplaceMember
 	public static final EntityDataAccessor<Boolean> CHANGE_EQUIP = SynchedEntityData.defineId(EntityKaratFeng.class, EntityDataSerializers.BOOLEAN);
 	public static final EntityDataAccessor<Boolean> IS_SHIELDING = SynchedEntityData.defineId(EntityKaratFeng.class, EntityDataSerializers.BOOLEAN);
 	public FlyingMoveControl flyingControl =  new FlyingMoveControl(this, 20, false);
-	public PlayerTeam team;
-	public String TEAM_NAME = "karatAllies";
 	
 	public EntityKaratFeng(EntityType<? extends Monster> p_21368_, Level p_21369_) 
 	{
 		super(p_21368_, p_21369_);
 		this.moveControl = this.flyingControl;
 		this.setNoGravity(true);
-		if(this.team == null)
-		{
-			this.team = this.level.getScoreboard().addPlayerTeam(TEAM_NAME);
-		}
-		this.team.setDisplayName(Component.literal(TEAM_NAME));
-		this.team.setAllowFriendlyFire(false);
-        this.level.getScoreboard().addPlayerToTeam(this.getStringUUID(), this.team);
 	}
 	
     public static AttributeSupplier.Builder createAttributes()

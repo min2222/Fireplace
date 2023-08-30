@@ -6,6 +6,7 @@ import com.min01.fireplace.config.FireplaceConfig;
 import com.min01.fireplace.entity.AbstractFireplaceMember;
 import com.min01.fireplace.entity.AbstractFireplaceMember.ActiveMemberSkills;
 import com.min01.fireplace.entity.EntityKaratFeng;
+import com.min01.fireplace.util.FireplaceUtil;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
@@ -109,7 +110,7 @@ public class KaratSummonMobGoal extends AbstractFireplaceSkillGoal
 					double d2 = this.mob.getTarget().getZ() - this.mob.getZ();
 					double d3 = Math.sqrt(d0 * d0 + d2 * d2);
 					mob.setPos(karat.position());
-			        mob.level.getScoreboard().addPlayerToTeam(mob.getStringUUID(), karat.team);
+					mob.getPersistentData().putUUID(FireplaceUtil.KARAT_UUID, karat.getUUID());
 					mob.finalizeSpawn((ServerLevelAccessor) this.mob.getLevel(), this.mob.getLevel().getCurrentDifficultyAt(this.mob.blockPosition()), MobSpawnType.MOB_SUMMONED, null, null);
 					this.shoot(mob, d0, d1 + d3 * 0.2D, d2, 1.6F, 1);
 					karat.level.addFreshEntity(mob);
