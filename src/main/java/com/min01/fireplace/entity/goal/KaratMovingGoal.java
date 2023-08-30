@@ -26,7 +26,7 @@ public class KaratMovingGoal extends Goal
 	@Override
     public boolean canUse()
 	{
-        return this.mob.getTarget() != null && this.mob.shouldMove() && !this.mob.stopFlying();
+        return this.mob.getTarget() != null && !this.mob.stopFlying();
     }
 
 	@Override

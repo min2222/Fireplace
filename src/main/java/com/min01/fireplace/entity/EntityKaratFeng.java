@@ -1,8 +1,10 @@
 package com.min01.fireplace.entity;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
+import com.google.common.collect.Lists;
 import com.min01.fireplace.entity.goal.DodgeArrowsGoal;
 import com.min01.fireplace.entity.goal.KaratBuffMobsGoal;
 import com.min01.fireplace.entity.goal.KaratEatingGoldenAppleGoal;
@@ -73,6 +75,24 @@ public class EntityKaratFeng extends AbstractFireplaceMember
         		.add(Attributes.ARMOR_TOUGHNESS, 2)
         		.add(Attributes.ATTACK_DAMAGE, 4)
         		.add(Attributes.FLYING_SPEED, 0.45D);
+    }
+    
+    @Override
+    public void readAdditionalSaveData(CompoundTag p_21450_)
+    {
+    	super.readAdditionalSaveData(p_21450_);
+    	this.setStopFlying(p_21450_.getBoolean("stopFlying"));
+    	this.setPhase(p_21450_.getInt("Phase"));
+    	this.setShouldChangeEquip(p_21450_.getBoolean("changeEquip"));
+    }
+    
+    @Override
+    public void addAdditionalSaveData(CompoundTag p_21484_) 
+    {
+    	super.addAdditionalSaveData(p_21484_);
+    	p_21484_.putBoolean("stopFlying", this.stopFlying());
+    	p_21484_.putInt("Phase", this.getPhase());
+    	p_21484_.putBoolean("changeEquip", this.shouldChangeEquip());
     }
     
     @Override
@@ -205,8 +225,10 @@ public class EntityKaratFeng extends AbstractFireplaceMember
         	if(!this.level.isClientSide)
         	{
         		ServerLevel serverlevel = (ServerLevel) this.level;
-        		for(Entity entity : serverlevel.getAllEntities())
+        		List<Entity> list = Lists.newArrayList(serverlevel.getAllEntities().iterator());
+        		for(int i = 0; i < list.size(); i++)
         		{
+        			Entity entity = list.get(i);
         			if(entity != null)
         			{
             			if(entity.getPersistentData() != null)

@@ -17,7 +17,7 @@ public class ModelKaratFeng extends PlayerModel<EntityKaratFeng>
 	public void setupAnim(EntityKaratFeng p_103395_, float p_103396_, float p_103397_, float ageInTicks, float p_103399_, float p_103400_) 
 	{
 		super.setupAnim(p_103395_, p_103396_, p_103397_, ageInTicks, p_103399_, p_103400_);
-		if(p_103395_.isUsingSkill())
+		if(p_103395_.skillTickCount >= 10)
 		{
 			this.rightArm.z = 0.0F;
 			this.rightArm.x = -5.0F;

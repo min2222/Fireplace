@@ -8,7 +8,6 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MoverType;
@@ -77,14 +76,6 @@ public abstract class AbstractFireplaceMember extends Monster
 	}
 	
 	public abstract int getMaxHurtCount();
-	
-	public HitResult rayTraceLooking(Entity entity, double distance)
-	{
-		Vec3 vecPlayerOrigin = entity.getEyePosition(1.0F);
-        Vec3 vecPlayerLook = entity.getViewVector(1.0F);
-        Vec3 vecPlayerSee = vecPlayerOrigin.add(vecPlayerLook.x * distance, vecPlayerLook.y * distance, vecPlayerLook.z * distance);
-        return entity.level.clip(new ClipContext(vecPlayerOrigin, vecPlayerSee, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, entity));
-	}
 	
     public boolean canBlockPosBeSeen(BlockPos pos)
     {

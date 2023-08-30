@@ -4,7 +4,6 @@ import java.util.Map;
 import java.util.Objects;
 
 import com.min01.fireplace.Main;
-import com.min01.fireplace.entity.render.LayerOrangeGlass;
 import com.min01.fireplace.entity.render.KaratFengRenderer;
 import com.min01.fireplace.init.FireplaceEntities;
 import com.min01.fireplace.item.model.ModelKingsStaff;
@@ -54,6 +53,6 @@ public class ClientEventHandler
 	
 	private static <T extends LivingEntity, M extends EntityModel<T>> void attachRenderLayers(LivingEntityRenderer<T, M> renderer)
 	{
-		renderer.addLayer(new LayerOrangeGlass<>(renderer));
+		
 	}
 }
