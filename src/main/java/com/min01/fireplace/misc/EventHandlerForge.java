@@ -1,4 +1,4 @@
-package com.min01.fireplace.utils;
+package com.min01.fireplace.misc;
 
 import java.util.Iterator;
 import java.util.UUID;

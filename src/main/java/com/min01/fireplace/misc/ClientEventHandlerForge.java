@@ -1,4 +1,4 @@
-package com.min01.fireplace.utils;
+package com.min01.fireplace.misc;
 
 import com.min01.fireplace.Main;
 

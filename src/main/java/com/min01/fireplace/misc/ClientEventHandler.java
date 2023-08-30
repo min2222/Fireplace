@@ -1,11 +1,11 @@
-package com.min01.fireplace.utils;
+package com.min01.fireplace.misc;
 
 import java.util.Map;
 import java.util.Objects;
 
 import com.min01.fireplace.Main;
 import com.min01.fireplace.entity.render.LayerOrangeGlass;
-import com.min01.fireplace.entity.render.RenderEntityKaratFeng;
+import com.min01.fireplace.entity.render.KaratFengRenderer;
 import com.min01.fireplace.init.ModEntityType;
 import com.min01.fireplace.item.model.ModelKingsStaff;
 
@@ -33,7 +33,7 @@ public class ClientEventHandler
     @SubscribeEvent
     public static void entityRenderers(EntityRenderersEvent.RegisterRenderers event)
     {
-    	event.registerEntityRenderer(ModEntityType.KARAT_FENG.get(), RenderEntityKaratFeng::new);
+    	event.registerEntityRenderer(ModEntityType.KARAT_FENG.get(), KaratFengRenderer::new);
     }
     
 	@SubscribeEvent

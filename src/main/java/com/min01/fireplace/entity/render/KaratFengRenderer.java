@@ -19,9 +19,9 @@ import net.minecraft.client.renderer.entity.layers.ItemInHandLayer;
 import net.minecraft.client.renderer.entity.layers.SpinAttackEffectLayer;
 import net.minecraft.resources.ResourceLocation;
 
-public class RenderEntityKaratFeng extends MobRenderer<EntityKaratFeng, PlayerModel<EntityKaratFeng>>
+public class KaratFengRenderer extends MobRenderer<EntityKaratFeng, PlayerModel<EntityKaratFeng>>
 {
-	public RenderEntityKaratFeng(Context p_174304_)
+	public KaratFengRenderer(Context p_174304_)
 	{
 		super(p_174304_, new PlayerModel<EntityKaratFeng>(p_174304_.bakeLayer(ModelLayers.PLAYER), false), 0.5F);
 		this.addLayer(new HumanoidArmorLayer<>(this, new HumanoidModel<>(p_174304_.bakeLayer(ModelLayers.PLAYER_INNER_ARMOR)), new HumanoidModel<>(p_174304_.bakeLayer(ModelLayers.PLAYER_OUTER_ARMOR))));
