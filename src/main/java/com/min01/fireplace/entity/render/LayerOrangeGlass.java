@@ -25,7 +25,7 @@ public class LayerOrangeGlass<T extends LivingEntity, M extends EntityModel<T>> 
 	@Override
 	public void render(PoseStack stack, MultiBufferSource buffer, int light, T entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) 
 	{
-		if(!(entity instanceof EntityKaratFeng) && entity.getPersistentData().contains("karatUUID"))
+		if(!(entity instanceof EntityKaratFeng))
 		{
 			this.getParentModel().renderToBuffer(stack, new SheetedDecalTextureGenerator(buffer.getBuffer(TEXTURE), stack.last().pose(), stack.last().normal()), light, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
 		}
