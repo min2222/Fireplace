@@ -1,6 +1,6 @@
 package com.min01.fireplace.item.model;
 
-import com.min01.fireplace.Main;
+import com.min01.fireplace.Fireplace;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
@@ -18,7 +18,7 @@ import net.minecraft.resources.ResourceLocation;
 
 public class ModelKingsStaff extends Model 
 {
-	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Main.MODID, "kings_staff"), "main");
+	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Fireplace.MODID, "kings_staff"), "main");
 	private final ModelPart The_Kings_Staff;
 
 	public ModelKingsStaff(ModelPart root) 

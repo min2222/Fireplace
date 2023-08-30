@@ -18,6 +18,20 @@ public class KaratBuffMobsGoal extends AbstractFireplaceSkillGoal
 	}
 	
 	@Override
+	public void start()
+	{
+		super.start();
+		this.mob.setPreparingSkill(true);
+	}
+	
+	@Override
+	public void stop()
+	{
+		super.stop();
+		this.mob.setPreparingSkill(false);
+	}
+	
+	@Override
 	public boolean canUse() 
 	{
 		return super.canUse() && ((EntityKaratFeng)this.mob).getRemainSummoningHP() > 0;

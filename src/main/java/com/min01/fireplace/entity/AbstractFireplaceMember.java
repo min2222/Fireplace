@@ -34,6 +34,7 @@ public abstract class AbstractFireplaceMember extends Monster
 	public static final EntityDataAccessor<Boolean> SHOULD_MOVE = SynchedEntityData.defineId(AbstractFireplaceMember.class, EntityDataSerializers.BOOLEAN);
 	public static final EntityDataAccessor<Integer> PHASE = SynchedEntityData.defineId(AbstractFireplaceMember.class, EntityDataSerializers.INT);
 	public static final EntityDataAccessor<Integer> HURT_COUNT = SynchedEntityData.defineId(AbstractFireplaceMember.class, EntityDataSerializers.INT);
+	public static final EntityDataAccessor<Boolean> IS_PREPARING_SKILL = SynchedEntityData.defineId(AbstractFireplaceMember.class, EntityDataSerializers.BOOLEAN);
 	
 	public AbstractFireplaceMember(EntityType<? extends Monster> p_21368_, Level p_21369_) 
 	{
@@ -102,6 +103,7 @@ public abstract class AbstractFireplaceMember extends Monster
 		this.entityData.define(SHOULD_MOVE, true);
     	this.entityData.define(PHASE, 0);
     	this.entityData.define(HURT_COUNT, 0);
+    	this.entityData.define(IS_PREPARING_SKILL, false);
 	}
 	
     public void setAnimationState(int value)
@@ -142,6 +144,16 @@ public abstract class AbstractFireplaceMember extends Monster
     public int getHurtCount()
     {
     	return this.entityData.get(HURT_COUNT);
+    }
+    
+    public void setPreparingSkill(boolean value)
+    {
+    	this.entityData.set(IS_PREPARING_SKILL, value);
+    }
+    
+    public boolean isPreparingSkill()
+    {
+    	return this.entityData.get(IS_PREPARING_SKILL);
     }
     
     @Override

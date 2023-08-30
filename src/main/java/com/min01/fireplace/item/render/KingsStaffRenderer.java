@@ -1,6 +1,6 @@
 package com.min01.fireplace.item.render;
 
-import com.min01.fireplace.Main;
+import com.min01.fireplace.Fireplace;
 import com.min01.fireplace.item.model.ModelKingsStaff;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -42,7 +42,7 @@ public class KingsStaffRenderer extends BlockEntityWithoutLevelRenderer
 		p_108832_.mulPose(Vector3f.XP.rotationDegrees(180F));
 		p_108832_.translate(0, -1.5, 0);
 		ModelKingsStaff model = new ModelKingsStaff(this.set.bakeLayer(ModelKingsStaff.LAYER_LOCATION));
-		VertexConsumer consumer = p_108833_.getBuffer(RenderType.entitySolid(new ResourceLocation(Main.MODID, "textures/items/king_staff.png")));
+		VertexConsumer consumer = p_108833_.getBuffer(RenderType.entitySolid(new ResourceLocation(Fireplace.MODID, "textures/items/king_staff.png")));
 		model.renderToBuffer(p_108832_, consumer, 240, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
 		p_108832_.popPose();
 	}

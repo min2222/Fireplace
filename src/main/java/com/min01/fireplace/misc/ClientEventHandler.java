@@ -3,7 +3,7 @@ package com.min01.fireplace.misc;
 import java.util.Map;
 import java.util.Objects;
 
-import com.min01.fireplace.Main;
+import com.min01.fireplace.Fireplace;
 import com.min01.fireplace.entity.render.KaratFengRenderer;
 import com.min01.fireplace.init.FireplaceEntities;
 import com.min01.fireplace.item.model.ModelKingsStaff;
@@ -20,7 +20,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
 
-@Mod.EventBusSubscriber(modid = Main.MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+@Mod.EventBusSubscriber(modid = Fireplace.MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ClientEventHandler 
 {
     @SubscribeEvent

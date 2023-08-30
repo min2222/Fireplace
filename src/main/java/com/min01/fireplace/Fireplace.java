@@ -5,6 +5,7 @@ import com.min01.fireplace.init.FireplaceEntities;
 import com.min01.fireplace.init.FireplaceItems;
 import com.min01.fireplace.proxy.ClientProxy;
 import com.min01.fireplace.proxy.CommonProxy;
+import com.min01.fireplace.sound.FireplaceSounds;
 
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
@@ -15,21 +16,22 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLPaths;
 import net.minecraftforge.network.simple.SimpleChannel;
 
-@Mod(Main.MODID)
-public class Main 
+@Mod(Fireplace.MODID)
+public class Fireplace 
 {
 	public static final String MODID = "fireplace";
 	public static IEventBus MOD_EVENT_BUS;
 	public static SimpleChannel wrapper;
 	public static CommonProxy proxy = DistExecutor.safeRunForDist(() -> ClientProxy::new, () -> CommonProxy::new);
 	
-	public Main() 
+	public Fireplace() 
 	{
 		MOD_EVENT_BUS = FMLJavaModLoadingContext.get().getModEventBus();
 		MOD_EVENT_BUS.addListener(this::CommonSetup);
 		MOD_EVENT_BUS.addListener(this::CompleteSetup);
 		FireplaceEntities.ENTITY_TYPES.register(MOD_EVENT_BUS);
 		FireplaceItems.ITEMS.register(MOD_EVENT_BUS);
+		FireplaceSounds.SOUNDS.register(MOD_EVENT_BUS);
         FireplaceConfig.loadConfig(FireplaceConfig.common_config, FMLPaths.CONFIGDIR.get().resolve("fireplace-common.toml").toString());
 	}
 	

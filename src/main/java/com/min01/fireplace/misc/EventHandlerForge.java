@@ -3,7 +3,7 @@ package com.min01.fireplace.misc;
 import java.util.Iterator;
 import java.util.UUID;
 
-import com.min01.fireplace.Main;
+import com.min01.fireplace.Fireplace;
 import com.min01.fireplace.entity.EntityKaratFeng;
 import com.min01.fireplace.entity.goal.DodgeArrowsGoal;
 import com.min01.fireplace.util.FireplaceUtil;
@@ -24,10 +24,10 @@ import net.minecraftforge.event.entity.living.LivingEvent.LivingTickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-@Mod.EventBusSubscriber(modid = Main.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
+@Mod.EventBusSubscriber(modid = Fireplace.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class EventHandlerForge 
 {
-	private static final String TAG_ARROW_DODGE_CHECKED = Main.MODID + "_dodge_check";
+	private static final String TAG_ARROW_DODGE_CHECKED = Fireplace.MODID + "_dodge_check";
 	
 	@SubscribeEvent
 	public static void karatSummon(LivingTickEvent event)
@@ -46,6 +46,10 @@ public class EventHandlerForge
 					}
 				}
 			}
+		}
+		if(event.getEntity().getPersistentData().contains(FireplaceUtil.KARAT_UUID))
+		{
+			event.getEntity().getPersistentData().putUUID(FireplaceUtil.KARAT_UUID, event.getEntity().getPersistentData().getUUID(FireplaceUtil.KARAT_UUID));
 		}
 	}
 	

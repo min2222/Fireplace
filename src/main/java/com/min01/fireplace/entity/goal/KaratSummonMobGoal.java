@@ -40,6 +40,7 @@ public class KaratSummonMobGoal extends AbstractFireplaceSkillGoal
 	public void start()
 	{
 		super.start();
+		this.mob.setPreparingSkill(true);
 		for(EntityType<?> type : ForgeRegistries.ENTITY_TYPES)
 		{
 			if(type != EntityType.ENDER_DRAGON)
@@ -135,6 +136,7 @@ public class KaratSummonMobGoal extends AbstractFireplaceSkillGoal
 	{
 		super.stop();
 		this.entityList.clear();
+		this.mob.setPreparingSkill(false);
 	}
 
 	@Override

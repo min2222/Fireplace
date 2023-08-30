@@ -36,6 +36,7 @@ public class KaratShootProjectileGoal extends AbstractFireplaceSkillGoal
 	public void start() 
 	{
 		super.start();
+		this.mob.setPreparingSkill(true);
 		for(EntityType<?> type : ForgeRegistries.ENTITY_TYPES)
 		{
 			Entity entity = type.create(this.mob.level);
@@ -87,6 +88,7 @@ public class KaratShootProjectileGoal extends AbstractFireplaceSkillGoal
 	{
 		super.stop();
 		this.projectileList.clear();
+		this.mob.setPreparingSkill(false);
 	}
 
 	@Override

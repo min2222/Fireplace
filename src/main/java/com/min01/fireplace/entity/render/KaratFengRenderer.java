@@ -1,6 +1,6 @@
 package com.min01.fireplace.entity.render;
 
-import com.min01.fireplace.Main;
+import com.min01.fireplace.Fireplace;
 import com.min01.fireplace.entity.EntityKaratFeng;
 import com.min01.fireplace.entity.model.ModelKaratFeng;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -49,6 +49,6 @@ public class KaratFengRenderer extends MobRenderer<EntityKaratFeng, PlayerModel<
 	@Override
 	public ResourceLocation getTextureLocation(EntityKaratFeng p_115812_) 
 	{
-		return new ResourceLocation(Main.MODID, "textures/entity/karat_feng.png");
+		return new ResourceLocation(Fireplace.MODID, "textures/entity/karat_feng.png");
 	}
 }
