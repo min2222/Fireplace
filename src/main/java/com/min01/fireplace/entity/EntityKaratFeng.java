@@ -47,6 +47,7 @@ import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.scores.PlayerTeam;
 
 public class EntityKaratFeng extends AbstractFireplaceMember
 {
@@ -56,11 +57,16 @@ public class EntityKaratFeng extends AbstractFireplaceMember
 	public static final EntityDataAccessor<Boolean> CHANGE_EQUIP = SynchedEntityData.defineId(EntityKaratFeng.class, EntityDataSerializers.BOOLEAN);
 	public static final EntityDataAccessor<Boolean> IS_SHIELDING = SynchedEntityData.defineId(EntityKaratFeng.class, EntityDataSerializers.BOOLEAN);
 	public FlyingMoveControl flyingControl =  new FlyingMoveControl(this, 20, false);
+	public PlayerTeam team = this.level.getScoreboard().addPlayerTeam("karatAllies");
+	
 	public EntityKaratFeng(EntityType<? extends Monster> p_21368_, Level p_21369_) 
 	{
 		super(p_21368_, p_21369_);
 		this.moveControl = this.flyingControl;
 		this.setNoGravity(true);
+		this.team.setDisplayName(Component.literal("karatAllies"));
+		this.team.setAllowFriendlyFire(false);
+        this.level.getScoreboard().addPlayerToTeam(this.getStringUUID(), this.team);
 	}
 	
     public static AttributeSupplier.Builder createAttributes()
@@ -183,18 +189,10 @@ public class EntityKaratFeng extends AbstractFireplaceMember
         			this.setTarget(null);
         		}
         	}
-        	this.getLookControl().setLookAt(this.getTarget());
+        	this.getLookControl().setLookAt(this.getTarget(), 100, 100);
     		if(!this.stopFlying())
     		{
-    			if(this.distanceTo(this.getTarget()) >= 10)
-    			{
-
-            		this.getNavigation().moveTo(this.getTarget().getX(), this.getTarget().getEyeY() + 4.5, this.getTarget().getZ(), 0.5);
-    			}
-    			else
-    			{
-            		this.getNavigation().moveTo(this.getX(), this.getTarget().getEyeY() + 4.5, this.getZ(), 0.5);
-    			}
+                this.getNavigation().moveTo(this.getTarget().getX(), this.getTarget().getEyeY(), this.getTarget().getZ(), 0.45);
     		}
         }
         

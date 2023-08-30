@@ -15,6 +15,7 @@ public class KaratMovingGoal extends Goal
 	private boolean strafingClockwise;
 	private boolean strafingBackwards;
 	private int strafingTime = -1;
+	private boolean direction;
 
 	public KaratMovingGoal(EntityKaratFeng p_25792_)
 	{
@@ -23,10 +24,10 @@ public class KaratMovingGoal extends Goal
 	}
 	
 	@Override
-	public boolean canUse()
+    public boolean canUse()
 	{
-		return this.mob.getTarget() != null && this.mob.isNoGravity() && this.mob.distanceTo(this.mob.getTarget()) <= 6;
-	}
+        return this.mob.getTarget() != null && this.mob.shouldMove() && !this.mob.stopFlying();
+    }
 
 	@Override
 	public boolean canContinueToUse() 
@@ -114,8 +115,20 @@ public class KaratMovingGoal extends Goal
 					this.strafingBackwards = true;
 				}
 				
-				this.mob.setZza(-4.6F);
-				this.mob.setXxa(-1F);
+				if(this.mob.tickCount % 40 == 0)
+				{
+					if(this.direction)
+					{
+						this.direction = false;
+					}
+					else
+					{
+						this.direction = true;
+					}
+				}
+				
+                this.mob.setZza(this.direction ? -1.5f : 1.5F);
+                this.mob.setXxa(this.direction ? 1.5F : -1.5F);
 			}
 		}
 	}

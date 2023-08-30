@@ -2,6 +2,7 @@ package com.min01.fireplace.entity.render;
 
 import com.min01.fireplace.Main;
 import com.min01.fireplace.entity.EntityKaratFeng;
+import com.min01.fireplace.entity.model.ModelKaratFeng;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.model.HumanoidModel;
@@ -23,7 +24,7 @@ public class KaratFengRenderer extends MobRenderer<EntityKaratFeng, PlayerModel<
 {
 	public KaratFengRenderer(Context p_174304_)
 	{
-		super(p_174304_, new PlayerModel<EntityKaratFeng>(p_174304_.bakeLayer(ModelLayers.PLAYER), false), 0.5F);
+		super(p_174304_, new ModelKaratFeng(p_174304_.bakeLayer(ModelLayers.PLAYER), false), 0.5F);
 		this.addLayer(new HumanoidArmorLayer<>(this, new HumanoidModel<>(p_174304_.bakeLayer(ModelLayers.PLAYER_INNER_ARMOR)), new HumanoidModel<>(p_174304_.bakeLayer(ModelLayers.PLAYER_OUTER_ARMOR))));
 		this.addLayer(new ItemInHandLayer<>(this, p_174304_.getItemInHandRenderer()));
 		this.addLayer(new ArrowLayer<>(p_174304_, this));

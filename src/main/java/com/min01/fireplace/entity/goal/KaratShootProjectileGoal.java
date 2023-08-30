@@ -17,10 +17,12 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 public class KaratShootProjectileGoal extends AbstractFireplaceSkillGoal
 {
+	public EntityKaratFeng mob;
 	public ArrayList<Projectile> projectileList = new ArrayList<>();
 	public KaratShootProjectileGoal(AbstractFireplaceMember mob) 
 	{
 		super(mob);
+		this.mob = (EntityKaratFeng) mob;
 	}
 	
 	@Override
@@ -43,7 +45,6 @@ public class KaratShootProjectileGoal extends AbstractFireplaceSkillGoal
 				{
 					if(!FireplaceConfig.karatProjectileBlackList.get().contains(entity.getEncodeId()) && !FireplaceConfig.karatProjectileBlackList.get().contains(resourcelocation.toString().split(":")[0]))
 					{
-
 						Projectile projectile = (Projectile) entity;
 						this.projectileList.add(projectile);
 					}
@@ -67,7 +68,7 @@ public class KaratShootProjectileGoal extends AbstractFireplaceSkillGoal
 		{
 			int rand = (int)Math.floor(Math.random()*this.projectileList.size());
 			Projectile projectile = this.projectileList.get(rand);
-			projectile.getPersistentData().putUUID("karatUUID", this.mob.getUUID());
+			projectile.level.getScoreboard().addPlayerToTeam(projectile.getStringUUID(), this.mob.team);
 			projectile.setOwner(this.mob);
 			projectile.setPos(this.mob.getX(), this.mob.getEyeY() - 0.1D, this.mob.getZ());
 			double d0 = this.mob.getTarget().getX() - this.mob.getX();

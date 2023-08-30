@@ -8,6 +8,7 @@ import com.min01.fireplace.entity.AbstractFireplaceMember.ActiveMemberSkills;
 import com.min01.fireplace.entity.EntityKaratFeng;
 
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -15,14 +16,17 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class KaratSummonMobGoal extends AbstractFireplaceSkillGoal
 {
+	public EntityKaratFeng mob;
 	public ArrayList<LivingEntity> entityList = new ArrayList<>();
 	public KaratSummonMobGoal(AbstractFireplaceMember mob)
 	{
 		super(mob);
+		this.mob = (EntityKaratFeng) mob;
 	}
 	
 	@Override
@@ -100,13 +104,29 @@ public class KaratSummonMobGoal extends AbstractFireplaceSkillGoal
 				mob.setTarget(karat.getTarget());
 				if(!karat.level.isClientSide)
 				{
-					mob.setPos(karat.getTarget().position());
-					mob.getPersistentData().putUUID("karatUUID", karat.getUUID());
+					double d0 = this.mob.getTarget().getX() - this.mob.getX();
+					double d1 = this.mob.getTarget().getY() - mob.getY();
+					double d2 = this.mob.getTarget().getZ() - this.mob.getZ();
+					double d3 = Math.sqrt(d0 * d0 + d2 * d2);
+					mob.setPos(karat.position());
+			        mob.level.getScoreboard().addPlayerToTeam(mob.getStringUUID(), karat.team);
 					mob.finalizeSpawn((ServerLevelAccessor) this.mob.getLevel(), this.mob.getLevel().getCurrentDifficultyAt(this.mob.blockPosition()), MobSpawnType.MOB_SUMMONED, null, null);
+					this.shoot(mob, d0, d1 + d3 * 0.2D, d2, 1.6F, 1);
 					karat.level.addFreshEntity(mob);
 				}
 			}
 		}
+	}
+	
+	public void shoot(Entity entity, double p_37266_, double p_37267_, double p_37268_, float p_37269_, float p_37270_)
+	{
+		Vec3 vec3 = (new Vec3(p_37266_, p_37267_, p_37268_)).normalize().add(entity.level.random.triangle(0.0D, 0.0172275D * (double)p_37270_), entity.level.random.triangle(0.0D, 0.0172275D * (double)p_37270_), entity.level.random.triangle(0.0D, 0.0172275D * (double)p_37270_)).scale((double)p_37269_);
+		entity.setDeltaMovement(vec3);
+		double d0 = vec3.horizontalDistance();
+		entity.setYRot((float)(Mth.atan2(vec3.x, vec3.z) * (double)(180F / (float)Math.PI)));
+		entity.setXRot((float)(Mth.atan2(vec3.y, d0) * (double)(180F / (float)Math.PI)));
+		entity.yRotO = entity.getYRot();
+		entity.xRotO = entity.getXRot();
 	}
 	
 	@Override
