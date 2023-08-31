@@ -47,10 +47,6 @@ public class EventHandlerForge
 				}
 			}
 		}
-		if(event.getEntity().getPersistentData().contains(FireplaceUtil.KARAT_UUID))
-		{
-			event.getEntity().getPersistentData().putUUID(FireplaceUtil.KARAT_UUID, event.getEntity().getPersistentData().getUUID(FireplaceUtil.KARAT_UUID));
-		}
 	}
 	
 	@SubscribeEvent

@@ -3,6 +3,7 @@ package com.min01.fireplace;
 import com.min01.fireplace.config.FireplaceConfig;
 import com.min01.fireplace.init.FireplaceEntities;
 import com.min01.fireplace.init.FireplaceItems;
+import com.min01.fireplace.network.FireplaceNetwork;
 import com.min01.fireplace.proxy.ClientProxy;
 import com.min01.fireplace.proxy.CommonProxy;
 import com.min01.fireplace.sound.FireplaceSounds;
@@ -32,6 +33,7 @@ public class Fireplace
 		FireplaceEntities.ENTITY_TYPES.register(MOD_EVENT_BUS);
 		FireplaceItems.ITEMS.register(MOD_EVENT_BUS);
 		FireplaceSounds.SOUNDS.register(MOD_EVENT_BUS);
+		FireplaceNetwork.registerMessages();
         FireplaceConfig.loadConfig(FireplaceConfig.common_config, FMLPaths.CONFIGDIR.get().resolve("fireplace-common.toml").toString());
 	}
 	

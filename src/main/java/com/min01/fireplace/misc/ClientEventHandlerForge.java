@@ -2,15 +2,12 @@ package com.min01.fireplace.misc;
 
 import com.min01.fireplace.Fireplace;
 import com.min01.fireplace.entity.EntityKaratFeng;
-import com.min01.fireplace.util.FireplaceUtil;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Matrix3f;
 import com.mojang.math.Matrix4f;
 import com.mojang.math.Vector3f;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.OverlayTexture;
@@ -33,23 +30,13 @@ public class ClientEventHandlerForge
 	@SubscribeEvent
 	public static void onRenderLivingPre(RenderLivingEvent.Pre<?, ?> event)
 	{
-		ClientLevel clientLevel = Minecraft.getInstance().level;
-		for(Entity entity : clientLevel.entitiesForRendering())
+		if(event.getEntity() instanceof EntityKaratFeng karat)
 		{
-			if(entity instanceof LivingEntity)
+			for(LivingEntity living : karat.entityList)
 			{
-				LivingEntity living = (LivingEntity) entity;
-				if(living.getPersistentData().contains(FireplaceUtil.KARAT_UUID))
-				{
-					if(entity.getUUID().equals(living.getPersistentData().getUUID(FireplaceUtil.KARAT_UUID)))
-					{
-						EntityKaratFeng karat = (EntityKaratFeng) entity;
-						renderLink(entity, event.getPartialTick(), event.getPoseStack(), event.getMultiBufferSource(), event.getPackedLight(), karat);
-					}
-				}
+				renderLink(living, event.getPartialTick(), event.getPoseStack(), event.getMultiBufferSource(), event.getPackedLight(), karat);
 			}
 		}
-
 	}
 	
     public static <E extends Entity> void renderLink(Entity entityLivingIn, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int lightIn, Entity chainTarget) 

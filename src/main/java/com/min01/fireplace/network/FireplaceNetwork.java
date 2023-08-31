@@ -1,0 +1,21 @@
+package com.min01.fireplace.network;
+
+import com.min01.fireplace.Fireplace;
+
+import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.network.NetworkRegistry;
+import net.minecraftforge.network.simple.SimpleChannel;
+
+public class FireplaceNetwork 
+{
+	public static int ID;
+    private static final String PROTOCOL_VERSION = "1";
+    public static final SimpleChannel CHANNEL = 
+    		NetworkRegistry.newSimpleChannel(new ResourceLocation(Fireplace.MODID, "fireplace_channel"), 
+    				() -> PROTOCOL_VERSION, PROTOCOL_VERSION::equals, PROTOCOL_VERSION::equals);
+	
+	public static void registerMessages()
+	{
+		CHANNEL.registerMessage(ID++, KaratDataSyncPacket.class, KaratDataSyncPacket::encode, KaratDataSyncPacket::new, KaratDataSyncPacket.Handler::onMessage);
+	}
+}

@@ -6,6 +6,9 @@ import com.min01.fireplace.config.FireplaceConfig;
 import com.min01.fireplace.entity.AbstractFireplaceMember;
 import com.min01.fireplace.entity.AbstractFireplaceMember.ActiveMemberSkills;
 import com.min01.fireplace.entity.EntityKaratFeng;
+import com.min01.fireplace.network.FireplaceNetwork;
+import com.min01.fireplace.network.KaratDataSyncPacket;
+import com.min01.fireplace.network.KaratDataSyncPacket.DataType;
 import com.min01.fireplace.util.FireplaceUtil;
 
 import net.minecraft.resources.ResourceLocation;
@@ -18,6 +21,7 @@ import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class KaratSummonMobGoal extends AbstractFireplaceSkillGoal
@@ -88,6 +92,7 @@ public class KaratSummonMobGoal extends AbstractFireplaceSkillGoal
 			if(!((EntityKaratFeng) this.mob).entityList.contains(living2))
 			{
 				((EntityKaratFeng) this.mob).entityList.add(living2);
+				FireplaceNetwork.CHANNEL.send(PacketDistributor.ALL.noArg(), new KaratDataSyncPacket(DataType.ENTITY_LIST, this.mob.getId()));
 			}
 		}
 	}
