@@ -43,7 +43,6 @@ import net.minecraft.world.entity.ai.control.FlyingMoveControl;
 import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
-import net.minecraft.world.entity.monster.AbstractIllager;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.Item;
@@ -208,6 +207,8 @@ public class EntityKaratFeng extends AbstractFireplaceMember
     	}
         if(this.getTarget() != null)
         {
+        	this.getLookControl().setLookAt(this.getTarget(), 100, 100);
+        	
         	if(this.getTarget().getPersistentData().contains(FireplaceUtil.KARAT_UUID))
         	{
         		if(this.getTarget().getPersistentData().getUUID(FireplaceUtil.KARAT_UUID).equals(this.getUUID()))
@@ -215,7 +216,6 @@ public class EntityKaratFeng extends AbstractFireplaceMember
         			this.setTarget(null);
         		}
         	}
-        	this.getLookControl().setLookAt(this.getTarget(), 100, 100);
     		if(!this.stopFlying())
     		{
                 this.getNavigation().moveTo(this.getTarget().getX(), this.getTarget().getEyeY(), this.getTarget().getZ(), 0.45);
