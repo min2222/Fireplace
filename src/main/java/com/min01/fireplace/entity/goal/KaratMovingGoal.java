@@ -10,7 +10,7 @@ import net.minecraft.world.entity.ai.goal.Goal;
 public class KaratMovingGoal extends Goal
 {
 	private final EntityKaratFeng mob;
-	private float attackRadiusSqr = 30;
+	private float attackRadiusSqr = 40;
 	private int seeTime;
 	private boolean strafingClockwise;
 	private boolean strafingBackwards;
@@ -24,10 +24,10 @@ public class KaratMovingGoal extends Goal
 	}
 	
 	@Override
-    public boolean canUse()
+	public boolean canUse()
 	{
-        return this.mob.getTarget() != null && !this.mob.stopFlying();
-    }
+		return !this.mob.stopFlying();
+	}
 
 	@Override
 	public void start() 
@@ -56,6 +56,20 @@ public class KaratMovingGoal extends Goal
 		LivingEntity livingentity = this.mob.getTarget();
 		if (livingentity != null) 
 		{
+			this.mob.getNavigation().moveTo(livingentity.getX(), livingentity.getEyeY(), livingentity.getZ(), 0.55);
+			
+			if(this.mob.tickCount % 40 == 0)
+			{
+				if(this.direction)
+				{
+					this.direction = false;
+				}
+				else
+				{
+					this.direction = true;
+				}
+			}
+			
 			double d0 = this.mob.distanceToSqr(livingentity.getX(), livingentity.getY(), livingentity.getZ());
 			boolean flag = this.mob.getSensing().hasLineOfSight(livingentity);
 			boolean flag1 = this.seeTime > 0;
@@ -109,20 +123,8 @@ public class KaratMovingGoal extends Goal
 					this.strafingBackwards = true;
 				}
 				
-				if(this.mob.tickCount % 40 == 0)
-				{
-					if(this.direction)
-					{
-						this.direction = false;
-					}
-					else
-					{
-						this.direction = true;
-					}
-				}
-				
-                this.mob.setZza(this.direction ? -1.5f : 1.5F);
-                this.mob.setXxa(this.direction ? 1.5F : -1.5F);
+		        this.mob.setZza(this.direction ? -1.5f : 1.5F);
+		        this.mob.setXxa(this.direction ? 1.5F : -1.5F);
 			}
 		}
 	}

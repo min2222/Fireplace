@@ -68,6 +68,32 @@ public class EntityKaratFeng extends AbstractFireplaceMember
 		this.moveControl = this.flyingControl;
 		this.setNoGravity(true);
 	}
+    
+    @Override
+    protected void registerGoals() 
+    {
+    	super.registerGoals();
+    	this.goalSelector.addGoal(4, new KaratSummonMobGoal(this));
+    	this.goalSelector.addGoal(4, new KaratWearEquipmentsGoal(this));
+    	this.goalSelector.addGoal(4, new KaratMeleeAttackGoal(this, 0.65D, false));
+    	this.goalSelector.addGoal(4, new KaratBuffMobsGoal(this));
+    	this.goalSelector.addGoal(4, new KaratShootProjectileGoal(this));
+    	this.goalSelector.addGoal(4, new KaratUsingShieldGoal(this));
+    	this.goalSelector.addGoal(4, new KaratEatingGoldenAppleGoal(this));
+    	this.goalSelector.addGoal(4, new KaratSplashPotionsGoal(this));
+    	this.goalSelector.addGoal(4, new KaratMovingGoal(this));
+    	this.goalSelector.addGoal(4, new DodgeArrowsGoal(this, 100.0F));
+    }
+    
+    @Override
+    protected void defineSynchedData() 
+    {
+    	super.defineSynchedData();
+    	this.entityData.define(MAX_SUMMONING_HP, 300.0F);
+    	this.entityData.define(STOP_FLYING, false);
+    	this.entityData.define(CHANGE_EQUIP, false);
+    	this.entityData.define(IS_SHIELDING, false);
+    }
 	
     public static AttributeSupplier.Builder createAttributes()
     {
@@ -78,24 +104,6 @@ public class EntityKaratFeng extends AbstractFireplaceMember
         		.add(Attributes.ARMOR_TOUGHNESS, 2)
         		.add(Attributes.ATTACK_DAMAGE, 4)
         		.add(Attributes.FLYING_SPEED, 0.45D);
-    }
-    
-    @Override
-    public void readAdditionalSaveData(CompoundTag p_21450_)
-    {
-    	super.readAdditionalSaveData(p_21450_);
-    	this.setStopFlying(p_21450_.getBoolean("stopFlying"));
-    	this.setPhase(p_21450_.getInt("Phase"));
-    	this.setShouldChangeEquip(p_21450_.getBoolean("changeEquip"));
-    }
-    
-    @Override
-    public void addAdditionalSaveData(CompoundTag p_21484_) 
-    {
-    	super.addAdditionalSaveData(p_21484_);
-    	p_21484_.putBoolean("stopFlying", this.stopFlying());
-    	p_21484_.putInt("Phase", this.getPhase());
-    	p_21484_.putBoolean("changeEquip", this.shouldChangeEquip());
     }
     
     @Override
@@ -113,7 +121,7 @@ public class EntityKaratFeng extends AbstractFireplaceMember
 	{
 		if(!this.stopFlying())
 		{
-			if (this.isEffectiveAi() || this.isControlledByLocalInstance())
+			if(this.isEffectiveAi() || this.isControlledByLocalInstance())
 			{
 				this.moveRelative(this.getSpeed(), p_218382_);
 				this.move(MoverType.SELF, this.getDeltaMovement());
@@ -131,72 +139,15 @@ public class EntityKaratFeng extends AbstractFireplaceMember
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_21434_, DifficultyInstance p_21435_, MobSpawnType p_21436_, SpawnGroupData p_21437_, CompoundTag p_21438_) 
     {
     	this.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(FireplaceItems.KING_STAFF.get()));
-		if(!this.level.isClientSide)
-		{
-			this.entityList.clear();
-		}
+		this.entityList.clear();
     	return super.finalizeSpawn(p_21434_, p_21435_, p_21436_, p_21437_, p_21438_);
-    }
-    
-    @Override
-    public void die(DamageSource p_21014_) 
-    {
-    	if(this.getPhase() == 2 || p_21014_ == DamageSource.OUT_OF_WORLD)
-    	{
-        	super.die(p_21014_);
-    	}
-    	else 
-    	{
-    		this.setNoGravity(true);
-    		this.entityList.clear();
-			this.setHealth(200.0F);
-			this.setPhase(this.getPhase() + 1);
-			this.setStopFlying(false);
-			this.moveControl = this.flyingControl;
-			this.setShouldChangeEquip(true);
-			if(this.getPhase() == 0)
-			{
-    			this.setRemainSummoningHP(600.0F);
-	    		this.getAttribute(Attributes.FLYING_SPEED).setBaseValue(0.55D);
-			}
-			else if(this.getPhase() == 1)
-			{
-    			this.setRemainSummoningHP(900.0F);
-	    		this.getAttribute(Attributes.FLYING_SPEED).setBaseValue(0.65D);
-			}
-    	}
-    }
-    
-    @Override
-    protected void registerGoals() 
-    {
-    	super.registerGoals();
-		this.goalSelector.addGoal(4, new KaratMovingGoal(this));
-    	this.goalSelector.addGoal(4, new KaratSummonMobGoal(this));
-    	this.goalSelector.addGoal(4, new KaratWearEquipmentsGoal(this));
-    	this.goalSelector.addGoal(4, new KaratMeleeAttackGoal(this, 0.65D, true));
-    	this.goalSelector.addGoal(4, new KaratBuffMobsGoal(this));
-    	this.goalSelector.addGoal(4, new KaratShootProjectileGoal(this));
-    	this.goalSelector.addGoal(4, new KaratUsingShieldGoal(this));
-    	this.goalSelector.addGoal(4, new KaratEatingGoldenAppleGoal(this));
-    	this.goalSelector.addGoal(4, new KaratSplashPotionsGoal(this));
-    	this.goalSelector.addGoal(4, new DodgeArrowsGoal(this, 100.0F));
-    }
-    
-    @Override
-    protected void defineSynchedData() 
-    {
-    	super.defineSynchedData();
-    	this.entityData.define(MAX_SUMMONING_HP, 300.0F);
-    	this.entityData.define(STOP_FLYING, false);
-    	this.entityData.define(CHANGE_EQUIP, false);
-    	this.entityData.define(IS_SHIELDING, false);
     }
     
     @Override
     public void tick() 
     {
     	super.tick();
+    	
     	if(this.level.isClientSide && this.isPreparingSkill())
     	{
             float f = this.yBodyRot * ((float)Math.PI / 180F) + Mth.cos((float)this.tickCount * 0.6662F) * 0.25F;
@@ -205,25 +156,9 @@ public class EntityKaratFeng extends AbstractFireplaceMember
             this.level.addParticle(ParticleTypes.FLAME, this.getX() + (double)f1 * 0.6D, this.getY() + 1.8D, this.getZ() + (double)f2 * 0.6D, 0, 0, 0);
             this.level.addParticle(ParticleTypes.FLAME, this.getX() - (double)f1 * 0.6D, this.getY() + 1.8D, this.getZ() - (double)f2 * 0.6D, 0, 0, 0);
     	}
-        if(this.getTarget() != null)
-        {
-        	this.getLookControl().setLookAt(this.getTarget(), 100, 100);
-        	
-        	if(this.getTarget().getPersistentData().contains(FireplaceUtil.KARAT_UUID))
-        	{
-        		if(this.getTarget().getPersistentData().getUUID(FireplaceUtil.KARAT_UUID).equals(this.getUUID()))
-        		{
-        			this.setTarget(null);
-        		}
-        	}
-    		if(!this.stopFlying())
-    		{
-                this.getNavigation().moveTo(this.getTarget().getX(), this.getTarget().getEyeY(), this.getTarget().getZ(), 0.45);
-    		}
-        }
         
-        if(this.getHealth() <= this.getMaxHealth() * 50.0F / 100.0F)
-        {
+    	if(this.getHealth() <= this.getMaxHealth() / 2 || this.getRemainSummoningHP() <= 0 && this.entityList.isEmpty())
+    	{
         	for(int i = 0; i < this.entityList.size(); i++)
         	{
         		LivingEntity living = this.entityList.get(i);
@@ -232,7 +167,9 @@ public class EntityKaratFeng extends AbstractFireplaceMember
         			living.discard();
         		}
         	}
+        	
         	this.entityList.clear();
+        	
         	if(!this.level.isClientSide)
         	{
         		ServerLevel serverlevel = (ServerLevel) this.level;
@@ -256,10 +193,7 @@ public class EntityKaratFeng extends AbstractFireplaceMember
         			}
         		}
         	}
-        }
-        
-    	if(this.getHealth() <= this.getMaxHealth() * 50.0F / 100.0F || this.getRemainSummoningHP() <= 0 && this.entityList.isEmpty())
-    	{
+        	
     		this.setStopFlying(true);
     		this.moveControl = new MoveControl(this);
     		this.setNoGravity(false);
@@ -278,7 +212,8 @@ public class EntityKaratFeng extends AbstractFireplaceMember
         		}
     		}
     	}
-    	else
+    	
+    	if(!this.stopFlying())
     	{
         	this.resetFallDistance();
     	}
@@ -297,6 +232,40 @@ public class EntityKaratFeng extends AbstractFireplaceMember
     		}
     	}
     	this.entityList.clear();
+    }
+    
+    @Override
+    public void die(DamageSource p_21014_) 
+    {
+    	if(this.getPhase() == 2 || p_21014_ == DamageSource.OUT_OF_WORLD)
+    	{
+        	super.die(p_21014_);
+    	}
+    	else 
+    	{
+    		this.setupPhase();
+			if(this.getPhase() == 0)
+			{
+    			this.setRemainSummoningHP(600.0F);
+	    		this.getAttribute(Attributes.FLYING_SPEED).setBaseValue(0.55D);
+			}
+			else if(this.getPhase() == 1)
+			{
+    			this.setRemainSummoningHP(900.0F);
+	    		this.getAttribute(Attributes.FLYING_SPEED).setBaseValue(0.65D);
+			}
+    	}
+    }
+    
+    public void setupPhase()
+    {
+		this.setNoGravity(true);
+		this.entityList.clear();
+		this.setHealth(200.0F);
+		this.setPhase(this.getPhase() + 1);
+		this.setStopFlying(false);
+		this.moveControl = this.flyingControl;
+		this.setShouldChangeEquip(true);
     }
     
     @Override
@@ -377,6 +346,24 @@ public class EntityKaratFeng extends AbstractFireplaceMember
     public boolean isShielding()
     {
     	return this.entityData.get(IS_SHIELDING);
+    }
+    
+    @Override
+    public void readAdditionalSaveData(CompoundTag p_21450_)
+    {
+    	super.readAdditionalSaveData(p_21450_);
+    	this.setStopFlying(p_21450_.getBoolean("stopFlying"));
+    	this.setPhase(p_21450_.getInt("Phase"));
+    	this.setShouldChangeEquip(p_21450_.getBoolean("changeEquip"));
+    }
+    
+    @Override
+    public void addAdditionalSaveData(CompoundTag p_21484_) 
+    {
+    	super.addAdditionalSaveData(p_21484_);
+    	p_21484_.putBoolean("stopFlying", this.stopFlying());
+    	p_21484_.putInt("Phase", this.getPhase());
+    	p_21484_.putBoolean("changeEquip", this.shouldChangeEquip());
     }
     
     @Override

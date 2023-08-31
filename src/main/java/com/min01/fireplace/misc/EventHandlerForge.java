@@ -99,6 +99,23 @@ public class EventHandlerForge
 		LivingEntity entity = event.getEntity();
 		LivingEntity newtarget = event.getNewTarget();
 		LivingEntity originaltarget = event.getOriginalTarget();
+		
+		if(newtarget != null && newtarget.getPersistentData().contains(FireplaceUtil.KARAT_UUID))
+		{
+			if(entity.getUUID().equals(newtarget.getPersistentData().getUUID(FireplaceUtil.KARAT_UUID)))
+			{
+				event.setCanceled(true);
+			}
+		}
+		
+		if(originaltarget != null && originaltarget.getPersistentData().contains(FireplaceUtil.KARAT_UUID))
+		{
+			if(entity.getUUID().equals(originaltarget.getPersistentData().getUUID(FireplaceUtil.KARAT_UUID)))
+			{
+				event.setCanceled(true);
+			}
+		}
+		
 		if(entity.getPersistentData().contains(FireplaceUtil.KARAT_UUID))
 		{
 			UUID uuid = entity.getPersistentData().getUUID(FireplaceUtil.KARAT_UUID);

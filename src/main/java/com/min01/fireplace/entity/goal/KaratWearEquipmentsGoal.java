@@ -29,8 +29,8 @@ public class KaratWearEquipmentsGoal extends AbstractFireplaceSkillGoal
     @Override
     public boolean canUse() 
     {
-    	boolean flag = this.mob.getPhase() == 0 && this.mob.getMainHandItem().getItem() == FireplaceItems.KING_STAFF.get() && ((EntityKaratFeng) this.mob).stopFlying();
-    	return super.canUse() && flag || ((EntityKaratFeng) this.mob).shouldChangeEquip();
+    	boolean flag = super.canUse() && this.mob.getPhase() == 0 && this.mob.getMainHandItem().getItem() == FireplaceItems.KING_STAFF.get() && ((EntityKaratFeng) this.mob).stopFlying();
+    	return super.canUse() && flag || super.canUse() && ((EntityKaratFeng) this.mob).shouldChangeEquip();
     }
 
     @Override

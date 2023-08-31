@@ -26,8 +26,7 @@ public class KaratUsingShieldGoal extends AbstractFireplaceSkillGoal
 	@Override
 	public boolean canUse()
 	{
-		boolean flag = /*this.mob.getHurtCount() >= this.mob.getMaxHurtCount() || */this.mob.getTarget() != null && this.mob.distanceTo(this.mob.getTarget()) <= 6;
-		return super.canUse() && ((EntityKaratFeng) this.mob).stopFlying() && this.mob.getItemInHand(InteractionHand.OFF_HAND).getItem() == Items.SHIELD && flag;
+		return super.canUse() && ((EntityKaratFeng) this.mob).stopFlying() && this.mob.getItemInHand(InteractionHand.OFF_HAND).getItem() == Items.SHIELD && this.mob.distanceTo(this.mob.getTarget()) <= 4;
 	}
 
 	@Override
@@ -72,7 +71,7 @@ public class KaratUsingShieldGoal extends AbstractFireplaceSkillGoal
 	@Override
 	protected int getSkillTime() 
 	{
-		return 300;
+		return 40;
 	}
 
 	@Override
