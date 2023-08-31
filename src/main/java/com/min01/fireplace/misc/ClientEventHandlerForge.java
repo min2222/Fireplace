@@ -34,7 +34,10 @@ public class ClientEventHandlerForge
 		{
 			for(LivingEntity living : karat.entityList)
 			{
-				renderLink(living, event.getPartialTick(), event.getPoseStack(), event.getMultiBufferSource(), event.getPackedLight(), karat);
+				if(living.isAlive() && living.isAddedToWorld() && living.tickCount >= 2)
+				{
+					renderLink(karat, event.getPartialTick(), event.getPoseStack(), event.getMultiBufferSource(), 15728880, living);
+				}
 			}
 		}
 	}

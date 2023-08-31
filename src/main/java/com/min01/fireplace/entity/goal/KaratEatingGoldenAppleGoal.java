@@ -25,7 +25,7 @@ public class KaratEatingGoldenAppleGoal extends AbstractFireplaceSkillGoal
 	@Override
 	public boolean canUse() 
 	{
-		return super.canUse() && this.mob.getHealth() <= this.mob.getMaxHealth() * 50.0F / 100.0F && this.mob.getPhase() > 0;
+		return super.canUse() && this.mob.getHealth() <= this.mob.getMaxHealth() / 2 && this.mob.getPhase() > 0;
 	}
 	
 	@Override

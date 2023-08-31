@@ -21,7 +21,6 @@ import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class KaratSummonMobGoal extends AbstractFireplaceSkillGoal
@@ -37,7 +36,7 @@ public class KaratSummonMobGoal extends AbstractFireplaceSkillGoal
 	@Override
 	public boolean canUse() 
 	{
-		return super.canUse() && ((EntityKaratFeng)this.mob).getRemainSummoningHP() > 0;
+		return super.canUse() && !((EntityKaratFeng) this.mob).stopFlying() && ((EntityKaratFeng)this.mob).getRemainSummoningHP() > 0;
 	}
 	
 	@Override
@@ -92,7 +91,7 @@ public class KaratSummonMobGoal extends AbstractFireplaceSkillGoal
 			if(!((EntityKaratFeng) this.mob).entityList.contains(living2))
 			{
 				((EntityKaratFeng) this.mob).entityList.add(living2);
-				FireplaceNetwork.CHANNEL.send(PacketDistributor.ALL.noArg(), new KaratDataSyncPacket(DataType.ENTITY_LIST, this.mob.getId()));
+				FireplaceNetwork.sendToAll(new KaratDataSyncPacket(DataType.ENTITY_LIST, this.mob.getId()));
 			}
 		}
 	}
@@ -116,9 +115,9 @@ public class KaratSummonMobGoal extends AbstractFireplaceSkillGoal
 					double d2 = this.mob.getTarget().getZ() - this.mob.getZ();
 					double d3 = Math.sqrt(d0 * d0 + d2 * d2);
 					mob.setPos(karat.position());
+					this.shoot(mob, d0, d1 + d3 * 0.2D, d2, 1.6F, 1);
 					mob.getPersistentData().putUUID(FireplaceUtil.KARAT_UUID, karat.getUUID());
 					mob.finalizeSpawn((ServerLevelAccessor) this.mob.getLevel(), this.mob.getLevel().getCurrentDifficultyAt(this.mob.blockPosition()), MobSpawnType.MOB_SUMMONED, null, null);
-					this.shoot(mob, d0, d1 + d3 * 0.2D, d2, 1.6F, 1);
 					karat.level.addFreshEntity(mob);
 				}
 			}

@@ -1,12 +1,17 @@
 package com.min01.fireplace.network;
 
+import java.util.ArrayList;
 import java.util.function.Supplier;
 
 import com.min01.fireplace.entity.EntityKaratFeng;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.network.NetworkEvent;
+import net.minecraftforge.server.ServerLifecycleHooks;
 
 public class KaratDataSyncPacket 
 {
@@ -46,8 +51,17 @@ public class KaratDataSyncPacket
                 switch (message.dataType)
                 {
 				case ENTITY_LIST:
+					ArrayList<LivingEntity> list = new ArrayList<>();
+					for(ServerLevel level : ServerLifecycleHooks.getCurrentServer().getAllLevels())
+					{
+						Entity entity = level.getEntity(message.karatId);
+						if(entity instanceof EntityKaratFeng karat)
+						{
+							list.addAll(karat.entityList);
+						}
+					}
 					EntityKaratFeng karat = (EntityKaratFeng) minecraft.level.getEntity(message.karatId);
-					karat.entityList = karat.entityList;
+					karat.entityList.addAll(list);
 					break;
 				default:
 					break;

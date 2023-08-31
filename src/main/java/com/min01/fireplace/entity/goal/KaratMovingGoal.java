@@ -30,12 +30,6 @@ public class KaratMovingGoal extends Goal
     }
 
 	@Override
-	public boolean canContinueToUse() 
-	{
-		return (this.canUse() || !this.mob.getNavigation().isDone());
-	}
-
-	@Override
 	public void start() 
 	{
 		super.start();

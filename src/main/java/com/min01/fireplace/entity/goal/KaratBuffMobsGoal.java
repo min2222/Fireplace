@@ -34,7 +34,7 @@ public class KaratBuffMobsGoal extends AbstractFireplaceSkillGoal
 	@Override
 	public boolean canUse() 
 	{
-		return super.canUse() && ((EntityKaratFeng)this.mob).getRemainSummoningHP() > 0;
+		return super.canUse() && !((EntityKaratFeng) this.mob).stopFlying() && ((EntityKaratFeng)this.mob).getRemainSummoningHP() > 0;
 	}
 
 	@Override

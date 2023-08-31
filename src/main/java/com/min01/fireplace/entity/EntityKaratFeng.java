@@ -16,6 +16,7 @@ import com.min01.fireplace.entity.goal.KaratSummonMobGoal;
 import com.min01.fireplace.entity.goal.KaratUsingShieldGoal;
 import com.min01.fireplace.entity.goal.KaratWearEquipmentsGoal;
 import com.min01.fireplace.init.FireplaceItems;
+import com.min01.fireplace.util.FireplaceUtil;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -194,12 +195,11 @@ public class EntityKaratFeng extends AbstractFireplaceMember
     public void tick() 
     {
     	super.tick();
-        
         if(this.getTarget() != null)
         {
-        	if(this.getTarget().getPersistentData().contains("karatUUID"))
+        	if(this.getTarget().getPersistentData().contains(FireplaceUtil.KARAT_UUID))
         	{
-        		if(this.getTarget().getPersistentData().getUUID("karatUUID").equals(this.getUUID()))
+        		if(this.getTarget().getPersistentData().getUUID(FireplaceUtil.KARAT_UUID).equals(this.getUUID()))
         		{
         			this.setTarget(null);
         		}
@@ -233,9 +233,9 @@ public class EntityKaratFeng extends AbstractFireplaceMember
         			{
             			if(entity.getPersistentData() != null)
             			{
-                			if(entity.getPersistentData().contains("karatUUID"))
+                			if(entity.getPersistentData().contains(FireplaceUtil.KARAT_UUID))
                 			{
-                				UUID uuid = entity.getPersistentData().getUUID("karatUUID");
+                				UUID uuid = entity.getPersistentData().getUUID(FireplaceUtil.KARAT_UUID);
                 				if(uuid.equals(this.getUUID()))
                 				{
                 					entity.discard();

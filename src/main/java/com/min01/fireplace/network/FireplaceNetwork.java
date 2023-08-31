@@ -3,8 +3,11 @@ package com.min01.fireplace.network;
 import com.min01.fireplace.Fireplace;
 
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraftforge.network.NetworkDirection;
 import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.simple.SimpleChannel;
+import net.minecraftforge.server.ServerLifecycleHooks;
 
 public class FireplaceNetwork 
 {
@@ -18,4 +21,12 @@ public class FireplaceNetwork
 	{
 		CHANNEL.registerMessage(ID++, KaratDataSyncPacket.class, KaratDataSyncPacket::encode, KaratDataSyncPacket::new, KaratDataSyncPacket.Handler::onMessage);
 	}
+	
+    public static <MSG> void sendToAll(MSG message) 
+    {
+    	for (ServerPlayer player : ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers()) 
+    	{
+    		CHANNEL.sendTo(message, player.connection.connection, NetworkDirection.PLAY_TO_CLIENT);
+    	}
+    }
 }
