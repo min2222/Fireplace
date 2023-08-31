@@ -156,6 +156,11 @@ public class EntityKaratFeng extends AbstractFireplaceMember
             this.level.addParticle(ParticleTypes.FLAME, this.getX() + (double)f1 * 0.6D, this.getY() + 1.8D, this.getZ() + (double)f2 * 0.6D, 0, 0, 0);
             this.level.addParticle(ParticleTypes.FLAME, this.getX() - (double)f1 * 0.6D, this.getY() + 1.8D, this.getZ() - (double)f2 * 0.6D, 0, 0, 0);
     	}
+    	
+    	if(this.getTarget() != null && this.stopFlying())
+    	{
+			this.getNavigation().moveTo(this.getTarget().getX(), this.getTarget().getY(), this.getTarget().getZ(), 0.65);
+    	}
         
     	if(this.getHealth() <= this.getMaxHealth() / 2 || this.getRemainSummoningHP() <= 0 && this.entityList.isEmpty())
     	{

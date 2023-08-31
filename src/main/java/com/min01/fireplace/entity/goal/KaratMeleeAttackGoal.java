@@ -23,6 +23,6 @@ public class KaratMeleeAttackGoal extends MeleeAttackGoal
 	@Override
 	public boolean canContinueToUse() 
 	{
-		return this.canUse();
+		return super.canContinueToUse() && this.canUse();
 	}
 }
