@@ -2,6 +2,7 @@ package com.min01.fireplace.misc;
 
 import com.min01.fireplace.Fireplace;
 import com.min01.fireplace.entity.EntityKaratFeng;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Matrix3f;
@@ -25,7 +26,7 @@ import net.minecraftforge.fml.common.Mod;
 public class ClientEventHandlerForge 
 {
 	private static final ResourceLocation CHAIN_LOCATION = new ResourceLocation(Fireplace.MODID + ":textures/entity/fire_chain.png");
-	private static final RenderType CHAIN_RENDER_TYPE = RenderType.entityCutoutNoCull(CHAIN_LOCATION);
+	private static final RenderType CHAIN_RENDER_TYPE = FireplaceRenderType.getGlowingEffect(CHAIN_LOCATION);
 	
 	@SubscribeEvent
 	public static void onRenderLivingPre(RenderLivingEvent.Pre<?, ?> event)
@@ -44,6 +45,7 @@ public class ClientEventHandlerForge
 	
     public static <E extends Entity> void renderLink(Entity entityLivingIn, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int lightIn, Entity chainTarget) 
     {
+    	RenderSystem.enableDepthTest();
         float f3 = entityLivingIn.getEyeHeight();
         matrixStackIn.pushPose();	
         matrixStackIn.translate(0, f3, 0);

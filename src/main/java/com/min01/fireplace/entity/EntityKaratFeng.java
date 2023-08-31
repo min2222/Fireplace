@@ -18,6 +18,7 @@ import com.min01.fireplace.entity.goal.KaratWearEquipmentsGoal;
 import com.min01.fireplace.init.FireplaceItems;
 import com.min01.fireplace.util.FireplaceUtil;
 
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -25,6 +26,7 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.util.Mth;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
@@ -41,6 +43,7 @@ import net.minecraft.world.entity.ai.control.FlyingMoveControl;
 import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
+import net.minecraft.world.entity.monster.AbstractIllager;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.Item;
@@ -195,6 +198,14 @@ public class EntityKaratFeng extends AbstractFireplaceMember
     public void tick() 
     {
     	super.tick();
+    	if(this.level.isClientSide && this.isPreparingSkill())
+    	{
+            float f = this.yBodyRot * ((float)Math.PI / 180F) + Mth.cos((float)this.tickCount * 0.6662F) * 0.25F;
+            float f1 = Mth.cos(f);
+            float f2 = Mth.sin(f);
+            this.level.addParticle(ParticleTypes.FLAME, this.getX() + (double)f1 * 0.6D, this.getY() + 1.8D, this.getZ() + (double)f2 * 0.6D, 0, 0, 0);
+            this.level.addParticle(ParticleTypes.FLAME, this.getX() - (double)f1 * 0.6D, this.getY() + 1.8D, this.getZ() - (double)f2 * 0.6D, 0, 0, 0);
+    	}
         if(this.getTarget() != null)
         {
         	if(this.getTarget().getPersistentData().contains(FireplaceUtil.KARAT_UUID))
