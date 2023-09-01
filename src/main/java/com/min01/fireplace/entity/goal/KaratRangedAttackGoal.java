@@ -1,103 +1,73 @@
 package com.min01.fireplace.entity.goal;
 
-import java.util.EnumSet;
-
+import com.min01.fireplace.entity.AbstractFireplaceMember;
+import com.min01.fireplace.entity.AbstractFireplaceMember.ActiveMemberSkills;
 import com.min01.fireplace.entity.EntityKaratFeng;
 
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
-public class KaratRangedAttackGoal extends Goal 
+public class KaratRangedAttackGoal extends AbstractFireplaceSkillGoal
 {
 	public ItemStack prevItem;
-	public ItemStack bowItem = new ItemStack(Items.BOW);
-	private final EntityKaratFeng mob;
-	private int attackIntervalMin;
-	private int attackTime = -1;
-	private int seeTime;
-
-	public KaratRangedAttackGoal(EntityKaratFeng p_25792_, int p_25794_) 
+	public ItemStack bowItem;
+	private EntityKaratFeng mob;
+	public KaratRangedAttackGoal(AbstractFireplaceMember mob) 
 	{
-		this.mob = p_25792_;
-		this.attackIntervalMin = p_25794_;
-		this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
+		super(mob);
+		this.mob = (EntityKaratFeng) mob;
 	}
-
+	
 	@Override
 	public boolean canUse() 
 	{
-		return this.mob.getTarget() != null && this.mob.stopFlying() && this.mob.distanceTo(this.mob.getTarget()) >= 6;
+		return super.canUse() && this.mob.stopFlying() && this.mob.distanceTo(this.mob.getTarget()) >= 7;
 	}
-
+	
 	@Override
-	public void start()
+	public void start() 
 	{
-		this.mob.setAggressive(true);
+		super.start();
+		this.bowItem = new ItemStack(Items.BOW);
 		this.prevItem = this.mob.getMainHandItem().copy();
 		this.mob.setItemInHand(InteractionHand.MAIN_HAND, this.bowItem);
+		this.mob.startUsingItem(InteractionHand.MAIN_HAND);
+		this.mob.setShouldMove(false);
 	}
 
 	@Override
-	public void stop()
+	protected void performSkill() 
 	{
-		this.mob.setAggressive(false);
-		this.seeTime = 0;
-		this.attackTime = -1;
-		this.mob.stopUsingItem();
-		this.mob.setItemInHand(InteractionHand.MAIN_HAND, this.prevItem);
+		
 	}
-
+	
 	@Override
 	public void tick() 
 	{
-		LivingEntity livingentity = this.mob.getTarget();
-		if (livingentity != null) 
+		super.tick();
+		if(this.mob.getTarget() != null)
 		{
-			boolean flag = this.mob.getSensing().hasLineOfSight(livingentity);
-			boolean flag1 = this.seeTime > 0;
-			
-			if (flag != flag1) 
-			{
-				this.seeTime = 0;
-			}
-
-			if (flag)
-			{
-				++this.seeTime;
-			} else 
-			{
-				--this.seeTime;
-			}
-			
-			if (this.mob.isUsingItem()) 
-			{
-				if (!flag && this.seeTime < -60)
-				{
-					this.mob.stopUsingItem();
-				}
-				else if (flag) 
-				{
-					int i = this.mob.getTicksUsingItem();
-					if (i >= 20) 
-					{
-						this.mob.stopUsingItem();
-						this.performRangedAttack(livingentity, BowItem.getPowerForTime(i));
-						this.attackTime = this.attackIntervalMin;
-					}
-				}
-			}
-			else if (--this.attackTime <= 0 && this.seeTime >= -60) 
-			{
-				this.mob.startUsingItem(ProjectileUtil.getWeaponHoldingHand(this.mob, item -> item instanceof BowItem));
-			}
+	        int i = this.mob.getTicksUsingItem();
+	        if (i >= 18) 
+	        {
+	           this.mob.stopUsingItem();
+	           this.performRangedAttack(this.mob.getTarget(), BowItem.getPowerForTime(i));
+	        }
 		}
+	}
+	
+	@Override
+	public void stop() 
+	{
+		super.stop();
+		this.mob.stopUsingItem();
+		this.mob.setItemInHand(InteractionHand.MAIN_HAND, this.prevItem);
 	}
 	
 	public void performRangedAttack(LivingEntity p_32141_, float p_32142_)
@@ -112,9 +82,27 @@ public class KaratRangedAttackGoal extends Goal
 		this.mob.playSound(SoundEvents.ARROW_SHOOT, 1.0F, 1.0F / (this.mob.getRandom().nextFloat() * 0.4F + 0.8F));
 		this.mob.level.addFreshEntity(abstractarrow);
 	}
-	
+
 	protected AbstractArrow getArrow(ItemStack p_32156_, float p_32157_) 
 	{
 		return ProjectileUtil.getMobArrow(this.mob, p_32156_, p_32157_);
+	}
+
+	@Override
+	protected int getSkillTime() 
+	{
+		return 35;
+	}
+
+	@Override
+	protected int getSkillUsingInterval() 
+	{
+		return 20;
+	}
+
+	@Override
+	protected ActiveMemberSkills getSkills() 
+	{
+		return ActiveMemberSkills.KARAT_RANGE;
 	}
 }

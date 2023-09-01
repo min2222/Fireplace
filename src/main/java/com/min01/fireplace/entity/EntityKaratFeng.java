@@ -10,6 +10,7 @@ import com.min01.fireplace.entity.goal.KaratBuffMobsGoal;
 import com.min01.fireplace.entity.goal.KaratEatingGoldenAppleGoal;
 import com.min01.fireplace.entity.goal.KaratMeleeAttackGoal;
 import com.min01.fireplace.entity.goal.KaratMovingGoal;
+import com.min01.fireplace.entity.goal.KaratRangedAttackGoal;
 import com.min01.fireplace.entity.goal.KaratShootProjectileGoal;
 import com.min01.fireplace.entity.goal.KaratSplashPotionsGoal;
 import com.min01.fireplace.entity.goal.KaratSummonMobGoal;
@@ -81,7 +82,7 @@ public class EntityKaratFeng extends AbstractFireplaceMember
     	this.goalSelector.addGoal(4, new KaratUsingShieldGoal(this));
     	this.goalSelector.addGoal(4, new KaratEatingGoldenAppleGoal(this));
     	this.goalSelector.addGoal(4, new KaratSplashPotionsGoal(this));
-    	//this.goalSelector.addGoal(4, new KaratRangedAttackGoal(this, 20));
+    	this.goalSelector.addGoal(4, new KaratRangedAttackGoal(this));
     	this.goalSelector.addGoal(4, new KaratMovingGoal(this));
     	this.goalSelector.addGoal(4, new DodgeArrowsGoal(this, 100.0F));
     }

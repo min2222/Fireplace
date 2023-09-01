@@ -34,7 +34,7 @@ public class KaratSplashPotionsGoal extends AbstractFireplaceSkillGoal
 		super.start();
 		this.mob.swing(InteractionHand.MAIN_HAND);
 		this.mob.playSound(SoundEvents.SPLASH_POTION_THROW, 1.0F, 1.0F);
-		this.prevItem = this.mob.getMainHandItem().getItem();
+		this.prevItem = this.mob.getMainHandItem().copy().getItem();
 		this.mob.setItemInHand(InteractionHand.MAIN_HAND, PotionUtils.setPotion(new ItemStack(Items.SPLASH_POTION), Potions.STRONG_STRENGTH));
 	}
 

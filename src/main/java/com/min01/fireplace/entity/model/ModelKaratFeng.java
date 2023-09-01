@@ -5,7 +5,7 @@ import com.min01.fireplace.entity.EntityKaratFeng;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.util.Mth;
-import net.minecraft.world.item.UseAnim;
+import net.minecraft.world.item.Items;
 
 public class ModelKaratFeng extends PlayerModel<EntityKaratFeng>
 {
@@ -31,7 +31,7 @@ public class ModelKaratFeng extends PlayerModel<EntityKaratFeng>
 			this.rightArm.yRot = 0.0F;
 			this.leftArm.yRot = 0.0F;
 		}
-		if(entity.isUsingItem() && entity.getUseItem().getUseAnimation() == UseAnim.BOW)
+		if(entity.isUsingItem() && entity.getMainHandItem().getItem() == Items.BOW)
 		{
             this.rightArm.yRot = -0.1F + this.head.yRot;
             this.leftArm.yRot = 0.1F + this.head.yRot + 0.4F;
