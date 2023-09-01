@@ -12,6 +12,7 @@ import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.enchantment.Enchantments;
 
 public class KaratRangedAttackGoal extends AbstractFireplaceSkillGoal
 {
@@ -34,7 +35,14 @@ public class KaratRangedAttackGoal extends AbstractFireplaceSkillGoal
 	public void start() 
 	{
 		super.start();
-		this.bowItem = new ItemStack(Items.BOW);
+		if(this.mob.getPhase() == 2)
+		{
+			ItemStack bow = new ItemStack(Items.BOW);
+			bow.enchant(Enchantments.POWER_ARROWS, 5);
+			bow.enchant(Enchantments.FLAMING_ARROWS, 1);
+			bow.enchant(Enchantments.PUNCH_ARROWS, 2);
+			this.bowItem = bow;
+		}
 		this.prevItem = this.mob.getMainHandItem().copy();
 		this.mob.setItemInHand(InteractionHand.MAIN_HAND, this.bowItem);
 		this.mob.startUsingItem(InteractionHand.MAIN_HAND);
