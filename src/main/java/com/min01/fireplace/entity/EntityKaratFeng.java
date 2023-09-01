@@ -81,6 +81,7 @@ public class EntityKaratFeng extends AbstractFireplaceMember
     	this.goalSelector.addGoal(4, new KaratUsingShieldGoal(this));
     	this.goalSelector.addGoal(4, new KaratEatingGoldenAppleGoal(this));
     	this.goalSelector.addGoal(4, new KaratSplashPotionsGoal(this));
+    	//this.goalSelector.addGoal(4, new KaratRangedAttackGoal(this, 20));
     	this.goalSelector.addGoal(4, new KaratMovingGoal(this));
     	this.goalSelector.addGoal(4, new DodgeArrowsGoal(this, 100.0F));
     }

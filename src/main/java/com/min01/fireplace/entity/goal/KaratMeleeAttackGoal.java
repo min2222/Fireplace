@@ -2,6 +2,7 @@ package com.min01.fireplace.entity.goal;
 
 import com.min01.fireplace.entity.EntityKaratFeng;
 
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 
@@ -24,5 +25,11 @@ public class KaratMeleeAttackGoal extends MeleeAttackGoal
 	public boolean canContinueToUse() 
 	{
 		return super.canContinueToUse() && this.canUse();
+	}
+	
+	@Override
+	protected double getAttackReachSqr(LivingEntity p_25556_)
+	{
+	      return (double)(this.mob.getBbWidth() * 3.0F * this.mob.getBbWidth() * 3.0F + p_25556_.getBbWidth());
 	}
 }

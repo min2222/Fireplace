@@ -224,7 +224,8 @@ public abstract class AbstractFireplaceMember extends Monster
 		KARAT_SHOOT_PROJECTILE(4),
 		KARAT_USE_SHIELD(5),
 		KARAT_EAT_GOLDEN_APPLE(6),
-		KARAT_SPLASH_POTIONS(7);
+		KARAT_SPLASH_POTIONS(7),
+		KARAT_RANGE(7);
 
 		final int id;
 
