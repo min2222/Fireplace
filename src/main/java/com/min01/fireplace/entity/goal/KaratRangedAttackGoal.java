@@ -43,6 +43,10 @@ public class KaratRangedAttackGoal extends AbstractFireplaceSkillGoal
 			bow.enchant(Enchantments.PUNCH_ARROWS, 2);
 			this.bowItem = bow;
 		}
+		else
+		{
+			this.bowItem = new ItemStack(Items.BOW);
+		}
 		this.prevItem = this.mob.getMainHandItem().copy();
 		this.mob.setItemInHand(InteractionHand.MAIN_HAND, this.bowItem);
 		this.mob.startUsingItem(InteractionHand.MAIN_HAND);
