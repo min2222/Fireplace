@@ -149,6 +149,8 @@ public class EntityKaratFeng extends AbstractFireplaceMember
     public void tick() 
     {
     	super.tick();
+
+        this.navigation = this.createNavigation(this.level);
     	
     	if(this.level.isClientSide && this.isPreparingSkill())
     	{
