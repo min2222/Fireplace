@@ -21,6 +21,7 @@ import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.scores.PlayerTeam;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class KaratSummonMobGoal extends AbstractFireplaceSkillGoal
@@ -114,6 +115,11 @@ public class KaratSummonMobGoal extends AbstractFireplaceSkillGoal
 					mob.setPos(karat.position());
 					mob.getPersistentData().putUUID(FireplaceUtil.KARAT_UUID, karat.getUUID());
 					mob.finalizeSpawn((ServerLevelAccessor) this.mob.getLevel(), this.mob.getLevel().getCurrentDifficultyAt(this.mob.blockPosition()), MobSpawnType.MOB_SUMMONED, null, null);
+					if(karat.getTeam() != null)
+					{
+						PlayerTeam karatTeam = karat.getServer().getScoreboard().getPlayerTeam(karat.getTeam().getName());
+						karat.getServer().getScoreboard().addPlayerToTeam(mob.getStringUUID(), karatTeam);
+					}
 					karat.level.addFreshEntity(mob);
 				}
 			}

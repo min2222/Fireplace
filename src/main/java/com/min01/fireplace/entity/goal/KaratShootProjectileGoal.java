@@ -14,6 +14,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.projectile.FishingHook;
 import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.scores.PlayerTeam;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class KaratShootProjectileGoal extends AbstractFireplaceSkillGoal
@@ -79,6 +80,11 @@ public class KaratShootProjectileGoal extends AbstractFireplaceSkillGoal
 			double d3 = Math.sqrt(d0 * d0 + d2 * d2);
 			projectile.shoot(d0, d1 + d3 * 0.2D, d2, 1.6F, 1);
 			this.mob.playSound(SoundEvents.SKELETON_SHOOT, 1.0F, 0.4F / (this.mob.getRandom().nextFloat() * 0.4F + 0.8F));
+			if(this.mob.getTeam() != null)
+			{
+				PlayerTeam karatTeam = this.mob.getServer().getScoreboard().getPlayerTeam(this.mob.getTeam().getName());
+				this.mob.getServer().getScoreboard().addPlayerToTeam(projectile.getStringUUID(), karatTeam);
+			}
 			this.mob.level.addFreshEntity(projectile);
 		}
 	}
