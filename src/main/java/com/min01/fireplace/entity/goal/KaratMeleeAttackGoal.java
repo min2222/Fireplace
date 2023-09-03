@@ -30,6 +30,6 @@ public class KaratMeleeAttackGoal extends MeleeAttackGoal
 	@Override
 	protected double getAttackReachSqr(LivingEntity p_25556_)
 	{
-	      return (double)(this.mob.getBbWidth() * 3.0F * this.mob.getBbWidth() * 3.0F + p_25556_.getBbWidth());
+		return (double)(this.mob.getBbWidth() * 3.0F * this.mob.getBbWidth() * 3.0F + p_25556_.getBbWidth());
 	}
 }
