@@ -34,7 +34,7 @@ public class Fireplace
 		FireplaceItems.ITEMS.register(MOD_EVENT_BUS);
 		FireplaceSounds.SOUNDS.register(MOD_EVENT_BUS);
 		FireplaceNetwork.registerMessages();
-        FireplaceConfig.loadConfig(FireplaceConfig.common_config, FMLPaths.CONFIGDIR.get().resolve("fireplace-common.toml").toString());
+        FireplaceConfig.loadConfig(FireplaceConfig.config, FMLPaths.CONFIGDIR.get().resolve("fireplace.toml").toString());
 	}
 	
 	private void CommonSetup(FMLCommonSetupEvent event)
