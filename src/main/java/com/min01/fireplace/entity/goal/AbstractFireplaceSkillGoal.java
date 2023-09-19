@@ -79,7 +79,7 @@ public abstract class AbstractFireplaceSkillGoal extends Goal
 
     protected abstract void performSkill();
 
-    //TODO wait specific tick before do attacking
+    //wait specific tick before use skill
     protected int getSkillWarmupTime()
     {
     	return 20;
