@@ -157,8 +157,8 @@ public class EntityKaratFeng extends AbstractFireplaceMember
             float f = this.yBodyRot * ((float)Math.PI / 180F) + Mth.cos((float)this.tickCount * 0.6662F) * 0.25F;
             float f1 = Mth.cos(f);
             float f2 = Mth.sin(f);
-            this.level.addParticle(ParticleTypes.FLAME, this.getX() + (double)f1 * 0.6D, this.getY() + 1.8D, this.getZ() + (double)f2 * 0.6D, 0, 0, 0);
-            this.level.addParticle(ParticleTypes.FLAME, this.getX() - (double)f1 * 0.6D, this.getY() + 1.8D, this.getZ() - (double)f2 * 0.6D, 0, 0, 0);
+            this.level.addParticle(ParticleTypes.FLAME, true, this.getX() + (double)f1 * 0.6D, this.getY() + 1.8D, this.getZ() + (double)f2 * 0.6D, 0, 0, 0);
+            this.level.addParticle(ParticleTypes.FLAME, true, this.getX() - (double)f1 * 0.6D, this.getY() + 1.8D, this.getZ() - (double)f2 * 0.6D, 0, 0, 0);
     	}
     	
     	if(this.getTarget() != null && this.stopFlying())
