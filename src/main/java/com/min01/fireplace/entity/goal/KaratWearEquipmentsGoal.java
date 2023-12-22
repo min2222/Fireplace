@@ -17,7 +17,7 @@ import net.minecraft.world.item.enchantment.Enchantments;
 public class KaratWearEquipmentsGoal extends AbstractFireplaceSkillGoal
 {
 	public Item[] diamondSet = {Items.DIAMOND_HELMET, Items.DIAMOND_CHESTPLATE, Items.DIAMOND_LEGGINGS, Items.DIAMOND_BOOTS, Items.DIAMOND_SWORD, Items.SHIELD};
-	public Item[] netheriteSet = {Items.NETHERITE_HELMET, Items.NETHERITE_CHESTPLATE, Items.NETHERITE_LEGGINGS, Items.NETHERITE_BOOTS, Items.NETHERITE_AXE, Items.SHIELD};
+	public Item[] netheriteSet = {Items.NETHERITE_HELMET, Items.NETHERITE_CHESTPLATE, Items.NETHERITE_LEGGINGS, Items.NETHERITE_BOOTS, Items.NETHERITE_AXE};
 	public EquipmentSlot[] slots = {EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET, EquipmentSlot.MAINHAND, EquipmentSlot.OFFHAND};
 	public int equipCount;
 	public int slotCount;
@@ -75,7 +75,7 @@ public class KaratWearEquipmentsGoal extends AbstractFireplaceSkillGoal
 		}
 		else if(this.mob.getPhase() == 1)
 		{
-			this.changeEquipment(((EntityKaratFeng) this.mob).shouldChangeEquip() ? 2 : 4, this.mob.getMainHandItem().getItem() == Items.DIAMOND_SWORD, this.netheriteSet[this.equipCount], SoundEvents.ARMOR_EQUIP_NETHERITE);
+			this.changeEquipment(((EntityKaratFeng) this.mob).shouldChangeEquip() ? 2 : 3, this.mob.getMainHandItem().getItem() == Items.DIAMOND_SWORD, this.netheriteSet[this.equipCount], SoundEvents.ARMOR_EQUIP_NETHERITE);
 		}
 		else if(this.mob.getPhase() == 2)
 		{
@@ -83,17 +83,20 @@ public class KaratWearEquipmentsGoal extends AbstractFireplaceSkillGoal
 			Item enchantedNetheriteChestplate = Items.NETHERITE_CHESTPLATE;
 			Item enchantedNetheriteLeggings = Items.NETHERITE_LEGGINGS;
 			Item enchantedNetheriteBoots = Items.NETHERITE_BOOTS;
+			Item enchantedNetheriteAxe = Items.NETHERITE_AXE;
 			ItemStack helmetStack = new ItemStack(enchantedNetheriteHelmet);
 			ItemStack chestStack = new ItemStack(enchantedNetheriteChestplate);
 			ItemStack legsStack = new ItemStack(enchantedNetheriteLeggings);
 			ItemStack feetsStack = new ItemStack(enchantedNetheriteBoots);
+			ItemStack handStack = new ItemStack(enchantedNetheriteAxe);
+			handStack.enchant(Enchantments.SHARPNESS, 5);
 			helmetStack.enchant(Enchantments.ALL_DAMAGE_PROTECTION, 4);
 			chestStack.enchant(Enchantments.ALL_DAMAGE_PROTECTION, 4);
 			legsStack.enchant(Enchantments.ALL_DAMAGE_PROTECTION, 4);
 			feetsStack.enchant(Enchantments.ALL_DAMAGE_PROTECTION, 4);
-			ItemStack[] enchantedNetheriteSet = {helmetStack, chestStack, legsStack, feetsStack};
+			ItemStack[] enchantedNetheriteSet = {helmetStack, chestStack, legsStack, feetsStack, handStack};
 			
-			this.changeEquipment(((EntityKaratFeng) this.mob).shouldChangeEquip() ? 2 : 4, this.mob.getMainHandItem().getItem() == Items.NETHERITE_AXE, enchantedNetheriteSet[this.equipCount].getItem(), SoundEvents.ARMOR_EQUIP_NETHERITE);
+			this.changeEquipment(((EntityKaratFeng) this.mob).shouldChangeEquip() ? 2 : 3, this.mob.getMainHandItem().getItem() == Items.NETHERITE_AXE, enchantedNetheriteSet[this.equipCount].getItem(), SoundEvents.ARMOR_EQUIP_NETHERITE);
 		}
     }
 	
