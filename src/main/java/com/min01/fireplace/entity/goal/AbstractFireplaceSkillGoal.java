@@ -1,6 +1,7 @@
 package com.min01.fireplace.entity.goal;
 
 import com.min01.fireplace.entity.AbstractFireplaceMember;
+import com.min01.fireplace.entity.AbstractFireplaceMember.ActiveMemberSkills;
 
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
@@ -28,7 +29,7 @@ public abstract class AbstractFireplaceSkillGoal extends Goal
     		} 
     		else 
     		{
-    			return this.mob.tickCount >= this.nextAttackTickCount;
+    			return this.mob.tickCount >= this.nextAttackTickCount && this.mob.getCurrentSkill() != ActiveMemberSkills.KARAT_WEAR_EQUIPMENTS;
     		}
     	} 
     	else 

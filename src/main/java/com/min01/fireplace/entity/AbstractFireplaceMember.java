@@ -204,7 +204,7 @@ public abstract class AbstractFireplaceMember extends Monster
 		}
 	}
 	
-	protected AbstractFireplaceMember.ActiveMemberSkills getCurrentSpell() 
+	public AbstractFireplaceMember.ActiveMemberSkills getCurrentSkill() 
 	{
 		return !this.level.isClientSide ? this.currentSkill : AbstractFireplaceMember.ActiveMemberSkills.byId(this.entityData.get(DATA_SKILL_ID));
 	}
