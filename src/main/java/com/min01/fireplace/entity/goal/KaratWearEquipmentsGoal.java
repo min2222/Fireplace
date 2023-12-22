@@ -18,8 +18,8 @@ import net.minecraft.world.item.enchantment.Enchantments;
 public class KaratWearEquipmentsGoal extends AbstractFireplaceSkillGoal
 {
 	public Item[] diamondSet = {Items.DIAMOND_HELMET, Items.DIAMOND_CHESTPLATE, Items.DIAMOND_LEGGINGS, Items.DIAMOND_BOOTS, Items.SHIELD, Items.DIAMOND_SWORD};
-	public Item[] netheriteSet = {Items.NETHERITE_HELMET, Items.NETHERITE_CHESTPLATE, Items.NETHERITE_LEGGINGS, Items.NETHERITE_BOOTS, Items.NETHERITE_AXE};
-	public EquipmentSlot[] netheriteSlots = {EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET, EquipmentSlot.MAINHAND};
+	public Item[] netheriteSet = {Items.NETHERITE_HELMET, Items.NETHERITE_CHESTPLATE, Items.NETHERITE_LEGGINGS, Items.NETHERITE_BOOTS};
+	public EquipmentSlot[] netheriteSlots = {EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET};
 	public EquipmentSlot[] slots = {EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET, EquipmentSlot.OFFHAND, EquipmentSlot.MAINHAND};
 	public int equipCount;
 	public int slotCount;
@@ -69,10 +69,6 @@ public class KaratWearEquipmentsGoal extends AbstractFireplaceSkillGoal
     		this.mob.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(FireplaceItems.KING_STAFF.get()));
     		((EntityKaratFeng) this.mob).setShouldChangeEquip(false);
     	}
-    	if(!this.mob.shouldMove())
-    	{
-    		this.mob.setShouldMove(true);
-    	}
     	this.mob.setInvulnerable(false);
     }
 
@@ -85,7 +81,14 @@ public class KaratWearEquipmentsGoal extends AbstractFireplaceSkillGoal
 		}
 		else if(this.mob.getPhase() == 1)
 		{
-			this.changeEquipment(((EntityKaratFeng) this.mob).shouldChangeEquip() ? 4 : 5, this.mob.getMainHandItem().getItem() == Items.DIAMOND_SWORD, this.netheriteSet, this.netheriteSlots, SoundEvents.ARMOR_EQUIP_NETHERITE);
+			if(((EntityKaratFeng) this.mob).shouldChangeEquip())
+			{
+				this.changeEquipment(4, this.mob.getMainHandItem().getItem() == Items.DIAMOND_SWORD, this.netheriteSet, this.netheriteSlots, SoundEvents.ARMOR_EQUIP_NETHERITE);
+			}
+			else
+			{
+        		this.mob.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.NETHERITE_AXE));
+			}
 		}
 		else if(this.mob.getPhase() == 2)
 		{
@@ -106,7 +109,14 @@ public class KaratWearEquipmentsGoal extends AbstractFireplaceSkillGoal
 			feetsStack.enchant(Enchantments.ALL_DAMAGE_PROTECTION, 4);
 			Item[] enchantedNetheriteSet = {helmetStack.getItem(), chestStack.getItem(), legsStack.getItem(), feetsStack.getItem(), handStack.getItem()};
 			
-			this.changeEquipment(((EntityKaratFeng) this.mob).shouldChangeEquip() ? 4 : 5, this.mob.getMainHandItem().getItem() == Items.NETHERITE_AXE, enchantedNetheriteSet, this.netheriteSlots, SoundEvents.ARMOR_EQUIP_NETHERITE);
+			if(((EntityKaratFeng) this.mob).shouldChangeEquip())
+			{
+				this.changeEquipment(4, this.mob.getMainHandItem().getItem() == Items.NETHERITE_AXE, enchantedNetheriteSet, this.netheriteSlots, SoundEvents.ARMOR_EQUIP_NETHERITE);
+			}
+			else
+			{
+        		this.mob.setItemSlot(EquipmentSlot.MAINHAND, handStack);
+			}
 		}
     }
 	
@@ -125,8 +135,10 @@ public class KaratWearEquipmentsGoal extends AbstractFireplaceSkillGoal
 		else if(this.mob.getMainHandItem().getItem() == item[this.equipCount - 1])
 		{
     		this.mob.level.playLocalSound(this.mob.getX(), this.mob.getY(), this.mob.getZ(), sound, SoundSource.PLAYERS, 1.0F, 1.0F, false);
+    		
     		this.mob.setItemSlot(slots[this.slotCount], this.mob.getMainHandItem());
     		this.mob.swing(InteractionHand.MAIN_HAND);
+    		
         	if(this.equipCount < maxCount && this.slotCount < maxCount)
         	{
         		this.skillWarmupDelay = this.adjustedTickDelay(this.getSkillWarmupTime());
