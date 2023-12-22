@@ -235,10 +235,7 @@ public class EntityKaratFeng extends AbstractFireplaceMember
     	}
     	else 
     	{
-    		if(this.getPhase() != 0)
-    		{
-        		this.setupPhase();
-    		}
+    		this.setupPhase();
     		
 			if(this.getPhase() == 0)
 			{
