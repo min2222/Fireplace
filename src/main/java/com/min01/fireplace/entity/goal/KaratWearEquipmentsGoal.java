@@ -4,9 +4,6 @@ import com.min01.fireplace.entity.AbstractFireplaceMember.ActiveMemberSkills;
 import com.min01.fireplace.entity.EntityKaratFeng;
 import com.min01.fireplace.init.FireplaceItems;
 
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -15,11 +12,7 @@ import net.minecraft.world.item.enchantment.Enchantments;
 
 public class KaratWearEquipmentsGoal extends AbstractFireplaceSkillGoal
 {
-	public Item[] equipItems1 = {Items.DIAMOND_HELMET, Items.DIAMOND_CHESTPLATE, Items.DIAMOND_LEGGINGS, Items.DIAMOND_BOOTS, Items.SHIELD};
-	public Item[] equipItems2 = {Items.NETHERITE_HELMET, Items.NETHERITE_CHESTPLATE, Items.NETHERITE_LEGGINGS, Items.NETHERITE_BOOTS};
-	public EquipmentSlot[] slots = {EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET, EquipmentSlot.OFFHAND};
-	public int equipCount;
-	public int slotCount;
+	private boolean canUse = true;
 	
 	public KaratWearEquipmentsGoal(EntityKaratFeng mob) 
 	{
@@ -29,23 +22,25 @@ public class KaratWearEquipmentsGoal extends AbstractFireplaceSkillGoal
     @Override
     public boolean canUse() 
     {
-    	boolean flag = super.canUse() && this.mob.getPhase() == 0 && this.mob.getMainHandItem().getItem() == FireplaceItems.KING_STAFF.get() && ((EntityKaratFeng) this.mob).stopFlying();
-    	return super.canUse() && flag || super.canUse() && ((EntityKaratFeng) this.mob).shouldChangeEquip();
+    	boolean flag = ((EntityKaratFeng) this.mob).stopFlying() || ((EntityKaratFeng) this.mob).shouldChangeEquip();
+    	return super.canUse() && flag;
+    }
+    
+    @Override
+    public boolean canContinueToUse() 
+    {
+    	return super.canContinueToUse() && this.canUse;
     }
 
     @Override
     public void start()
     {
     	this.mob.setInvulnerable(true);
-    	if(!((EntityKaratFeng) this.mob).shouldChangeEquip())
-    	{
-        	this.mob.setShouldMove(false);
-    	}
-    	else if(((EntityKaratFeng) this.mob).shouldChangeEquip())
-    	{
-    		this.equipCount = 0;
-    		this.slotCount = 0;
-    	}
+		this.canUse = true;
+		if(((EntityKaratFeng) this.mob).getPhase() == 0 || ((EntityKaratFeng) this.mob).stopFlying())
+		{
+	    	this.mob.setShouldMove(false);
+		}
     	super.start();
     }
     
@@ -53,21 +48,10 @@ public class KaratWearEquipmentsGoal extends AbstractFireplaceSkillGoal
     public void stop()
     {
     	super.stop();
-    	if(this.mob.getPhase() == 0)
+    	((EntityKaratFeng) this.mob).setShouldChangeEquip(false);
+    	if(!this.mob.shouldMove())
     	{
-    		this.mob.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.DIAMOND_SWORD));
-    	}
-    	else if(this.mob.getPhase() == 1 && this.mob.getMainHandItem().getItem() == Items.AIR)
-    	{
-    		this.mob.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(FireplaceItems.KING_STAFF.get()));
-    	}
-    	else if(this.mob.getPhase() == 2 && this.mob.getMainHandItem().getItem() == Items.AIR)
-    	{
-    		this.mob.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(FireplaceItems.KING_STAFF.get()));
-    	}
-    	if(((EntityKaratFeng) this.mob).shouldChangeEquip())
-    	{
-    		((EntityKaratFeng) this.mob).setShouldChangeEquip(false);
+    		this.mob.setShouldMove(true);
     	}
     	this.mob.setInvulnerable(false);
     }
@@ -75,95 +59,93 @@ public class KaratWearEquipmentsGoal extends AbstractFireplaceSkillGoal
 	@Override
     protected void performSkill()
     {
-		if(this.mob.getPhase() == 0)
+		switch(this.mob.getPhase())
 		{
-    		if(this.mob.getMainHandItem().getItem() == Items.AIR || this.mob.getMainHandItem().getItem() == FireplaceItems.KING_STAFF.get())
-    		{
-            	if(this.equipCount < 5 || this.mob.getMainHandItem().getItem() == Items.SHIELD)
-            	{
-            		this.skillWarmupDelay = this.adjustedTickDelay(this.getSkillWarmupTime());
-            		ItemStack itemstack = new ItemStack(this.equipItems1[this.equipCount]);
-            		this.mob.setItemInHand(InteractionHand.MAIN_HAND, itemstack);	
-            		this.equipCount++;
-            	}
-    		}
-    		else
-    		{
-        		this.mob.level.playLocalSound(this.mob.getX(), this.mob.getY(), this.mob.getZ(), SoundEvents.ARMOR_EQUIP_DIAMOND, SoundSource.PLAYERS, 1.0F, 1.0F, false);
-        		this.mob.setItemSlot(this.slots[this.slotCount], this.mob.getMainHandItem());
-        		this.mob.swing(InteractionHand.MAIN_HAND);
-            	if(this.equipCount < 5 || this.mob.getMainHandItem().getItem() == Items.SHIELD)
-            	{
-            		this.skillWarmupDelay = this.adjustedTickDelay(this.getSkillWarmupTime());
-            		this.slotCount++;
-            	}
-        		this.mob.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.AIR));
-    		}
-		}
-		else if(this.mob.getPhase() == 1)
-		{
-    		if(this.mob.getMainHandItem().getItem() == Items.AIR || this.mob.getMainHandItem().getItem() == Items.DIAMOND_SWORD)
-    		{
-            	if(this.equipCount < 4 || this.mob.getMainHandItem().getItem() == Items.SHIELD)
-            	{
-            		this.skillWarmupDelay = this.adjustedTickDelay(this.getSkillWarmupTime());
-            		ItemStack itemstack = new ItemStack(this.equipItems2[this.equipCount]);
-            		this.mob.setItemInHand(InteractionHand.MAIN_HAND, itemstack);
-            		this.equipCount++;
-            	}
-    		}
-    		else
-    		{
-        		this.mob.level.playLocalSound(this.mob.getX(), this.mob.getY(), this.mob.getZ(), SoundEvents.ARMOR_EQUIP_NETHERITE, SoundSource.PLAYERS, 1.0F, 1.0F, false);
-        		this.mob.setItemSlot(this.slots[this.slotCount], this.mob.getMainHandItem());
-        		this.mob.swing(InteractionHand.MAIN_HAND);
-            	if(this.equipCount < 4 || this.mob.getMainHandItem().getItem() == Items.SHIELD)
-            	{
-            		this.skillWarmupDelay = this.adjustedTickDelay(this.getSkillWarmupTime());
-            		this.slotCount++;
-            	}
-        		this.mob.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.AIR));
-    		}
-		}
-		else if(this.mob.getPhase() == 2)
-		{
-    		if(this.mob.getMainHandItem().getItem() == Items.AIR || this.mob.getMainHandItem().getItem() == Items.NETHERITE_AXE)
-    		{
-            	if(this.equipCount < 4 || this.mob.getMainHandItem().getItem() == Items.SHIELD)
-            	{
-	        		this.skillWarmupDelay = this.adjustedTickDelay(this.getSkillWarmupTime());
-	    			Item enchantedNetheriteHelmet = Items.NETHERITE_HELMET;
-	    			Item enchantedNetheriteChestplate = Items.NETHERITE_CHESTPLATE;
-	    			Item enchantedNetheriteLeggings = Items.NETHERITE_LEGGINGS;
-	    			Item enchantedNetheriteBoots = Items.NETHERITE_BOOTS;
-	    			ItemStack helmetStack = new ItemStack(enchantedNetheriteHelmet);
-	    			ItemStack chestStack = new ItemStack(enchantedNetheriteChestplate);
-	    			ItemStack legsStack = new ItemStack(enchantedNetheriteLeggings);
-	    			ItemStack feetsStack = new ItemStack(enchantedNetheriteBoots);
-	    			helmetStack.enchant(Enchantments.ALL_DAMAGE_PROTECTION, 4);
-	    			chestStack.enchant(Enchantments.ALL_DAMAGE_PROTECTION, 4);
-	    			legsStack.enchant(Enchantments.ALL_DAMAGE_PROTECTION, 4);
-	    			feetsStack.enchant(Enchantments.ALL_DAMAGE_PROTECTION, 4);
-	    			ItemStack[] equipItems3 = {helmetStack, chestStack, legsStack, feetsStack};
-	        		ItemStack itemstack = equipItems3[this.equipCount];
-	        		this.mob.setItemInHand(InteractionHand.MAIN_HAND, itemstack);
-	        		this.equipCount++;
-            	}
-    		}   		
-    		else
-    		{
-        		this.mob.level.playLocalSound(this.mob.getX(), this.mob.getY(), this.mob.getZ(), SoundEvents.ARMOR_EQUIP_NETHERITE, SoundSource.PLAYERS, 1.0F, 1.0F, false);
-        		this.mob.setItemSlot(this.slots[this.slotCount], this.mob.getMainHandItem());
-        		this.mob.swing(InteractionHand.MAIN_HAND);
-            	if(this.equipCount < 4 || this.mob.getMainHandItem().getItem() == Items.SHIELD)
-            	{
-            		this.skillWarmupDelay = this.adjustedTickDelay(this.getSkillWarmupTime());
-            		this.slotCount++;
-            	}
-        		this.mob.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.AIR));
-    		}
+		case 0:
+			this.changeItemWhen(EquipmentSlot.MAINHAND, new ItemStack(Items.DIAMOND_BOOTS), this.mob.getItemBySlot(EquipmentSlot.MAINHAND).getItem() == FireplaceItems.KING_STAFF.get());
+			this.changeItemWhen(EquipmentSlot.FEET, new ItemStack(Items.DIAMOND_BOOTS), this.mob.getItemBySlot(EquipmentSlot.MAINHAND).getItem() == Items.DIAMOND_BOOTS);
+			this.changeItemWhen(EquipmentSlot.MAINHAND, new ItemStack(Items.DIAMOND_LEGGINGS), this.mob.getItemBySlot(EquipmentSlot.FEET).getItem() == Items.DIAMOND_BOOTS);
+			this.changeItemWhen(EquipmentSlot.LEGS, new ItemStack(Items.DIAMOND_LEGGINGS), this.mob.getItemBySlot(EquipmentSlot.MAINHAND).getItem() == Items.DIAMOND_LEGGINGS);
+			this.changeItemWhen(EquipmentSlot.MAINHAND, new ItemStack(Items.DIAMOND_CHESTPLATE), this.mob.getItemBySlot(EquipmentSlot.LEGS).getItem() == Items.DIAMOND_LEGGINGS);
+			this.changeItemWhen(EquipmentSlot.CHEST, new ItemStack(Items.DIAMOND_CHESTPLATE), this.mob.getItemBySlot(EquipmentSlot.MAINHAND).getItem() == Items.DIAMOND_CHESTPLATE);
+			this.changeItemWhen(EquipmentSlot.MAINHAND, new ItemStack(Items.DIAMOND_HELMET), this.mob.getItemBySlot(EquipmentSlot.CHEST).getItem() == Items.DIAMOND_CHESTPLATE);
+			this.changeItemWhen(EquipmentSlot.HEAD, new ItemStack(Items.DIAMOND_HELMET), this.mob.getItemBySlot(EquipmentSlot.MAINHAND).getItem() == Items.DIAMOND_HELMET);
+			this.changeItemWhen(EquipmentSlot.MAINHAND, new ItemStack(Items.DIAMOND_SWORD), this.mob.getItemBySlot(EquipmentSlot.HEAD).getItem() == Items.DIAMOND_HELMET, true);
+			break;
+		case 1:
+			this.changeItemWhen(EquipmentSlot.MAINHAND, new ItemStack(Items.NETHERITE_BOOTS), this.mob.getItemBySlot(EquipmentSlot.MAINHAND).getItem() == Items.DIAMOND_SWORD && !((EntityKaratFeng) this.mob).stopFlying());
+			this.changeItemWhen(EquipmentSlot.FEET, new ItemStack(Items.NETHERITE_BOOTS), this.mob.getItemBySlot(EquipmentSlot.MAINHAND).getItem() == Items.NETHERITE_BOOTS && !((EntityKaratFeng) this.mob).stopFlying());
+			this.changeItemWhen(EquipmentSlot.MAINHAND, new ItemStack(Items.NETHERITE_LEGGINGS), this.mob.getItemBySlot(EquipmentSlot.FEET).getItem() == Items.NETHERITE_BOOTS && !((EntityKaratFeng) this.mob).stopFlying());
+			this.changeItemWhen(EquipmentSlot.LEGS, new ItemStack(Items.NETHERITE_LEGGINGS), this.mob.getItemBySlot(EquipmentSlot.MAINHAND).getItem() == Items.NETHERITE_LEGGINGS && !((EntityKaratFeng) this.mob).stopFlying());
+			this.changeItemWhen(EquipmentSlot.MAINHAND, new ItemStack(Items.NETHERITE_CHESTPLATE), this.mob.getItemBySlot(EquipmentSlot.LEGS).getItem() == Items.NETHERITE_LEGGINGS && !((EntityKaratFeng) this.mob).stopFlying());
+			this.changeItemWhen(EquipmentSlot.CHEST, new ItemStack(Items.NETHERITE_CHESTPLATE), this.mob.getItemBySlot(EquipmentSlot.MAINHAND).getItem() == Items.NETHERITE_CHESTPLATE && !((EntityKaratFeng) this.mob).stopFlying());
+			this.changeItemWhen(EquipmentSlot.MAINHAND, new ItemStack(Items.NETHERITE_HELMET), this.mob.getItemBySlot(EquipmentSlot.CHEST).getItem() == Items.NETHERITE_CHESTPLATE && !((EntityKaratFeng) this.mob).stopFlying());
+			this.changeItemWhen(EquipmentSlot.HEAD, new ItemStack(Items.NETHERITE_HELMET), this.mob.getItemBySlot(EquipmentSlot.MAINHAND).getItem() == Items.NETHERITE_HELMET && !((EntityKaratFeng) this.mob).stopFlying());
+			this.changeItemWhen(EquipmentSlot.MAINHAND, new ItemStack(FireplaceItems.KING_STAFF.get()), this.mob.getItemBySlot(EquipmentSlot.HEAD).getItem() == Items.NETHERITE_HELMET && !((EntityKaratFeng) this.mob).stopFlying(), true);
+			
+			this.changeItemWhen(EquipmentSlot.MAINHAND, new ItemStack(Items.SHIELD), this.mob.getItemBySlot(EquipmentSlot.HEAD).getItem() == Items.NETHERITE_HELMET && ((EntityKaratFeng) this.mob).stopFlying());
+			this.changeItemWhen(EquipmentSlot.OFFHAND, new ItemStack(Items.SHIELD), this.mob.getItemBySlot(EquipmentSlot.MAINHAND).getItem() == Items.SHIELD && ((EntityKaratFeng) this.mob).stopFlying());
+			this.changeItemWhen(EquipmentSlot.MAINHAND, new ItemStack(Items.NETHERITE_AXE), this.mob.getItemBySlot(EquipmentSlot.OFFHAND).getItem() == Items.SHIELD && ((EntityKaratFeng) this.mob).stopFlying(), true);
+			break;
+		case 2:
+			Item enchantedNetheriteHelmet = Items.NETHERITE_HELMET;
+			Item enchantedNetheriteChestplate = Items.NETHERITE_CHESTPLATE;
+			Item enchantedNetheriteLeggings = Items.NETHERITE_LEGGINGS;
+			Item enchantedNetheriteBoots = Items.NETHERITE_BOOTS;
+			Item enchantedNetheriteAxe = Items.NETHERITE_AXE;
+			ItemStack helmetStack = new ItemStack(enchantedNetheriteHelmet);
+			ItemStack chestStack = new ItemStack(enchantedNetheriteChestplate);
+			ItemStack legsStack = new ItemStack(enchantedNetheriteLeggings);
+			ItemStack feetsStack = new ItemStack(enchantedNetheriteBoots);
+			ItemStack handStack = new ItemStack(enchantedNetheriteAxe);
+			helmetStack.enchant(Enchantments.ALL_DAMAGE_PROTECTION, 4);
+			chestStack.enchant(Enchantments.ALL_DAMAGE_PROTECTION, 4);
+			legsStack.enchant(Enchantments.ALL_DAMAGE_PROTECTION, 4);
+			feetsStack.enchant(Enchantments.ALL_DAMAGE_PROTECTION, 4);
+			handStack.enchant(Enchantments.SHARPNESS, 5);
+			this.changeItemWhen(EquipmentSlot.MAINHAND, feetsStack, this.mob.getItemBySlot(EquipmentSlot.MAINHAND).getItem() == Items.NETHERITE_AXE && !((EntityKaratFeng) this.mob).stopFlying());
+			this.changeItemWhen(EquipmentSlot.FEET, feetsStack, this.mob.getItemBySlot(EquipmentSlot.MAINHAND) == feetsStack && !((EntityKaratFeng) this.mob).stopFlying());
+			this.changeItemWhen(EquipmentSlot.MAINHAND, legsStack, this.mob.getItemBySlot(EquipmentSlot.FEET) == feetsStack && !((EntityKaratFeng) this.mob).stopFlying());
+			this.changeItemWhen(EquipmentSlot.LEGS, legsStack, this.mob.getItemBySlot(EquipmentSlot.MAINHAND) == legsStack && !((EntityKaratFeng) this.mob).stopFlying());
+			this.changeItemWhen(EquipmentSlot.MAINHAND, chestStack, this.mob.getItemBySlot(EquipmentSlot.LEGS) == legsStack && !((EntityKaratFeng) this.mob).stopFlying());
+			this.changeItemWhen(EquipmentSlot.CHEST, chestStack, this.mob.getItemBySlot(EquipmentSlot.MAINHAND) == chestStack && !((EntityKaratFeng) this.mob).stopFlying());
+			this.changeItemWhen(EquipmentSlot.MAINHAND, helmetStack, this.mob.getItemBySlot(EquipmentSlot.CHEST)== chestStack && !((EntityKaratFeng) this.mob).stopFlying());
+			this.changeItemWhen(EquipmentSlot.HEAD, helmetStack, this.mob.getItemBySlot(EquipmentSlot.MAINHAND) == helmetStack && !((EntityKaratFeng) this.mob).stopFlying());
+			this.changeItemWhen(EquipmentSlot.MAINHAND, new ItemStack(FireplaceItems.KING_STAFF.get()), this.mob.getItemBySlot(EquipmentSlot.HEAD) == helmetStack && !((EntityKaratFeng) this.mob).stopFlying(), true);
+			
+			this.changeItemWhen(EquipmentSlot.MAINHAND, new ItemStack(Items.SHIELD), this.mob.getItemBySlot(EquipmentSlot.HEAD) == helmetStack && ((EntityKaratFeng) this.mob).stopFlying());
+			this.changeItemWhen(EquipmentSlot.OFFHAND, new ItemStack(Items.SHIELD), this.mob.getItemBySlot(EquipmentSlot.MAINHAND).getItem() == Items.SHIELD && ((EntityKaratFeng) this.mob).stopFlying());
+			this.changeItemWhen(EquipmentSlot.MAINHAND, handStack, this.mob.getItemBySlot(EquipmentSlot.OFFHAND).getItem() == Items.SHIELD && ((EntityKaratFeng) this.mob).stopFlying(), true);
+			break;
 		}
     }
+	
+	private void changeItemWhen(EquipmentSlot slot, ItemStack stack, boolean flag)
+	{
+		this.changeItemWhen(slot, stack, flag, false);
+	}
+	
+	private void changeItemWhen(EquipmentSlot slot, ItemStack stack, boolean flag, boolean finish)
+	{
+		if(flag)
+		{
+			if(slot != EquipmentSlot.MAINHAND)
+			{
+				this.mob.setItemSlot(EquipmentSlot.MAINHAND, ItemStack.EMPTY);
+			}
+			
+			if(!finish) 
+			{
+	    		this.skillWarmupDelay = this.adjustedTickDelay(this.getSkillWarmupTime());
+			}
+			else
+			{
+				this.canUse = false;
+			}
+				
+			this.mob.setItemSlot(slot, stack);
+		}
+	}
 
     @Override
     protected int getSkillWarmupTime()

@@ -46,10 +46,7 @@ import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.projectile.AbstractArrow;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.phys.Vec3;
@@ -206,20 +203,6 @@ public class EntityKaratFeng extends AbstractFireplaceMember
     		this.setStopFlying(true);
     		this.moveControl = new MoveControl(this);
     		this.setNoGravity(false);
-    		if(this.getMainHandItem().getItem() == FireplaceItems.KING_STAFF.get())
-    		{
-        		if(this.getPhase() == 1)
-        		{
-            		this.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.NETHERITE_AXE));
-        		}
-        		else if(this.getPhase() == 2)
-        		{
-        			Item enchantedNetheriteAxe = Items.NETHERITE_AXE;
-        			ItemStack axeStack = new ItemStack(enchantedNetheriteAxe);
-        			axeStack.enchant(Enchantments.SHARPNESS, 5);
-            		this.setItemInHand(InteractionHand.MAIN_HAND, axeStack);
-        		}
-    		}
     	}
     	
     	if(!this.stopFlying())
@@ -252,7 +235,11 @@ public class EntityKaratFeng extends AbstractFireplaceMember
     	}
     	else 
     	{
-    		this.setupPhase();
+    		if(this.getPhase() != 0)
+    		{
+        		this.setupPhase();
+    		}
+    		
 			if(this.getPhase() == 0)
 			{
     			this.setRemainSummoningHP(600.0F);

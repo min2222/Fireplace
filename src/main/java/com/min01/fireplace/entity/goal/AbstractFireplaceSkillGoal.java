@@ -59,7 +59,6 @@ public abstract class AbstractFireplaceSkillGoal extends Goal
 	public void stop()
 	{
 		this.mob.setAggressive(false);
-		this.mob.setShouldMove(true);
 	}
     
     @Override
