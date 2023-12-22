@@ -71,11 +71,11 @@ public class KaratWearEquipmentsGoal extends AbstractFireplaceSkillGoal
     {
 		if(this.mob.getPhase() == 0)
 		{
-			this.changeEquipment(4, this.mob.getMainHandItem().getItem() == FireplaceItems.KING_STAFF.get(), this.diamondSet[this.equipCount], SoundEvents.ARMOR_EQUIP_DIAMOND);
+			this.changeEquipment(5, this.mob.getMainHandItem().getItem() == FireplaceItems.KING_STAFF.get(), this.diamondSet[this.equipCount], SoundEvents.ARMOR_EQUIP_DIAMOND);
 		}
 		else if(this.mob.getPhase() == 1)
 		{
-			this.changeEquipment(((EntityKaratFeng) this.mob).shouldChangeEquip() ? 2 : 3, this.mob.getMainHandItem().getItem() == Items.DIAMOND_SWORD, this.netheriteSet[this.equipCount], SoundEvents.ARMOR_EQUIP_NETHERITE);
+			this.changeEquipment(((EntityKaratFeng) this.mob).shouldChangeEquip() ? 3 : 4, this.mob.getMainHandItem().getItem() == Items.DIAMOND_SWORD, this.netheriteSet[this.equipCount], SoundEvents.ARMOR_EQUIP_NETHERITE);
 		}
 		else if(this.mob.getPhase() == 2)
 		{
@@ -96,7 +96,7 @@ public class KaratWearEquipmentsGoal extends AbstractFireplaceSkillGoal
 			feetsStack.enchant(Enchantments.ALL_DAMAGE_PROTECTION, 4);
 			ItemStack[] enchantedNetheriteSet = {helmetStack, chestStack, legsStack, feetsStack, handStack};
 			
-			this.changeEquipment(((EntityKaratFeng) this.mob).shouldChangeEquip() ? 2 : 3, this.mob.getMainHandItem().getItem() == Items.NETHERITE_AXE, enchantedNetheriteSet[this.equipCount].getItem(), SoundEvents.ARMOR_EQUIP_NETHERITE);
+			this.changeEquipment(((EntityKaratFeng) this.mob).shouldChangeEquip() ? 3 : 4, this.mob.getMainHandItem().getItem() == Items.NETHERITE_AXE, enchantedNetheriteSet[this.equipCount].getItem(), SoundEvents.ARMOR_EQUIP_NETHERITE);
 		}
     }
 	
