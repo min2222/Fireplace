@@ -9,7 +9,6 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -32,15 +31,19 @@ public class KaratWearEquipmentsGoal extends AbstractFireplaceSkillGoal
     @Override
     public boolean canUse() 
     {
-    	LivingEntity livingentity = this.mob.getTarget();
     	boolean flag = ((EntityKaratFeng) this.mob).stopFlying() || ((EntityKaratFeng) this.mob).shouldChangeEquip();
-    	if (livingentity != null && livingentity.isAlive()) 
+    	return super.canUse() && flag && this.mob.getMainHandItem().getItem() != this.getItem(this.mob.getPhase());
+    }
+    
+    private Item getItem(int phase) 
+    {
+    	if(phase == 0)
     	{
-    		return this.mob.tickCount >= this.nextAttackTickCount && flag;
-    	} 
-    	else 
+    		return Items.DIAMOND_SWORD;
+    	}
+    	else
     	{
-    		return false;
+    		return Items.NETHERITE_AXE;
     	}
     }
 
@@ -107,7 +110,7 @@ public class KaratWearEquipmentsGoal extends AbstractFireplaceSkillGoal
 			chestStack.enchant(Enchantments.ALL_DAMAGE_PROTECTION, 4);
 			legsStack.enchant(Enchantments.ALL_DAMAGE_PROTECTION, 4);
 			feetsStack.enchant(Enchantments.ALL_DAMAGE_PROTECTION, 4);
-			Item[] enchantedNetheriteSet = {helmetStack.getItem(), chestStack.getItem(), legsStack.getItem(), feetsStack.getItem(), handStack.getItem()};
+			ItemStack[] enchantedNetheriteSet = {helmetStack, chestStack, legsStack, feetsStack, handStack};
 			
 			if(((EntityKaratFeng) this.mob).shouldChangeEquip())
 			{
@@ -146,6 +149,38 @@ public class KaratWearEquipmentsGoal extends AbstractFireplaceSkillGoal
         	}
         	
         	if(this.mob.getMainHandItem().getItem() != item[item.length - 1])
+        	{
+        		this.mob.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.AIR));
+        	}
+		}
+	}
+	
+	private void changeEquipment(int maxCount, boolean firstFlag, ItemStack[] item, EquipmentSlot[] slots, SoundEvent sound)
+	{
+		if(this.mob.getMainHandItem().isEmpty() || firstFlag || this.mob.getMainHandItem().getItem() == FireplaceItems.KING_STAFF.get())
+		{
+			if(this.equipCount < maxCount) 
+			{
+        		this.skillWarmupDelay = this.adjustedTickDelay(this.getSkillWarmupTime());
+        		ItemStack itemstack = item[this.equipCount];
+        		this.mob.setItemSlot(EquipmentSlot.MAINHAND, itemstack);	
+        		this.equipCount++;
+			}
+		}
+		else if(this.mob.getMainHandItem() == item[this.equipCount - 1])
+		{
+    		this.mob.level.playLocalSound(this.mob.getX(), this.mob.getY(), this.mob.getZ(), sound, SoundSource.PLAYERS, 1.0F, 1.0F, false);
+    		
+    		this.mob.setItemSlot(slots[this.slotCount], this.mob.getMainHandItem());
+    		this.mob.swing(InteractionHand.MAIN_HAND);
+    		
+        	if(this.equipCount < maxCount && this.slotCount < maxCount)
+        	{
+        		this.skillWarmupDelay = this.adjustedTickDelay(this.getSkillWarmupTime());
+        		this.slotCount++;
+        	}
+        	
+        	if(this.mob.getMainHandItem() != item[item.length - 1])
         	{
         		this.mob.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.AIR));
         	}

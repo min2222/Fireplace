@@ -42,6 +42,8 @@ public class KaratMovingGoal extends Goal
 		super.stop();
 		this.mob.setAggressive(false);
 		this.seeTime = 0;
+        this.mob.setZza(0);
+        this.mob.setXxa(0);
 	}
 	
 	@Override
@@ -123,8 +125,11 @@ public class KaratMovingGoal extends Goal
 					this.strafingBackwards = true;
 				}
 				
-		        this.mob.setZza(this.direction ? -1.5f : 1.5F);
-		        this.mob.setXxa(this.direction ? 1.5F : -1.5F);
+				if(!this.mob.stopFlying())
+				{
+			        this.mob.setZza(this.direction ? -1.5f : 1.5F);
+			        this.mob.setXxa(this.direction ? 1.5F : -1.5F);
+				}
 			}
 		}
 	}
