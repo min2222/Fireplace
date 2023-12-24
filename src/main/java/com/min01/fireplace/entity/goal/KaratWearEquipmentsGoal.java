@@ -1,6 +1,6 @@
 package com.min01.fireplace.entity.goal;
 
-import com.min01.fireplace.entity.AbstractFireplaceMember.ActiveMemberSkills;
+import com.min01.fireplace.entity.AbstractKaratFeng.KaratSkills;
 import com.min01.fireplace.entity.EntityKaratFeng;
 import com.min01.fireplace.init.FireplaceItems;
 
@@ -32,19 +32,7 @@ public class KaratWearEquipmentsGoal extends AbstractFireplaceSkillGoal
     public boolean canUse() 
     {
     	boolean flag = ((EntityKaratFeng) this.mob).stopFlying() || ((EntityKaratFeng) this.mob).shouldChangeEquip();
-    	return super.canUse() && flag && this.mob.getMainHandItem().getItem() != this.getItem(this.mob.getPhase());
-    }
-    
-    private Item getItem(int phase) 
-    {
-    	if(phase == 0)
-    	{
-    		return Items.DIAMOND_SWORD;
-    	}
-    	else
-    	{
-    		return Items.NETHERITE_AXE;
-    	}
+    	return super.canUse() && flag;
     }
 
     @Override
@@ -155,6 +143,7 @@ public class KaratWearEquipmentsGoal extends AbstractFireplaceSkillGoal
 		}
 	}
 	
+	//for enchanted items, must put copy for copy tags
 	private void changeEquipment(int maxCount, boolean firstFlag, ItemStack[] item, EquipmentSlot[] slots, SoundEvent sound)
 	{
 		if(this.mob.getMainHandItem().isEmpty() || firstFlag || this.mob.getMainHandItem().getItem() == FireplaceItems.KING_STAFF.get())
@@ -163,7 +152,7 @@ public class KaratWearEquipmentsGoal extends AbstractFireplaceSkillGoal
 			{
         		this.skillWarmupDelay = this.adjustedTickDelay(this.getSkillWarmupTime());
         		ItemStack itemstack = item[this.equipCount];
-        		this.mob.setItemSlot(EquipmentSlot.MAINHAND, itemstack);	
+        		this.mob.setItemSlot(EquipmentSlot.MAINHAND, itemstack.copy());	
         		this.equipCount++;
 			}
 		}
@@ -171,7 +160,7 @@ public class KaratWearEquipmentsGoal extends AbstractFireplaceSkillGoal
 		{
     		this.mob.level.playLocalSound(this.mob.getX(), this.mob.getY(), this.mob.getZ(), sound, SoundSource.PLAYERS, 1.0F, 1.0F, false);
     		
-    		this.mob.setItemSlot(slots[this.slotCount], this.mob.getMainHandItem());
+    		this.mob.setItemSlot(slots[this.slotCount], this.mob.getMainHandItem().copy());
     		this.mob.swing(InteractionHand.MAIN_HAND);
     		
         	if(this.equipCount < maxCount && this.slotCount < maxCount)
@@ -206,8 +195,8 @@ public class KaratWearEquipmentsGoal extends AbstractFireplaceSkillGoal
     }
     
     @Override
-    protected ActiveMemberSkills getSkills()
+    protected KaratSkills getSkills()
     {
-    	return ActiveMemberSkills.KARAT_WEAR_EQUIPMENTS;
+    	return KaratSkills.KARAT_WEAR_EQUIPMENTS;
     }
 }

@@ -1,7 +1,7 @@
 package com.min01.fireplace.entity.goal;
 
-import com.min01.fireplace.entity.AbstractFireplaceMember;
-import com.min01.fireplace.entity.AbstractFireplaceMember.ActiveMemberSkills;
+import com.min01.fireplace.entity.AbstractKaratFeng;
+import com.min01.fireplace.entity.AbstractKaratFeng.KaratSkills;
 import com.min01.fireplace.entity.EntityKaratFeng;
 
 import net.minecraft.sounds.SoundEvents;
@@ -17,7 +17,7 @@ import net.minecraft.world.item.alchemy.Potions;
 public class KaratSplashPotionsGoal extends AbstractFireplaceSkillGoal
 {
 	public Item prevItem;
-	public KaratSplashPotionsGoal(AbstractFireplaceMember mob)
+	public KaratSplashPotionsGoal(AbstractKaratFeng mob)
 	{
 		super(mob);
 	}
@@ -71,8 +71,8 @@ public class KaratSplashPotionsGoal extends AbstractFireplaceSkillGoal
 	}
 
 	@Override
-	protected ActiveMemberSkills getSkills()
+	protected KaratSkills getSkills()
 	{
-		return ActiveMemberSkills.KARAT_SPLASH_POTIONS;
+		return KaratSkills.KARAT_SPLASH_POTIONS;
 	}
 }

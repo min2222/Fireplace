@@ -1,6 +1,6 @@
 package com.min01.fireplace.entity.goal;
 
-import com.min01.fireplace.entity.AbstractFireplaceMember;
+import com.min01.fireplace.entity.AbstractKaratFeng;
 
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
@@ -9,9 +9,9 @@ public abstract class AbstractFireplaceSkillGoal extends Goal
 {
 	protected int skillWarmupDelay;
 	protected int nextAttackTickCount;
-	public AbstractFireplaceMember mob;
+	public AbstractKaratFeng mob;
 	
-	public AbstractFireplaceSkillGoal(AbstractFireplaceMember mob) 
+	public AbstractFireplaceSkillGoal(AbstractKaratFeng mob) 
 	{
 		this.mob = mob;
 	}
@@ -92,5 +92,5 @@ public abstract class AbstractFireplaceSkillGoal extends Goal
 
     protected abstract int getSkillUsingInterval();
     
-    protected abstract AbstractFireplaceMember.ActiveMemberSkills getSkills();
+    protected abstract AbstractKaratFeng.KaratSkills getSkills();
 }

@@ -42,8 +42,6 @@ public class KaratMovingGoal extends Goal
 		super.stop();
 		this.mob.setAggressive(false);
 		this.seeTime = 0;
-        this.mob.setZza(0);
-        this.mob.setXxa(0);
 	}
 	
 	@Override

@@ -1,7 +1,7 @@
 package com.min01.fireplace.entity.goal;
 
-import com.min01.fireplace.entity.AbstractFireplaceMember;
-import com.min01.fireplace.entity.AbstractFireplaceMember.ActiveMemberSkills;
+import com.min01.fireplace.entity.AbstractKaratFeng;
+import com.min01.fireplace.entity.AbstractKaratFeng.KaratSkills;
 import com.mojang.datafixers.util.Pair;
 
 import net.minecraft.sounds.SoundEvents;
@@ -17,7 +17,7 @@ public class KaratEatingGoldenAppleGoal extends AbstractFireplaceSkillGoal
 {
 	public ItemStack prevItem;
 	public ItemStack goldenApple;
-	public KaratEatingGoldenAppleGoal(AbstractFireplaceMember mob) 
+	public KaratEatingGoldenAppleGoal(AbstractKaratFeng mob) 
 	{
 		super(mob);
 	}
@@ -99,8 +99,8 @@ public class KaratEatingGoldenAppleGoal extends AbstractFireplaceSkillGoal
 	}
 
 	@Override
-	protected ActiveMemberSkills getSkills() 
+	protected KaratSkills getSkills() 
 	{
-		return ActiveMemberSkills.KARAT_EAT_GOLDEN_APPLE;
+		return KaratSkills.KARAT_EAT_GOLDEN_APPLE;
 	}
 }

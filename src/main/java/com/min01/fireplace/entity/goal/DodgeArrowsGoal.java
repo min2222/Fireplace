@@ -3,7 +3,7 @@ package com.min01.fireplace.entity.goal;
 import java.util.ArrayList;
 import java.util.EnumSet;
 
-import com.min01.fireplace.entity.AbstractFireplaceMember;
+import com.min01.fireplace.entity.AbstractKaratFeng;
 
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
@@ -61,7 +61,7 @@ public class DodgeArrowsGoal extends Goal {
     }
     
     /** The owner of this AI. */
-    protected final AbstractFireplaceMember mob;
+    protected final AbstractKaratFeng mob;
     /** The chance that this AI will activate when an arrow is fired at the entity. */
     private final double dodgeChance;
     
@@ -76,7 +76,7 @@ public class DodgeArrowsGoal extends Goal {
      * @param entity The owner of this AI.
      * @param chance The chance for the entity to dodge arrows fired.
      */
-    public DodgeArrowsGoal( AbstractFireplaceMember entity, double chance ) {
+    public DodgeArrowsGoal( AbstractKaratFeng entity, double chance ) {
         mob = entity;
         dodgeChance = chance;
         setFlags( EnumSet.of( Flag.JUMP ) );

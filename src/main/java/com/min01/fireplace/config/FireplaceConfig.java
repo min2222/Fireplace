@@ -8,19 +8,23 @@ import com.electronwill.nightconfig.core.file.CommentedFileConfig;
 import com.electronwill.nightconfig.core.io.WritingMode;
 
 import net.minecraftforge.common.ForgeConfigSpec;
+import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
 import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber
 public class FireplaceConfig
 {
-	private static ForgeConfigSpec.Builder builder;
-	public static ForgeConfigSpec config;
+	private static ForgeConfigSpec.Builder BUILDER;
+	public static ForgeConfigSpec CONFIG;
 	public static ForgeConfigSpec.ConfigValue<List<? extends String>> karatSummoningBlackList;
 	public static ForgeConfigSpec.ConfigValue<List<? extends String>> karatProjectileBlackList;
 	public static ForgeConfigSpec.ConfigValue<List<? extends String>> karatSummoningWhiteList;
 	public static ForgeConfigSpec.ConfigValue<List<? extends String>> karatProjectileWhiteList;
 	public static ForgeConfigSpec.BooleanValue useBlackListForSummoning;
 	public static ForgeConfigSpec.BooleanValue useBlackListForProjectile;
+	public static ConfigValue<List<? extends String>> karatRaidMembers;
+	public static ConfigValue<Integer> maxWave;
+	
 	
     public static void loadConfig(ForgeConfigSpec config, String path) 
     {
@@ -31,9 +35,9 @@ public class FireplaceConfig
     
     static 
     {
-    	builder = new ForgeConfigSpec.Builder();
-    	FireplaceConfig.init(FireplaceConfig.builder);
-    	config = FireplaceConfig.builder.build();
+    	BUILDER = new ForgeConfigSpec.Builder();
+    	FireplaceConfig.init(FireplaceConfig.BUILDER);
+    	CONFIG = FireplaceConfig.BUILDER.build();
     }
 	
     public static void init(ForgeConfigSpec.Builder config) 
@@ -45,6 +49,8 @@ public class FireplaceConfig
         FireplaceConfig.useBlackListForProjectile = config.comment("use blacklist for karat's projectile shooting, false to use whitelist").define("useBlackListForProjectile", true);
         FireplaceConfig.karatSummoningWhiteList = config.comment(new String[] { "put any mod id here, then karat only summon mobs from listed mods. example : minecraft" }).defineList("karatSummoningWhiteList", Arrays.asList(new String[] { "minecraft" }), String.class::isInstance);
         FireplaceConfig.karatProjectileWhiteList = config.comment(new String[] { "put any mod id here, then karat only shoot projectiles from listed mods. example : minecraft" }).defineList("karatProjectileWhiteList", Arrays.asList(new String[] { "minecraft" }), String.class::isInstance);
+        FireplaceConfig.karatRaidMembers = config.comment("put any type of karat id for ultra karatted raid. example : fireplace:karat_feng=1,5,0,0,0,0,0,0").define("karatRaidMembers", Arrays.asList(new String[] {""}), String.class::isInstance);
+        FireplaceConfig.maxWave = config.comment("max wave number for ultra karatted raid").define("maxWave", 7);
         config.pop();
     }
 }

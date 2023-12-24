@@ -4,6 +4,7 @@
   "package": "com.min01.fireplace.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "MixinServerLevel"
   ],
   "client": [
   ],

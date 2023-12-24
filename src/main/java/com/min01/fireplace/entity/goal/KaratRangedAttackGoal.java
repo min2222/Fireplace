@@ -1,7 +1,7 @@
 package com.min01.fireplace.entity.goal;
 
-import com.min01.fireplace.entity.AbstractFireplaceMember;
-import com.min01.fireplace.entity.AbstractFireplaceMember.ActiveMemberSkills;
+import com.min01.fireplace.entity.AbstractKaratFeng;
+import com.min01.fireplace.entity.AbstractKaratFeng.KaratSkills;
 import com.min01.fireplace.entity.EntityKaratFeng;
 
 import net.minecraft.sounds.SoundEvents;
@@ -19,7 +19,7 @@ public class KaratRangedAttackGoal extends AbstractFireplaceSkillGoal
 	public ItemStack prevItem;
 	public ItemStack bowItem;
 	private EntityKaratFeng mob;
-	public KaratRangedAttackGoal(AbstractFireplaceMember mob) 
+	public KaratRangedAttackGoal(AbstractKaratFeng mob) 
 	{
 		super(mob);
 		this.mob = (EntityKaratFeng) mob;
@@ -113,8 +113,8 @@ public class KaratRangedAttackGoal extends AbstractFireplaceSkillGoal
 	}
 
 	@Override
-	protected ActiveMemberSkills getSkills() 
+	protected KaratSkills getSkills() 
 	{
-		return ActiveMemberSkills.KARAT_RANGE;
+		return KaratSkills.KARAT_RANGE;
 	}
 }

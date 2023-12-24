@@ -3,8 +3,8 @@ package com.min01.fireplace.entity.goal;
 import java.util.ArrayList;
 
 import com.min01.fireplace.config.FireplaceConfig;
-import com.min01.fireplace.entity.AbstractFireplaceMember;
-import com.min01.fireplace.entity.AbstractFireplaceMember.ActiveMemberSkills;
+import com.min01.fireplace.entity.AbstractKaratFeng;
+import com.min01.fireplace.entity.AbstractKaratFeng.KaratSkills;
 import com.min01.fireplace.entity.EntityKaratFeng;
 import com.min01.fireplace.util.FireplaceUtil;
 
@@ -21,7 +21,7 @@ public class KaratShootProjectileGoal extends AbstractFireplaceSkillGoal
 {
 	public EntityKaratFeng mob;
 	public ArrayList<Projectile> projectileList = new ArrayList<>();
-	public KaratShootProjectileGoal(AbstractFireplaceMember mob) 
+	public KaratShootProjectileGoal(AbstractKaratFeng mob) 
 	{
 		super(mob);
 		this.mob = (EntityKaratFeng) mob;
@@ -121,8 +121,8 @@ public class KaratShootProjectileGoal extends AbstractFireplaceSkillGoal
 	}
 
 	@Override
-	protected ActiveMemberSkills getSkills() 
+	protected KaratSkills getSkills() 
 	{
-		return ActiveMemberSkills.KARAT_SHOOT_PROJECTILE;
+		return KaratSkills.KARAT_SHOOT_PROJECTILE;
 	}
 }

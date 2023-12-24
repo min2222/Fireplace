@@ -1,7 +1,7 @@
 package com.min01.fireplace.entity.goal;
 
-import com.min01.fireplace.entity.AbstractFireplaceMember;
-import com.min01.fireplace.entity.AbstractFireplaceMember.ActiveMemberSkills;
+import com.min01.fireplace.entity.AbstractKaratFeng;
+import com.min01.fireplace.entity.AbstractKaratFeng.KaratSkills;
 import com.min01.fireplace.entity.EntityKaratFeng;
 
 import net.minecraft.world.effect.MobEffect;
@@ -12,7 +12,7 @@ import net.minecraft.world.entity.LivingEntity;
 public class KaratBuffMobsGoal extends AbstractFireplaceSkillGoal
 {
 	public MobEffect[] effects = {MobEffects.ABSORPTION, MobEffects.REGENERATION, MobEffects.DAMAGE_RESISTANCE, MobEffects.MOVEMENT_SPEED, MobEffects.DAMAGE_BOOST, MobEffects.HEALTH_BOOST, MobEffects.INVISIBILITY, MobEffects.SLOW_FALLING};
-	public KaratBuffMobsGoal(AbstractFireplaceMember mob)
+	public KaratBuffMobsGoal(AbstractKaratFeng mob)
 	{
 		super(mob);
 	}
@@ -81,8 +81,8 @@ public class KaratBuffMobsGoal extends AbstractFireplaceSkillGoal
 	}
 
 	@Override
-	protected ActiveMemberSkills getSkills() 
+	protected KaratSkills getSkills() 
 	{
-		return ActiveMemberSkills.KARAT_BUFF_MOBS;
+		return KaratSkills.KARAT_BUFF_MOBS;
 	}
 }

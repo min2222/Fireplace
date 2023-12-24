@@ -47,11 +47,12 @@ import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.phys.Vec3;
 
-public class EntityKaratFeng extends AbstractFireplaceMember
+public class EntityKaratFeng extends AbstractKaratFeng
 {
 	public ArrayList<LivingEntity> entityList = new ArrayList<>();
 	public static final EntityDataAccessor<Float> MAX_SUMMONING_HP = SynchedEntityData.defineId(EntityKaratFeng.class, EntityDataSerializers.FLOAT);
@@ -96,7 +97,7 @@ public class EntityKaratFeng extends AbstractFireplaceMember
 	
     public static AttributeSupplier.Builder createAttributes()
     {
-        return AbstractFireplaceMember.createFireplaceAttributes()
+        return AbstractKaratFeng.createFireplaceAttributes()
     			.add(Attributes.MAX_HEALTH, 200.0D)
     			.add(Attributes.MOVEMENT_SPEED, 0.65D)
         		.add(Attributes.ARMOR, 2)
@@ -203,6 +204,7 @@ public class EntityKaratFeng extends AbstractFireplaceMember
     		this.setStopFlying(true);
     		this.moveControl = new MoveControl(this);
     		this.setNoGravity(false);
+    		this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.65D);
     	}
     	
     	if(!this.stopFlying())
@@ -232,6 +234,11 @@ public class EntityKaratFeng extends AbstractFireplaceMember
     	if(this.getPhase() == 2 || p_21014_ == DamageSource.OUT_OF_WORLD)
     	{
         	super.die(p_21014_);
+        	
+        	if(p_21014_.getEntity() != null && this.level.getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT))
+        	{
+        		this.spawnAtLocation(FireplaceItems.KING_STAFF.get());
+        	}
     	}
     	else 
     	{
@@ -255,7 +262,10 @@ public class EntityKaratFeng extends AbstractFireplaceMember
 		this.setNoGravity(true);
 		this.entityList.clear();
 		this.setHealth(200.0F);
-		this.setPhase(this.getPhase() + 1);
+		if(!this.level.isClientSide)
+		{
+			this.setPhase(this.getPhase() + 1);
+		}
 		this.setStopFlying(false);
 		this.moveControl = this.flyingControl;
 		this.setShouldChangeEquip(true);

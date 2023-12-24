@@ -1,4 +1,10 @@
 {
    "entity.fireplace.karat_feng": "KaratFeng",
-   "item.fireplace.karat_feng_spawn_egg": "KaratFeng Spawn Egg"
+   "item.fireplace.karat_feng_spawn_egg": "KaratFeng Spawn Egg",
+   "item.fireplace.king_staff": "King's Staff",
+   "event.fireplace.karatraid": "Ultra Karatted Raid",
+   "event.fireplace.karatraid.karats_remaining": "Karats Remaining: %s",
+   "event.fireplace.karatraid.victory": "Victory",
+   "event.fireplace.karatraid.defeat": "Defeat",
+   "effect.fireplace.karat_omen": "Karat Omen"
 }

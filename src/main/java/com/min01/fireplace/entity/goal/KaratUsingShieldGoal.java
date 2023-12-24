@@ -2,8 +2,8 @@ package com.min01.fireplace.entity.goal;
 
 import java.util.UUID;
 
-import com.min01.fireplace.entity.AbstractFireplaceMember;
-import com.min01.fireplace.entity.AbstractFireplaceMember.ActiveMemberSkills;
+import com.min01.fireplace.entity.AbstractKaratFeng;
+import com.min01.fireplace.entity.AbstractKaratFeng.KaratSkills;
 import com.min01.fireplace.entity.EntityKaratFeng;
 
 import net.minecraft.world.InteractionHand;
@@ -18,7 +18,7 @@ public class KaratUsingShieldGoal extends AbstractFireplaceSkillGoal
 	private static final UUID MODIFIER_UUID = UUID.fromString("5CD17E52-A79A-43D3-A529-90FDE04B181E");
     private static final AttributeModifier MODIFIER = new AttributeModifier(MODIFIER_UUID, "speed penalty", -0.24, AttributeModifier.Operation.ADDITION);
     
-	public KaratUsingShieldGoal(AbstractFireplaceMember mob) 
+	public KaratUsingShieldGoal(AbstractKaratFeng mob) 
 	{
 		super(mob);
 	}
@@ -26,7 +26,7 @@ public class KaratUsingShieldGoal extends AbstractFireplaceSkillGoal
 	@Override
 	public boolean canUse()
 	{
-		return super.canUse() && ((EntityKaratFeng) this.mob).stopFlying() && this.mob.getItemInHand(InteractionHand.OFF_HAND).getItem() == Items.SHIELD && this.mob.distanceTo(this.mob.getTarget()) <= 4;
+		return super.canUse() && ((EntityKaratFeng) this.mob).stopFlying() && this.mob.getItemInHand(InteractionHand.OFF_HAND).getItem() == Items.SHIELD && this.mob.getHurtCount() > this.mob.getMaxHurtCount() && this.mob.distanceTo(this.mob.getTarget()) <= 4;
 	}
 
 	@Override
@@ -81,8 +81,8 @@ public class KaratUsingShieldGoal extends AbstractFireplaceSkillGoal
 	}
 
 	@Override
-	protected ActiveMemberSkills getSkills()
+	protected KaratSkills getSkills()
 	{
-		return ActiveMemberSkills.KARAT_USE_SHIELD;
+		return KaratSkills.KARAT_USE_SHIELD;
 	}
 }

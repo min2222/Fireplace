@@ -1,6 +1,7 @@
 package com.min01.fireplace;
 
 import com.min01.fireplace.config.FireplaceConfig;
+import com.min01.fireplace.init.FireplaceEffects;
 import com.min01.fireplace.init.FireplaceEntities;
 import com.min01.fireplace.init.FireplaceItems;
 import com.min01.fireplace.network.FireplaceNetwork;
@@ -8,6 +9,8 @@ import com.min01.fireplace.proxy.ClientProxy;
 import com.min01.fireplace.proxy.CommonProxy;
 import com.min01.fireplace.sound.FireplaceSounds;
 
+import net.minecraft.ChatFormatting;
+import net.minecraft.world.BossEvent.BossBarColor;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
@@ -24,25 +27,30 @@ public class Fireplace
 	public static IEventBus MOD_EVENT_BUS;
 	public static SimpleChannel wrapper;
 	public static CommonProxy proxy = DistExecutor.safeRunForDist(() -> ClientProxy::new, () -> CommonProxy::new);
+	public static BossBarColor ORANGE;
+	public static ChatFormatting ORANGE_COLOR;
 	
 	public Fireplace() 
 	{
 		MOD_EVENT_BUS = FMLJavaModLoadingContext.get().getModEventBus();
-		MOD_EVENT_BUS.addListener(this::CommonSetup);
-		MOD_EVENT_BUS.addListener(this::CompleteSetup);
+		MOD_EVENT_BUS.addListener(this::commonSetup);
+		MOD_EVENT_BUS.addListener(this::completeSetup);
 		FireplaceEntities.ENTITY_TYPES.register(MOD_EVENT_BUS);
 		FireplaceItems.ITEMS.register(MOD_EVENT_BUS);
 		FireplaceSounds.SOUNDS.register(MOD_EVENT_BUS);
+		FireplaceEffects.EFFECTS.register(MOD_EVENT_BUS);
 		FireplaceNetwork.registerMessages();
-        FireplaceConfig.loadConfig(FireplaceConfig.config, FMLPaths.CONFIGDIR.get().resolve("fireplace.toml").toString());
+        FireplaceConfig.loadConfig(FireplaceConfig.CONFIG, FMLPaths.CONFIGDIR.get().resolve("fireplace.toml").toString());
 	}
 	
-	private void CommonSetup(FMLCommonSetupEvent event)
+	private void commonSetup(FMLCommonSetupEvent event)
     {
-		
+		//TODO
+		//ORANGE_COLOR = new ChatFormatting("ORANGE", 'g', 16, 16744448);
+		ORANGE = BossBarColor.BLUE; //= new BossBarColor("orange", ORANGE_COLOR);
     }
 	
-	private void CompleteSetup(FMLLoadCompleteEvent event)
+	private void completeSetup(FMLLoadCompleteEvent event)
     {
 		
     }

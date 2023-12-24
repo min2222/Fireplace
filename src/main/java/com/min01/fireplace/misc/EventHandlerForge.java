@@ -6,6 +6,7 @@ import java.util.UUID;
 import com.min01.fireplace.Fireplace;
 import com.min01.fireplace.entity.EntityKaratFeng;
 import com.min01.fireplace.entity.goal.DodgeArrowsGoal;
+import com.min01.fireplace.raid.KaratRaidMembers;
 import com.min01.fireplace.util.FireplaceUtil;
 
 import net.minecraft.server.level.ServerLevel;
@@ -21,6 +22,7 @@ import net.minecraftforge.event.entity.ProjectileImpactEvent;
 import net.minecraftforge.event.entity.living.LivingChangeTargetEvent;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingTickEvent;
+import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -28,6 +30,12 @@ import net.minecraftforge.fml.common.Mod;
 public class EventHandlerForge 
 {
 	private static final String TAG_ARROW_DODGE_CHECKED = Fireplace.MODID + "_dodge_check";
+	
+	@SubscribeEvent
+	public static void registerWaveMembers(LevelEvent.Load event)
+	{
+		KaratRaidMembers.registerWaveMembers();       
+	}
 	
 	@SubscribeEvent
 	public static void karatSummon(LivingTickEvent event)
