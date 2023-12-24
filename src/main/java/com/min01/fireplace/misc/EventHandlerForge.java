@@ -4,12 +4,15 @@ import java.util.Iterator;
 import java.util.UUID;
 
 import com.min01.fireplace.Fireplace;
+import com.min01.fireplace.entity.AbstractKaratFeng;
 import com.min01.fireplace.entity.EntityKaratFeng;
+import com.min01.fireplace.entity.EntitySnowyFeng;
 import com.min01.fireplace.entity.goal.DodgeArrowsGoal;
 import com.min01.fireplace.raid.KaratRaidMembers;
 import com.min01.fireplace.util.FireplaceUtil;
 
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -188,6 +191,7 @@ public class EventHandlerForge
 	public static void karatProjectile(ProjectileImpactEvent event)
 	{
 		Projectile proj = event.getProjectile();
+		
 		if(event.getRayTraceResult().getType() == HitResult.Type.ENTITY)
 		{
 			EntityHitResult hitresult = (EntityHitResult) event.getRayTraceResult();
@@ -195,6 +199,18 @@ public class EventHandlerForge
 			if(proj.getOwner() != null)
 			{
 				Entity owner = proj.getOwner();
+				
+				if(owner instanceof EntitySnowyFeng)
+				{
+					hitentity.hurt(DamageSource.indirectMobAttack(proj, (LivingEntity) proj.getOwner()), 3);
+					hitentity.setTicksFrozen(100);
+				}
+				
+				if(owner instanceof AbstractKaratFeng && hitentity instanceof AbstractKaratFeng)
+				{
+					event.setCanceled(true);
+				}
+				
 				if(owner.getPersistentData().contains(FireplaceUtil.KARAT_UUID))
 				{
 					UUID uuid = owner.getPersistentData().getUUID(FireplaceUtil.KARAT_UUID);

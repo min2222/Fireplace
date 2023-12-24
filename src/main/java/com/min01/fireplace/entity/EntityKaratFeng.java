@@ -97,13 +97,14 @@ public class EntityKaratFeng extends AbstractKaratFeng
 	
     public static AttributeSupplier.Builder createAttributes()
     {
-        return AbstractKaratFeng.createFireplaceAttributes()
+        return Monster.createMonsterAttributes()
     			.add(Attributes.MAX_HEALTH, 200.0D)
-    			.add(Attributes.MOVEMENT_SPEED, 0.65D)
+    			.add(Attributes.MOVEMENT_SPEED, 0.35D)
         		.add(Attributes.ARMOR, 2)
         		.add(Attributes.ARMOR_TOUGHNESS, 2)
         		.add(Attributes.ATTACK_DAMAGE, 4)
-        		.add(Attributes.FLYING_SPEED, 0.45D);
+        		.add(Attributes.FLYING_SPEED, 0.45D)
+        		.add(Attributes.FOLLOW_RANGE, 200.0D);
     }
     
     @Override

@@ -42,7 +42,7 @@ public class KaratWearEquipmentsGoal extends AbstractFireplaceSkillGoal
     	this.mob.setInvulnerable(true);
     	if(this.mob.getPhase() == 0 || ((EntityKaratFeng) this.mob).stopFlying())
     	{
-        	this.mob.setShouldMove(false);
+        	this.mob.setCanMove(false);
     	}
 		if(((EntityKaratFeng) this.mob).shouldChangeEquip())
     	{

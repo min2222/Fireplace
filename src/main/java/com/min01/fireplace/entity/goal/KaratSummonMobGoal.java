@@ -50,31 +50,34 @@ public class KaratSummonMobGoal extends AbstractFireplaceSkillGoal
 				Entity entity = type.create(this.mob.level);
 				if(entity instanceof LivingEntity)
 				{
-					ResourceLocation resourcelocation = EntityType.getKey(type);
-					if(FireplaceConfig.useBlackListForSummoning.get())
+					if(!(entity instanceof AbstractKaratFeng))
 					{
-						if(!FireplaceConfig.karatSummoningBlackList.get().contains(entity.getEncodeId()) && !FireplaceConfig.karatSummoningBlackList.get().contains(resourcelocation.toString().split(":")[0]))
+						ResourceLocation resourcelocation = EntityType.getKey(type);
+						if(FireplaceConfig.useBlackListForSummoning.get())
 						{
-							LivingEntity living = (LivingEntity) entity;
-							if(living.getMaxHealth() <= ((EntityKaratFeng) this.mob).getRemainSummoningHP())
+							if(!FireplaceConfig.karatSummoningBlackList.get().contains(entity.getEncodeId()) && !FireplaceConfig.karatSummoningBlackList.get().contains(resourcelocation.toString().split(":")[0]))
 							{
-								if(living instanceof Mob && living.getAttribute(Attributes.ATTACK_DAMAGE) != null && !((Mob)living).isNoAi())
+								LivingEntity living = (LivingEntity) entity;
+								if(living.getMaxHealth() <= ((EntityKaratFeng) this.mob).getRemainSummoningHP())
 								{
-									this.entityList.add(living);
+									if(living instanceof Mob && living.getAttribute(Attributes.ATTACK_DAMAGE) != null && !((Mob)living).isNoAi())
+									{
+										this.entityList.add(living);
+									}
 								}
 							}
 						}
-					}
-					else
-					{
-						if(FireplaceConfig.karatSummoningWhiteList.get().contains(resourcelocation.toString().split(":")[0]))
+						else
 						{
-							LivingEntity living = (LivingEntity) entity;
-							if(living.getMaxHealth() <= ((EntityKaratFeng) this.mob).getRemainSummoningHP())
+							if(FireplaceConfig.karatSummoningWhiteList.get().contains(resourcelocation.toString().split(":")[0]))
 							{
-								if(living instanceof Mob && living.getAttribute(Attributes.ATTACK_DAMAGE) != null && !((Mob)living).isNoAi())
+								LivingEntity living = (LivingEntity) entity;
+								if(living.getMaxHealth() <= ((EntityKaratFeng) this.mob).getRemainSummoningHP())
 								{
-									this.entityList.add(living);
+									if(living instanceof Mob && living.getAttribute(Attributes.ATTACK_DAMAGE) != null && !((Mob)living).isNoAi())
+									{
+										this.entityList.add(living);
+									}
 								}
 							}
 						}

@@ -4,7 +4,10 @@ import java.util.Map;
 import java.util.Objects;
 
 import com.min01.fireplace.Fireplace;
+import com.min01.fireplace.entity.model.ModelSnowyFeng;
+import com.min01.fireplace.entity.render.CarrotFangRenderer;
 import com.min01.fireplace.entity.render.KaratFengRenderer;
+import com.min01.fireplace.entity.render.SnowyFengRenderer;
 import com.min01.fireplace.init.FireplaceEntities;
 import com.min01.fireplace.item.model.ModelKingsStaff;
 
@@ -12,6 +15,7 @@ import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
+import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -31,6 +35,7 @@ public class ClientEventHandler
     public static void registerLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event)
     {
     	event.registerLayerDefinition(ModelKingsStaff.LAYER_LOCATION, ModelKingsStaff::createBodyLayer);
+    	event.registerLayerDefinition(ModelSnowyFeng.LAYER_LOCATION, ModelSnowyFeng::createBodyLayer);
     }
     
     @SubscribeEvent
@@ -43,6 +48,9 @@ public class ClientEventHandler
     public static void entityRenderers(EntityRenderersEvent.RegisterRenderers event)
     {
     	event.registerEntityRenderer(FireplaceEntities.KARAT_FENG.get(), KaratFengRenderer::new);
+    	event.registerEntityRenderer(FireplaceEntities.CARROT_FANG.get(), CarrotFangRenderer::new);
+    	event.registerEntityRenderer(FireplaceEntities.CARROT.get(), (context) -> new ThrownItemRenderer<>(context));
+    	event.registerEntityRenderer(FireplaceEntities.SNOWY_FENG.get(), SnowyFengRenderer::new);
     }
     
 	@SubscribeEvent

@@ -50,7 +50,7 @@ public class KaratRangedAttackGoal extends AbstractFireplaceSkillGoal
 		this.prevItem = this.mob.getMainHandItem().copy();
 		this.mob.setItemInHand(InteractionHand.MAIN_HAND, this.bowItem);
 		this.mob.startUsingItem(InteractionHand.MAIN_HAND);
-		this.mob.setShouldMove(false);
+		this.mob.setCanMove(false);
 	}
 
 	@Override

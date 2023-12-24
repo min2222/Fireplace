@@ -1,13 +1,13 @@
 package com.min01.fireplace.entity.model;
 
-import com.min01.fireplace.entity.EntityKaratFeng;
+import com.min01.fireplace.entity.AbstractKaratFeng;
 
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.Items;
 
-public class ModelKaratFeng extends PlayerModel<EntityKaratFeng>
+public class ModelKaratFeng<T extends AbstractKaratFeng> extends PlayerModel<T>
 {
 	public ModelKaratFeng(ModelPart p_170821_, boolean p_170822_) 
 	{
@@ -15,7 +15,7 @@ public class ModelKaratFeng extends PlayerModel<EntityKaratFeng>
 	}
 
 	@Override
-	public void setupAnim(EntityKaratFeng entity, float p_103396_, float p_103397_, float ageInTicks, float p_103399_, float p_103400_) 
+	public void setupAnim(T entity, float p_103396_, float p_103397_, float ageInTicks, float p_103399_, float p_103400_) 
 	{
 		super.setupAnim(entity, p_103396_, p_103397_, ageInTicks, p_103399_, p_103400_);
 		if(entity.isPreparingSkill())

@@ -54,7 +54,7 @@ public abstract class AbstractKaratFeng extends Monster
 	private AbstractKaratFeng.KaratSkills currentSkill = AbstractKaratFeng.KaratSkills.NONE;
 	public static final EntityDataAccessor<Integer> ANIMATION_STATE = SynchedEntityData.defineId(AbstractKaratFeng.class, EntityDataSerializers.INT);
 	public static final EntityDataAccessor<Byte> DATA_SKILL_ID = SynchedEntityData.defineId(AbstractKaratFeng.class, EntityDataSerializers.BYTE);
-	public static final EntityDataAccessor<Boolean> SHOULD_MOVE = SynchedEntityData.defineId(AbstractKaratFeng.class, EntityDataSerializers.BOOLEAN);
+	public static final EntityDataAccessor<Boolean> CAN_MOVE = SynchedEntityData.defineId(AbstractKaratFeng.class, EntityDataSerializers.BOOLEAN);
 	public static final EntityDataAccessor<Integer> PHASE = SynchedEntityData.defineId(AbstractKaratFeng.class, EntityDataSerializers.INT);
 	public static final EntityDataAccessor<Integer> HURT_COUNT = SynchedEntityData.defineId(AbstractKaratFeng.class, EntityDataSerializers.INT);
 	public static final EntityDataAccessor<Boolean> IS_PREPARING_SKILL = SynchedEntityData.defineId(AbstractKaratFeng.class, EntityDataSerializers.BOOLEAN);
@@ -73,7 +73,7 @@ public abstract class AbstractKaratFeng extends Monster
     public static AttributeSupplier.Builder createFireplaceAttributes()
     {
         return Mob.createMobAttributes()
-        		.add(Attributes.FOLLOW_RANGE, 200.0D);
+        		.add(Attributes.FOLLOW_RANGE, 40.0D);
     }
     
 	public boolean canJoinRaid() 
@@ -355,10 +355,17 @@ public abstract class AbstractKaratFeng extends Monster
 	{
 		super.registerGoals();
 		this.goalSelector.addGoal(4, new FloatGoal(this));
-        this.goalSelector.addGoal(7, new RandomLookAroundGoal(this));
+        this.goalSelector.addGoal(7, new RandomLookAroundGoal(this)
+        {
+        	@Override
+        	public boolean canUse()
+        	{
+        		return super.canUse() && AbstractKaratFeng.this.getTarget() == null;
+        	} 
+        });
 		this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 8.0F));
-		this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
 		this.goalSelector.addGoal(4, new AbstractKaratFeng.RaiderMoveThroughVillageGoal(this, (double) 1.05F, 1));
+		this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
 	}
 
 	public void spawnItemParticles(ItemStack p_21061_, int p_21062_)
@@ -398,7 +405,7 @@ public abstract class AbstractKaratFeng extends Monster
 		super.defineSynchedData();
 		this.entityData.define(DATA_SKILL_ID, (byte)0);
 		this.entityData.define(ANIMATION_STATE, 0);
-		this.entityData.define(SHOULD_MOVE, true);
+		this.entityData.define(CAN_MOVE, true);
     	this.entityData.define(PHASE, 0);
     	this.entityData.define(HURT_COUNT, 0);
     	this.entityData.define(IS_PREPARING_SKILL, false);
@@ -414,14 +421,14 @@ public abstract class AbstractKaratFeng extends Monster
         return this.entityData.get(ANIMATION_STATE);
     }
     
-    public void setShouldMove(boolean value)
+    public void setCanMove(boolean value)
     {
-    	this.entityData.set(SHOULD_MOVE, value);
+    	this.entityData.set(CAN_MOVE, value);
     }
     
-    public boolean shouldMove()
+    public boolean canMove()
     {
-    	return this.entityData.get(SHOULD_MOVE);
+    	return this.entityData.get(CAN_MOVE);
     }
     
     public void setPhase(int value)
@@ -469,11 +476,11 @@ public abstract class AbstractKaratFeng extends Monster
     @Override
 	public void move(MoverType p_19973_, Vec3 p_19974_) 
 	{
-		if(this.shouldMove())
+		if(this.canMove())
 		{
 			super.move(p_19973_, p_19974_);
 		}
-		else if(!this.shouldMove())
+		else if(!this.canMove())
 		{
 			double yvec = this.onGround ? 0 : this.isNoGravity() ? 0 : this.getDeltaMovement().y;
 			super.move(p_19973_, new Vec3(0, yvec, 0));

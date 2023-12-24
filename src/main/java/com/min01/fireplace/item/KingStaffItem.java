@@ -6,6 +6,7 @@ import java.util.function.Consumer;
 
 import org.jetbrains.annotations.Nullable;
 
+import com.min01.fireplace.entity.AbstractKaratFeng;
 import com.min01.fireplace.item.render.KingsStaffRenderer;
 import com.min01.fireplace.misc.ClientEventHandler;
 import com.min01.fireplace.util.FireplaceUtil;
@@ -71,7 +72,10 @@ public class KingStaffItem extends Item
 					Entity entity = type.create(p_41428_);
 					if(entity instanceof LivingEntity living)
 					{
-						entityList.add(living);
+						if(!(living instanceof AbstractKaratFeng))
+						{
+							entityList.add(living);
+						}
 					}
 				}
 			}
