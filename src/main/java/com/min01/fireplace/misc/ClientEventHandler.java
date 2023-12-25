@@ -4,12 +4,21 @@ import java.util.Map;
 import java.util.Objects;
 
 import com.min01.fireplace.Fireplace;
+import com.min01.fireplace.entity.model.ModelEvokerFeng;
+import com.min01.fireplace.entity.model.ModelFireFeng;
+import com.min01.fireplace.entity.model.ModelPresent;
 import com.min01.fireplace.entity.model.ModelSnowyFeng;
 import com.min01.fireplace.entity.render.CarrotFangRenderer;
+import com.min01.fireplace.entity.render.EvokerFengRenderer;
+import com.min01.fireplace.entity.render.FireFengRenderer;
 import com.min01.fireplace.entity.render.KaratFengRenderer;
+import com.min01.fireplace.entity.render.PresentRenderer;
+import com.min01.fireplace.entity.render.SimpleKaratFengRenderer;
 import com.min01.fireplace.entity.render.SnowyFengRenderer;
+import com.min01.fireplace.entity.render.VampireFengRenderer;
 import com.min01.fireplace.init.FireplaceEntities;
 import com.min01.fireplace.item.model.ModelKingsStaff;
+import com.min01.fireplace.util.FireplaceUtil;
 
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.HumanoidModel;
@@ -36,6 +45,9 @@ public class ClientEventHandler
     {
     	event.registerLayerDefinition(ModelKingsStaff.LAYER_LOCATION, ModelKingsStaff::createBodyLayer);
     	event.registerLayerDefinition(ModelSnowyFeng.LAYER_LOCATION, ModelSnowyFeng::createBodyLayer);
+    	event.registerLayerDefinition(ModelEvokerFeng.LAYER_LOCATION, ModelEvokerFeng::createBodyLayer);
+    	event.registerLayerDefinition(ModelPresent.LAYER_LOCATION, ModelPresent::createBodyLayer);
+    	event.registerLayerDefinition(ModelFireFeng.LAYER_LOCATION, ModelFireFeng::createBodyLayer);
     }
     
     @SubscribeEvent
@@ -51,6 +63,11 @@ public class ClientEventHandler
     	event.registerEntityRenderer(FireplaceEntities.CARROT_FANG.get(), CarrotFangRenderer::new);
     	event.registerEntityRenderer(FireplaceEntities.CARROT.get(), (context) -> new ThrownItemRenderer<>(context));
     	event.registerEntityRenderer(FireplaceEntities.SNOWY_FENG.get(), SnowyFengRenderer::new);
+    	event.registerEntityRenderer(FireplaceEntities.EVOKER_FENG.get(), EvokerFengRenderer::new);
+    	event.registerEntityRenderer(FireplaceEntities.SANTA_FENG.get(), (context) -> new SimpleKaratFengRenderer<>(context, FireplaceUtil.getKaratModel(context), FireplaceUtil.getKaratTexture("santa_feng")));
+    	event.registerEntityRenderer(FireplaceEntities.VAMPIRE_FENG.get(), VampireFengRenderer::new);
+    	event.registerEntityRenderer(FireplaceEntities.PRESENT.get(), PresentRenderer::new);
+    	event.registerEntityRenderer(FireplaceEntities.FIRE_FENG.get(), FireFengRenderer::new);
     }
     
 	@SubscribeEvent

@@ -1,14 +1,12 @@
 package com.min01.fireplace.entity.render;
 
-import com.min01.fireplace.Fireplace;
 import com.min01.fireplace.entity.EntityCarrotFang;
-import com.min01.fireplace.entity.model.ModelKaratFeng;
+import com.min01.fireplace.util.FireplaceUtil;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3f;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.PlayerModel;
-import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.block.model.ItemTransforms.TransformType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider.Context;
@@ -22,7 +20,7 @@ public class CarrotFangRenderer extends AbstractKaratFengRenderer<EntityCarrotFa
 {
 	public CarrotFangRenderer(Context p_174304_)
 	{
-		super(p_174304_, new ModelKaratFeng<>(p_174304_.bakeLayer(ModelLayers.PLAYER), false), 0.5F);
+		super(p_174304_, FireplaceUtil.getKaratModel(p_174304_), 0.5F);
 	}
 	
 	@Override
@@ -45,6 +43,6 @@ public class CarrotFangRenderer extends AbstractKaratFengRenderer<EntityCarrotFa
 	@Override
 	public ResourceLocation getTextureLocation(EntityCarrotFang p_115812_) 
 	{
-		return new ResourceLocation(Fireplace.MODID, "textures/entity/karat_feng.png");
+		return FireplaceUtil.getKaratTexture("karat_feng");
 	}
 }

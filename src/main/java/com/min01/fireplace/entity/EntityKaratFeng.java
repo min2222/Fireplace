@@ -59,7 +59,7 @@ public class EntityKaratFeng extends AbstractKaratFeng
 	public static final EntityDataAccessor<Boolean> STOP_FLYING = SynchedEntityData.defineId(EntityKaratFeng.class, EntityDataSerializers.BOOLEAN);
 	public static final EntityDataAccessor<Boolean> CHANGE_EQUIP = SynchedEntityData.defineId(EntityKaratFeng.class, EntityDataSerializers.BOOLEAN);
 	public static final EntityDataAccessor<Boolean> IS_SHIELDING = SynchedEntityData.defineId(EntityKaratFeng.class, EntityDataSerializers.BOOLEAN);
-	public FlyingMoveControl flyingControl =  new FlyingMoveControl(this, 20, false);
+	public FlyingMoveControl flyingControl = new FlyingMoveControl(this, 20, false);
 	
 	public EntityKaratFeng(EntityType<? extends Monster> p_21368_, Level p_21369_) 
 	{

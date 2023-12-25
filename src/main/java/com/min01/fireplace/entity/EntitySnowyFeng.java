@@ -14,13 +14,24 @@ import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.projectile.Snowball;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 
-public class EntitySnowyFeng extends AbstractNonBossKarat
+public class EntitySnowyFeng extends AbstractHostileKaratFeng
 {
 	public EntitySnowyFeng(EntityType<? extends Monster> p_21368_, Level p_21369_)
 	{
 		super(p_21368_, p_21369_);
 	}
+	
+    public static AttributeSupplier.Builder createAttributes()
+    {
+        return AbstractKaratFeng.createFireplaceAttributes()
+    			.add(Attributes.MAX_HEALTH, 10.0D)
+    			.add(Attributes.MOVEMENT_SPEED, 0.35D)
+    			.add(Attributes.ATTACK_DAMAGE, 4.0D)
+        		.add(Attributes.ARMOR, 6)
+        		.add(Attributes.ARMOR_TOUGHNESS, 6);
+    }
 	
 	@Override
 	protected void registerGoals()
@@ -41,8 +52,9 @@ public class EntitySnowyFeng extends AbstractNonBossKarat
 				if(this.tickCount % 20 == 0)
 				{
 					Snowball snowball = new Snowball(this.level, this);
-					FireplaceUtil.shootFromRotation(snowball, this, this.getXRot(), this.getYRot(), 0.0F, 1.5F, 1.0F, false);
 					snowball.setPos(this.position().add(0, this.getEyeHeight(), 0));
+					Vec3 motion = FireplaceUtil.getEntityShootVector(snowball, this.getTarget());
+					snowball.setDeltaMovement(motion);
 					this.swing(InteractionHand.MAIN_HAND);
 					this.level.addFreshEntity(snowball);
 				}
@@ -71,16 +83,6 @@ public class EntitySnowyFeng extends AbstractNonBossKarat
 	{
 		return SoundEvents.SNOW_GOLEM_DEATH;
 	}
-	
-    public static AttributeSupplier.Builder createAttributes()
-    {
-        return AbstractKaratFeng.createFireplaceAttributes()
-    			.add(Attributes.MAX_HEALTH, 10.0D)
-    			.add(Attributes.MOVEMENT_SPEED, 0.35D)
-    			.add(Attributes.ATTACK_DAMAGE, 4.0D)
-        		.add(Attributes.ARMOR, 6)
-        		.add(Attributes.ARMOR_TOUGHNESS, 6);
-    }
     
     @Override
     public boolean doHurtTarget(Entity p_21372_)

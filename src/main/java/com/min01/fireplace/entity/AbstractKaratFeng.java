@@ -365,7 +365,7 @@ public abstract class AbstractKaratFeng extends Monster
         });
 		this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 8.0F));
 		this.goalSelector.addGoal(4, new AbstractKaratFeng.RaiderMoveThroughVillageGoal(this, (double) 1.05F, 1));
-		this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
+		this.targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers(this.getClass()));
 	}
 
 	public void spawnItemParticles(ItemStack p_21061_, int p_21062_)

@@ -11,11 +11,11 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 
-public abstract class AbstractNonBossKarat extends AbstractKaratFeng
+public abstract class AbstractHostileKaratFeng extends AbstractKaratFeng
 {
-	public static final EntityDataAccessor<Boolean> CAN_MOVE_TO_TARGET = SynchedEntityData.defineId(AbstractNonBossKarat.class, EntityDataSerializers.BOOLEAN);
+	public static final EntityDataAccessor<Boolean> CAN_MOVE_TO_TARGET = SynchedEntityData.defineId(AbstractHostileKaratFeng.class, EntityDataSerializers.BOOLEAN);
 	
-	public AbstractNonBossKarat(EntityType<? extends Monster> p_21368_, Level p_21369_)
+	public AbstractHostileKaratFeng(EntityType<? extends Monster> p_21368_, Level p_21369_)
 	{
 		super(p_21368_, p_21369_);
 	}
@@ -36,7 +36,7 @@ public abstract class AbstractNonBossKarat extends AbstractKaratFeng
         	@Override
         	public boolean canUse()
         	{
-        		return super.canUse() && AbstractNonBossKarat.this.getTarget() == null;
+        		return super.canUse() && AbstractHostileKaratFeng.this.getTarget() == null;
         	} 
 		});
 		this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, Player.class, false));

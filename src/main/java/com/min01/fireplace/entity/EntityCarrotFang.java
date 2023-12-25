@@ -13,8 +13,9 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 
-public class EntityCarrotFang extends AbstractNonBossKarat
+public class EntityCarrotFang extends AbstractHostileKaratFeng
 {
 	public EntityCarrotFang(EntityType<? extends Monster> p_21368_, Level p_21369_) 
 	{
@@ -34,8 +35,9 @@ public class EntityCarrotFang extends AbstractNonBossKarat
 				if(this.tickCount % 20 == 0)
 				{
 					EntityCarrotProjectile carrot = new EntityCarrotProjectile(FireplaceEntities.CARROT.get(), this, this.level);
-					FireplaceUtil.shootFromRotation(carrot, this, this.getXRot(), this.getYRot(), 0.0F, 1.5F, 1.0F, false);
 					carrot.setPos(this.position().add(0, this.getEyeHeight(), 0));
+					Vec3 motion = FireplaceUtil.getEntityShootVector(carrot, this.getTarget());
+					carrot.setDeltaMovement(motion);
 					this.swing(InteractionHand.MAIN_HAND);
 					this.level.addFreshEntity(carrot);
 				}

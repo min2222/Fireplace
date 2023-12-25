@@ -21,6 +21,10 @@ public class FireplaceItems
 	public static final RegistryObject<Item> KARAT_FENG_SPAWN_EGG = registerKaratSpawnEgg("karat_feng_spawn_egg", () -> FireplaceEntities.KARAT_FENG.get());
 	public static final RegistryObject<Item> CARROT_FANG_SPAWN_EGG = registerKaratSpawnEgg("carrot_fang_spawn_egg", () -> FireplaceEntities.CARROT_FANG.get());
 	public static final RegistryObject<Item> SNOWY_FENG_SPAWN_EGG = registerKaratSpawnEgg("snowy_feng_spawn_egg", () -> FireplaceEntities.SNOWY_FENG.get());
+	public static final RegistryObject<Item> EVOKER_FENG_SPAWN_EGG = registerKaratSpawnEgg("evoker_feng_spawn_egg", () -> FireplaceEntities.EVOKER_FENG.get());
+	public static final RegistryObject<Item> SANTA_FENG_SPAWN_EGG = registerKaratSpawnEgg("santa_feng_spawn_egg", () -> FireplaceEntities.SANTA_FENG.get());
+	public static final RegistryObject<Item> VAMPIRE_FENG_SPAWN_EGG = registerKaratSpawnEgg("vampire_feng_spawn_egg", () -> FireplaceEntities.VAMPIRE_FENG.get());
+	public static final RegistryObject<Item> FIRE_FENG_SPAWN_EGG = registerKaratSpawnEgg("fire_feng_spawn_egg", () -> FireplaceEntities.FIRE_FENG.get());
 	
 	public static <T extends AbstractKaratFeng> RegistryObject<Item> registerKaratSpawnEgg(String name, Supplier<EntityType<T>> entity) 
 	{

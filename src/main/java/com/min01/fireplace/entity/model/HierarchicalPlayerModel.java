@@ -5,8 +5,10 @@ import java.util.Optional;
 import com.min01.fireplace.entity.AbstractKaratFeng;
 import com.mojang.math.Vector3f;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.animation.AnimationDefinition;
 import net.minecraft.client.model.PlayerModel;
+import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.world.entity.AnimationState;
 
@@ -14,9 +16,9 @@ public abstract class HierarchicalPlayerModel<T extends AbstractKaratFeng> exten
 {
 	private static final Vector3f ANIMATION_VECTOR_CACHE = new Vector3f();
 	
-	public HierarchicalPlayerModel(ModelPart part)
+	public HierarchicalPlayerModel()
 	{
-		super(part, false);
+		super(Minecraft.getInstance().getEntityModels().bakeLayer(ModelLayers.PLAYER), false);
 	}
 
 	public abstract ModelPart root();

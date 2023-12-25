@@ -1,6 +1,7 @@
 package com.min01.fireplace.misc;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.UUID;
 
 import com.min01.fireplace.Fireplace;
@@ -25,6 +26,7 @@ import net.minecraftforge.event.entity.ProjectileImpactEvent;
 import net.minecraftforge.event.entity.living.LivingChangeTargetEvent;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingTickEvent;
+import net.minecraftforge.event.level.ExplosionEvent;
 import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -38,6 +40,30 @@ public class EventHandlerForge
 	public static void registerWaveMembers(LevelEvent.Load event)
 	{
 		KaratRaidMembers.registerWaveMembers();       
+	}
+	
+	@SubscribeEvent
+	public static void karatExplostion(ExplosionEvent.Detonate event)
+	{
+    	Entity sourceMob = event.getExplosion().getSourceMob();
+    	List<Entity> list = event.getAffectedEntities();
+    	if(sourceMob != null)
+    	{
+    		if(sourceMob instanceof AbstractKaratFeng sourceFeng)
+    		{
+    			for(Iterator<Entity> itr = list.iterator(); itr.hasNext();)
+    			{
+    				Entity entity = itr.next();
+    				if(entity instanceof AbstractKaratFeng feng)
+    				{
+    					if(sourceFeng.getCurrentRaid() != null && feng.getCurrentRaid() != null)
+    					{
+        					itr.remove();
+    					}
+    				}
+    			}
+    		}
+    	}
 	}
 	
 	@SubscribeEvent
@@ -206,9 +232,12 @@ public class EventHandlerForge
 					hitentity.setTicksFrozen(100);
 				}
 				
-				if(owner instanceof AbstractKaratFeng && hitentity instanceof AbstractKaratFeng)
+				if(owner instanceof AbstractKaratFeng ownerFeng && hitentity instanceof AbstractKaratFeng hitFeng)
 				{
-					event.setCanceled(true);
+					if(ownerFeng.getCurrentRaid() != null && hitFeng.getCurrentRaid() != null)
+					{
+						event.setCanceled(true);
+					}
 				}
 				
 				if(owner.getPersistentData().contains(FireplaceUtil.KARAT_UUID))

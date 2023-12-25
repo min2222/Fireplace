@@ -1,8 +1,8 @@
 package com.min01.fireplace.entity.render;
 
-import com.min01.fireplace.Fireplace;
 import com.min01.fireplace.entity.EntitySnowyFeng;
 import com.min01.fireplace.entity.model.ModelSnowyFeng;
+import com.min01.fireplace.util.FireplaceUtil;
 
 import net.minecraft.client.renderer.entity.EntityRendererProvider.Context;
 import net.minecraft.client.renderer.entity.MobRenderer;
@@ -18,6 +18,6 @@ public class SnowyFengRenderer extends MobRenderer<EntitySnowyFeng, ModelSnowyFe
 	@Override
 	public ResourceLocation getTextureLocation(EntitySnowyFeng p_115812_)
 	{
-		return new ResourceLocation(Fireplace.MODID, "textures/entity/snowy_feng.png");
+		return FireplaceUtil.getKaratTexture("snowy_feng");
 	}
 }
