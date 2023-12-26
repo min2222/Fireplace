@@ -6,6 +6,7 @@ import com.min01.fireplace.entity.EntityCarrotFang;
 import com.min01.fireplace.entity.EntityEvokerFeng;
 import com.min01.fireplace.entity.EntityFireFeng;
 import com.min01.fireplace.entity.EntityKaratFeng;
+import com.min01.fireplace.entity.EntityNecroFeng;
 import com.min01.fireplace.entity.EntitySantaFeng;
 import com.min01.fireplace.entity.EntitySnowyFeng;
 import com.min01.fireplace.entity.EntityVampireFeng;
@@ -31,6 +32,7 @@ public class FireplaceEntities
 	public static final RegistryObject<EntityType<EntitySantaFeng>> SANTA_FENG = registerKarat(EntitySantaFeng::new, "santa_feng", MobCategory.MONSTER);
 	public static final RegistryObject<EntityType<EntityVampireFeng>> VAMPIRE_FENG = registerKarat(EntityVampireFeng::new, "vampire_feng", MobCategory.MONSTER);
 	public static final RegistryObject<EntityType<EntityFireFeng>> FIRE_FENG = registerKaratWithFireImmune(EntityFireFeng::new, "fire_feng", MobCategory.MONSTER);
+	public static final RegistryObject<EntityType<EntityNecroFeng>> NECRO_FENG = registerKarat(EntityNecroFeng::new, "necro_feng", MobCategory.MONSTER);
 	
 	public static final RegistryObject<EntityType<EntityCarrotProjectile>> CARROT = registerProjectile(EntityCarrotProjectile::new, "carrot");
 	public static final RegistryObject<EntityType<EntityPresentProjectile>> PRESENT = registerProjectile(EntityPresentProjectile::new, "present");

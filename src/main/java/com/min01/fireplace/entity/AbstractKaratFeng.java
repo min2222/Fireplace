@@ -535,7 +535,8 @@ public abstract class AbstractKaratFeng extends Monster
 		KARAT_USE_SHIELD(5),
 		KARAT_EAT_GOLDEN_APPLE(6),
 		KARAT_SPLASH_POTIONS(7),
-		KARAT_RANGE(7);
+		KARAT_RANGE(8),
+		NECRO_FENG_SUMMONING(9);
 
 		final int id;
 

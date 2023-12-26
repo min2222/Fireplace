@@ -68,6 +68,7 @@ public class ClientEventHandler
     	event.registerEntityRenderer(FireplaceEntities.VAMPIRE_FENG.get(), VampireFengRenderer::new);
     	event.registerEntityRenderer(FireplaceEntities.PRESENT.get(), PresentRenderer::new);
     	event.registerEntityRenderer(FireplaceEntities.FIRE_FENG.get(), FireFengRenderer::new);
+    	event.registerEntityRenderer(FireplaceEntities.NECRO_FENG.get(), (context) -> new SimpleKaratFengRenderer<>(context, FireplaceUtil.getKaratModel(context), FireplaceUtil.getKaratTexture("necro_feng")));
     }
     
 	@SubscribeEvent

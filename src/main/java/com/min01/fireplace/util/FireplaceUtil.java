@@ -1,7 +1,9 @@
 package com.min01.fireplace.util;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
 
 import javax.annotation.Nullable;
 
@@ -16,6 +18,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
@@ -25,14 +28,16 @@ import net.minecraft.world.phys.Vec3;
 
 public class FireplaceUtil 
 {
-	public static final String KARAT_UUID = "karatUUID";
+	public static final String[] UUID = new String[] { "karatUUID", "necroFengUUID" };
+	public static final String KARAT_UUID = UUID[0];
+	public static final String NECRO_UUID = UUID[1];
+	public static final List<Mob> NECRO_LIST = new ArrayList<>();
 	
-	public static LivingEntity createBreathParticle(Level level, ParticleOptions particle, LivingEntity caster, Vec3 startPosition, double range, double particleVelocity, double particleSpacing, double particleJitter)
+	public static LivingEntity createBreath(Level level, LivingEntity caster, Vec3 startPosition, double range)
 	{
-		Vec3 direction = caster.getLookAngle();
+		Vec3 direction = caster.getViewVector(0);
 		Vec3 endpoint = startPosition.add(direction.scale(range));
-		HitResult result = FireplaceUtil.rayTrace(level, startPosition, endpoint, 0, LivingEntity.class);
-        spawnParticleRay(level, particle, startPosition, direction, caster, range, particleVelocity, particleSpacing, particleJitter);
+		HitResult result = FireplaceUtil.rayTrace(level, startPosition, endpoint, 2, LivingEntity.class, (entity) -> entity == caster);
         if(result instanceof EntityHitResult entityHit)
         {
         	if(entityHit.getEntity() instanceof LivingEntity living)
@@ -41,6 +46,12 @@ public class FireplaceUtil
         	}
         }
         return null;
+	}
+	
+	public static void createBreathParticle(Level level, ParticleOptions particle, LivingEntity caster, Vec3 startPosition, double range, double particleVelocity, double particleSpacing, double particleJitter)
+	{
+		Vec3 direction = caster.getViewVector(0);
+        spawnParticleRay(level, particle, startPosition, direction, caster, range, particleVelocity, particleSpacing, particleJitter);
 	}
 	
     public static void spawnParticleRay(Level level, ParticleOptions particle, Vec3 origin, Vec3 direction, @Nullable LivingEntity caster, double distance, double particleVelocity, double particleSpacing, double particleJitter)
@@ -57,13 +68,14 @@ public class FireplaceUtil
     }
     
     @Nullable
-    public static HitResult rayTrace(Level world, Vec3 origin, Vec3 endpoint, float aimAssist, Class<? extends Entity> entityType) 
+    public static HitResult rayTrace(Level world, Vec3 origin, Vec3 endpoint, float aimAssist, Class<? extends Entity> entityType, Predicate<? super Entity> filter) 
     {
         float borderSize = 1 + aimAssist;
 
         AABB searchVolume = new AABB(origin.x, origin.y, origin.z, endpoint.x, endpoint.y, endpoint.z).inflate(borderSize, borderSize, borderSize);
 
         List<? extends Entity> entities = world.getEntitiesOfClass(entityType, searchVolume);
+        entities.removeIf(filter);
 
         HitResult result = world.clip(new ClipContext(origin, endpoint, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, null));
 

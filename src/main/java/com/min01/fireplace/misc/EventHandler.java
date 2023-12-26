@@ -5,6 +5,7 @@ import com.min01.fireplace.entity.EntityCarrotFang;
 import com.min01.fireplace.entity.EntityEvokerFeng;
 import com.min01.fireplace.entity.EntityFireFeng;
 import com.min01.fireplace.entity.EntityKaratFeng;
+import com.min01.fireplace.entity.EntityNecroFeng;
 import com.min01.fireplace.entity.EntitySantaFeng;
 import com.min01.fireplace.entity.EntitySnowyFeng;
 import com.min01.fireplace.entity.EntityVampireFeng;
@@ -27,5 +28,6 @@ public class EventHandler
     	event.put(FireplaceEntities.SANTA_FENG.get(), EntitySantaFeng.createAttributes().build());
     	event.put(FireplaceEntities.VAMPIRE_FENG.get(), EntityVampireFeng.createAttributes().build());
     	event.put(FireplaceEntities.FIRE_FENG.get(), EntityFireFeng.createAttributes().build());
+    	event.put(FireplaceEntities.NECRO_FENG.get(), EntityNecroFeng.createAttributes().build());
     }
 }

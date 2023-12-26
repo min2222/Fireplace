@@ -103,8 +103,8 @@ public class EntityPresentProjectile extends ThrowableProjectile
 		for(int i = 0; i < list.size(); i++)
 		{
 			LivingEntity living = list.get(i);
-			boolean flag = living instanceof AbstractKaratFeng karat ? karat.getCurrentRaid() == null : living != this.getOwner();
-			if(flag)
+			boolean flag = living instanceof AbstractKaratFeng karat ? karat.getCurrentRaid() == null : true;
+			if(flag && living != this.getOwner())
 			{
 				living.hurt(DamageSource.explosion((LivingEntity) this.getOwner()), (this.tickCount / 20) % 1);
 			}

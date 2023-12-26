@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.function.Supplier;
 
 import com.min01.fireplace.entity.EntityKaratFeng;
+import com.min01.fireplace.entity.EntityNecroFeng;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
@@ -20,7 +21,7 @@ public class KaratDataSyncPacket
 
     public enum DataType 
     {
-        ENTITY_LIST
+        ENTITY_LIST, NECRO_FENG_SUMMONING
     }
 
     public KaratDataSyncPacket(DataType type, int id) 
@@ -62,6 +63,19 @@ public class KaratDataSyncPacket
 					}
 					EntityKaratFeng karat = (EntityKaratFeng) minecraft.level.getEntity(message.karatId);
 					karat.entityList.addAll(list);
+					break;
+				case NECRO_FENG_SUMMONING:
+					ArrayList<LivingEntity> necroList = new ArrayList<>();
+					for(ServerLevel level : ServerLifecycleHooks.getCurrentServer().getAllLevels())
+					{
+						Entity entity = level.getEntity(message.karatId);
+						if(entity instanceof EntityNecroFeng necro)
+						{
+							necroList.addAll(necro.entityList);
+						}
+					}
+					EntityNecroFeng necro = (EntityNecroFeng) minecraft.level.getEntity(message.karatId);
+					necro.entityList.addAll(necroList);
 					break;
 				default:
 					break;

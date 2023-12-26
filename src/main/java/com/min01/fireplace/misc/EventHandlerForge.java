@@ -7,6 +7,7 @@ import java.util.UUID;
 import com.min01.fireplace.Fireplace;
 import com.min01.fireplace.entity.AbstractKaratFeng;
 import com.min01.fireplace.entity.EntityKaratFeng;
+import com.min01.fireplace.entity.EntityNecroFeng;
 import com.min01.fireplace.entity.EntitySnowyFeng;
 import com.min01.fireplace.entity.goal.DodgeArrowsGoal;
 import com.min01.fireplace.raid.KaratRaidMembers;
@@ -43,7 +44,7 @@ public class EventHandlerForge
 	}
 	
 	@SubscribeEvent
-	public static void karatExplostion(ExplosionEvent.Detonate event)
+	public static void karatExplosion(ExplosionEvent.Detonate event)
 	{
     	Entity sourceMob = event.getExplosion().getSourceMob();
     	List<Entity> list = event.getAffectedEntities();
@@ -67,61 +68,83 @@ public class EventHandlerForge
 	}
 	
 	@SubscribeEvent
-	public static void karatSummon(LivingTickEvent event)
+	public static void karatTick(LivingTickEvent event)
 	{
 		if(!event.getEntity().level.isClientSide)
 		{
 			ServerLevel serverlevel = (ServerLevel) event.getEntity().level;
-			if(event.getEntity().getPersistentData().contains(FireplaceUtil.KARAT_UUID))
+			
+			for(int i = 0; i < FireplaceUtil.UUID.length; i++)
 			{
-				EntityKaratFeng karat = (EntityKaratFeng) serverlevel.getEntity(event.getEntity().getPersistentData().getUUID(FireplaceUtil.KARAT_UUID));
-				if(karat != null)
+				syncTargetWithOwner(event, serverlevel, FireplaceUtil.UUID[i]);
+			}
+		}
+	}
+	
+	public static void syncTargetWithOwner(LivingTickEvent event, ServerLevel serverlevel, String name)
+	{
+		if(event.getEntity().getPersistentData().contains(name))
+		{
+			Mob karat = (Mob) serverlevel.getEntity(event.getEntity().getPersistentData().getUUID(name));
+			if(karat != null)
+			{
+				if(karat.getTarget() != null)
 				{
-					if(karat.getTarget() != null)
-					{
-						((Mob) event.getEntity()).setTarget(karat.getTarget());
-					}
+					((Mob) event.getEntity()).setTarget(karat.getTarget());
 				}
 			}
 		}
 	}
 	
 	@SubscribeEvent
-	public static void karatSummon(LivingDamageEvent event)
+	public static void karatDamge(LivingDamageEvent event)
 	{
 		Entity entity = event.getSource().getEntity();
 		Entity directentity = event.getSource().getEntity();
 		
+		for(int i = 0; i < FireplaceUtil.UUID.length; i++)
+		{
+			preventDamageOwner(event, entity, directentity, FireplaceUtil.UUID[i]);
+		}
+	}
+	
+	public static void preventDamageOwner(LivingDamageEvent event, Entity entity, Entity directentity, String name)
+	{
+		//when hit
 		if(entity != null)
 		{
-			if(entity.getPersistentData().contains(FireplaceUtil.KARAT_UUID))
+			if(entity.getPersistentData().contains(name))
 			{
-				UUID uuid = entity.getPersistentData().getUUID(FireplaceUtil.KARAT_UUID);
+				UUID uuid = entity.getPersistentData().getUUID(name);
 				if(event.getEntity().getUUID().equals(uuid))
 				{
 					event.setCanceled(true);
 				}
-				if(event.getEntity().getPersistentData().contains(FireplaceUtil.KARAT_UUID))
+				
+				if(event.getEntity().getPersistentData().contains(name))
 				{
-					if(event.getEntity().getPersistentData().getUUID(FireplaceUtil.KARAT_UUID).equals(uuid))
+					if(event.getEntity().getPersistentData().getUUID(name).equals(uuid))
 					{
 						event.setCanceled(true);
 					}
 				}
 			}
 		}
+		
+		//when hit with non-living entity
 		if(directentity != null)
 		{
-			if(directentity.getPersistentData().contains(FireplaceUtil.KARAT_UUID))
+			if(directentity.getPersistentData().contains(name))
 			{
-				UUID uuid = directentity.getPersistentData().getUUID(FireplaceUtil.KARAT_UUID);
+				UUID uuid = directentity.getPersistentData().getUUID(name);
 				if(event.getEntity().getUUID().equals(uuid))
 				{
 					event.setCanceled(true);
 				}
-				if(event.getEntity().getPersistentData().contains(FireplaceUtil.KARAT_UUID))
+				
+				if(event.getEntity().getPersistentData().contains(name))
 				{
-					if(event.getEntity().getPersistentData().getUUID(FireplaceUtil.KARAT_UUID).equals(uuid))
+					if(event.getEntity().getPersistentData().getUUID(name).equals(uuid))
 					{
 						event.setCanceled(true);
 					}
@@ -131,55 +154,69 @@ public class EventHandlerForge
 	}
 	
 	@SubscribeEvent
-	public static void karatSummon(LivingChangeTargetEvent event)
+	public static void karatChangeTarget(LivingChangeTargetEvent event)
 	{
 		LivingEntity entity = event.getEntity();
 		LivingEntity newtarget = event.getNewTarget();
 		LivingEntity originaltarget = event.getOriginalTarget();
 		
-		if(newtarget != null && newtarget.getPersistentData().contains(FireplaceUtil.KARAT_UUID))
+		for(int i = 0; i < FireplaceUtil.UUID.length; i++)
 		{
-			if(entity.getUUID().equals(newtarget.getPersistentData().getUUID(FireplaceUtil.KARAT_UUID)))
+			preventTargetingOwnerOrTeam(event, entity, newtarget, originaltarget, FireplaceUtil.UUID[i]);
+		}
+	}
+	
+	public static void preventTargetingOwnerOrTeam(LivingChangeTargetEvent event, Entity entity, Entity newtarget, Entity originaltarget, String name)
+	{
+		//when target is owner
+		if(newtarget != null && newtarget.getPersistentData().contains(name))
+		{
+			if(entity.getUUID().equals(newtarget.getPersistentData().getUUID(name)))
 			{
 				event.setCanceled(true);
 			}
 		}
 		
-		if(originaltarget != null && originaltarget.getPersistentData().contains(FireplaceUtil.KARAT_UUID))
+		//same above
+		if(originaltarget != null && originaltarget.getPersistentData().contains(name))
 		{
-			if(entity.getUUID().equals(originaltarget.getPersistentData().getUUID(FireplaceUtil.KARAT_UUID)))
+			if(entity.getUUID().equals(originaltarget.getPersistentData().getUUID(name)))
 			{
 				event.setCanceled(true);
 			}
 		}
 		
-		if(entity.getPersistentData().contains(FireplaceUtil.KARAT_UUID))
+		//when target is allied with same owner
+		if(entity.getPersistentData().contains(name))
 		{
-			UUID uuid = entity.getPersistentData().getUUID(FireplaceUtil.KARAT_UUID);
+			UUID uuid = entity.getPersistentData().getUUID(name);
 			if(newtarget != null)
 			{
 				if(newtarget.getUUID().equals(uuid))
 				{
 					event.setCanceled(true);
 				}
-				if(newtarget.getPersistentData().contains(FireplaceUtil.KARAT_UUID))
+				
+				if(newtarget.getPersistentData().contains(name))
 				{
-					UUID newtargetUUID = newtarget.getPersistentData().getUUID(FireplaceUtil.KARAT_UUID);
+					UUID newtargetUUID = newtarget.getPersistentData().getUUID(name);
 					if(uuid.equals(newtargetUUID))
 					{
 						event.setCanceled(true);
 					}
 				}
 			}
+			
 			if(originaltarget != null)
 			{
 				if(originaltarget.getUUID().equals(uuid))
 				{
 					event.setCanceled(true);
 				}
-				if(originaltarget.getPersistentData().contains(FireplaceUtil.KARAT_UUID))
+				
+				if(originaltarget.getPersistentData().contains(name))
 				{
-					UUID originaltargetUUID = originaltarget.getPersistentData().getUUID(FireplaceUtil.KARAT_UUID);
+					UUID originaltargetUUID = originaltarget.getPersistentData().getUUID(name);
 					if(uuid.equals(originaltargetUUID))
 					{
 						event.setCanceled(true);
@@ -190,7 +227,7 @@ public class EventHandlerForge
 	}
 	
 	@SubscribeEvent
-	public static void karatSummon(EntityLeaveLevelEvent event)
+	public static void karatLeaveLevel(EntityLeaveLevelEvent event)
 	{
 		if(event.getLevel() instanceof ServerLevel)
 		{
@@ -198,6 +235,22 @@ public class EventHandlerForge
 			if(event.getEntity().getPersistentData().contains(FireplaceUtil.KARAT_UUID))
 			{
 				EntityKaratFeng karat = (EntityKaratFeng) serverlevel.getEntity(event.getEntity().getPersistentData().getUUID(FireplaceUtil.KARAT_UUID));
+				if(karat != null && !karat.entityList.isEmpty())
+				{
+					for(Iterator<LivingEntity> itr = karat.entityList.iterator(); itr.hasNext();)
+					{
+						LivingEntity living = itr.next();
+						if(living == event.getEntity())
+						{
+							itr.remove();
+						}
+					}
+				}
+			}
+			
+			if(event.getEntity().getPersistentData().contains(FireplaceUtil.NECRO_UUID))
+			{
+				EntityNecroFeng karat = (EntityNecroFeng) serverlevel.getEntity(event.getEntity().getPersistentData().getUUID(FireplaceUtil.NECRO_UUID));
 				if(karat != null && !karat.entityList.isEmpty())
 				{
 					for(Iterator<LivingEntity> itr = karat.entityList.iterator(); itr.hasNext();)
@@ -240,44 +293,70 @@ public class EventHandlerForge
 					}
 				}
 				
-				if(owner.getPersistentData().contains(FireplaceUtil.KARAT_UUID))
+				for(int i = 0; i < FireplaceUtil.UUID.length; i++)
 				{
-					UUID uuid = owner.getPersistentData().getUUID(FireplaceUtil.KARAT_UUID);
-					if(hitentity.getUUID().equals(uuid))
-					{
-						event.setCanceled(true);
-					}
-					if(hitentity.getPersistentData().contains(FireplaceUtil.KARAT_UUID))
-					{
-						UUID hituuid = hitentity.getPersistentData().getUUID(FireplaceUtil.KARAT_UUID);
-						if(hituuid.equals(uuid))
-						{
-							event.setCanceled(true);
-						}
-					}
+					preventHitAlliesWithProjectile2(event, owner, hitentity, FireplaceUtil.UUID[i]);
 				}
+				
 			}
-			if(proj.getPersistentData().contains(FireplaceUtil.KARAT_UUID))
+			
+			for(int i = 0; i < FireplaceUtil.UUID.length; i++)
 			{
-				UUID uuid = proj.getPersistentData().getUUID(FireplaceUtil.KARAT_UUID);
-				if(hitentity.getUUID().equals(uuid))
+				preventHitAlliesWithProjectile(event, proj, hitentity, FireplaceUtil.UUID[i]);
+			}
+		}
+	}
+	
+	public static void preventHitAlliesWithProjectile2(ProjectileImpactEvent event, Entity owner, Entity hitentity, String string)
+	{
+		if(owner.getPersistentData().contains(string))
+		{
+			UUID uuid = owner.getPersistentData().getUUID(string);
+			
+			//hit entity is owner?
+			if(hitentity.getUUID().equals(uuid))
+			{
+				event.setCanceled(true);
+			}
+			
+			//hit entity is allied?
+			if(hitentity.getPersistentData().contains(string))
+			{
+				UUID hituuid = hitentity.getPersistentData().getUUID(string);
+				if(hituuid.equals(uuid))
 				{
 					event.setCanceled(true);
 				}
-				if(hitentity.getPersistentData().contains(FireplaceUtil.KARAT_UUID))
+			}
+		}
+	}
+	
+	public static void preventHitAlliesWithProjectile(ProjectileImpactEvent event, Projectile proj, Entity hitentity, String string)
+	{
+		if(proj.getPersistentData().contains(string))
+		{
+			UUID uuid = proj.getPersistentData().getUUID(string);
+			
+			//hit entity is owner?
+			if(hitentity.getUUID().equals(uuid))
+			{
+				event.setCanceled(true);
+			}
+			
+			//hit entity is allied?
+			if(hitentity.getPersistentData().contains(string))
+			{
+				UUID hituuid = hitentity.getPersistentData().getUUID(string);
+				if(hituuid.equals(uuid))
 				{
-					UUID hituuid = hitentity.getPersistentData().getUUID(FireplaceUtil.KARAT_UUID);
-					if(hituuid.equals(uuid))
-					{
-						event.setCanceled(true);
-					}
+					event.setCanceled(true);
 				}
 			}
 		}
 	}
 	
 	@SubscribeEvent
-    public static void karatSummon(EntityJoinLevelEvent event)
+    public static void karatJoinLevel(EntityJoinLevelEvent event)
 	{
 		if(event.getEntity() instanceof Projectile)
 		{
@@ -285,11 +364,19 @@ public class EventHandlerForge
 			if(proj.getOwner() != null)
 			{
 				Entity owner = proj.getOwner();
-				if(owner.getPersistentData().contains(FireplaceUtil.KARAT_UUID))
+				for(int i = 0; i < FireplaceUtil.UUID.length; i++)
 				{
-					proj.getPersistentData().putUUID(FireplaceUtil.KARAT_UUID, owner.getPersistentData().getUUID(FireplaceUtil.KARAT_UUID));
+					syncUUIDWithProjectilOwner(owner, proj, FireplaceUtil.UUID[i]);
 				}
 			}
+		}
+	}
+	
+	public static void syncUUIDWithProjectilOwner(Entity owner, Projectile proj, String name)
+	{
+		if(owner.getPersistentData().contains(name))
+		{
+			proj.getPersistentData().putUUID(name, owner.getPersistentData().getUUID(name));
 		}
 	}
 	

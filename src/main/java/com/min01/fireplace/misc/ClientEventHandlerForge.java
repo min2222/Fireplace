@@ -2,6 +2,7 @@ package com.min01.fireplace.misc;
 
 import com.min01.fireplace.Fireplace;
 import com.min01.fireplace.entity.EntityKaratFeng;
+import com.min01.fireplace.util.FireplaceUtil;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -38,6 +39,20 @@ public class ClientEventHandlerForge
 				if(living.isAlive() && living.isAddedToWorld() && living.tickCount >= 2)
 				{
 					renderLink(karat, event.getPartialTick(), event.getPoseStack(), event.getMultiBufferSource(), 15728880, living);
+				}
+			}
+		}
+		
+		if(FireplaceUtil.NECRO_LIST.contains(event.getEntity()))
+		{
+			LivingEntity living = event.getEntity();
+			if(living.isAlive() && living.isAddedToWorld() && living.tickCount < 20)
+			{
+				PoseStack stack = event.getPoseStack();
+				double offset = -living.getEyeHeight() + (living.tickCount * 0.1);
+				if(offset <= 0)
+				{
+					stack.translate(0, offset, 0);
 				}
 			}
 		}

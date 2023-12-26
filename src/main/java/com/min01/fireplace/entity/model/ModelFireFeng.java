@@ -97,12 +97,13 @@ public class ModelFireFeng extends PlayerModel<EntityFireFeng>
 		{
 			float rot = -90F * ((float)Math.PI / 180F);
 	        this.left_arm.xRot = rot + Mth.sin(ageInTicks * 0.8F + 10) * 0.2F;
+			this.left_arm.zRot = 0;
 			this.left_arm.y = Mth.sin(ageInTicks * 0.8F + 10F);
 			this.left_arm.z = Mth.sin(ageInTicks * 0.8F + 10F);
 		}
 		else
 		{
-			this.left_arm.y = 0;
+			this.left_arm.y = 2F;
 			this.left_arm.z = 0;
 			this.left_arm.xRot = limbSwingAmount;
 			this.left_arm.zRot = -limbSwingAmount;

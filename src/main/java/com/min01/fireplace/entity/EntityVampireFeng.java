@@ -130,7 +130,7 @@ public class EntityVampireFeng extends AbstractHostileKaratFeng
     public void handleEntityEvent(byte p_21375_)
     {
     	super.handleEntityEvent(p_21375_);
-    	if(p_21375_ == 1)
+    	if(p_21375_ == 98)
     	{
     		FireplaceUtil.addSpreadingParticle(150, this.level, ParticleTypes.LARGE_SMOKE, this.position().add(0, 1.5F, 0));
     	}
@@ -187,7 +187,7 @@ public class EntityVampireFeng extends AbstractHostileKaratFeng
     {
     	this.setIsBat(false);
     	this.setCanMoveToTarget(true);
-    	this.level.broadcastEntityEvent(this, (byte) 1);
+    	this.level.broadcastEntityEvent(this, (byte) 98);
 		this.level.playSound(null, this.blockPosition(), SoundEvents.FIRE_EXTINGUISH, this.getSoundSource(), 1, 1);
     }
     
@@ -195,7 +195,7 @@ public class EntityVampireFeng extends AbstractHostileKaratFeng
     {
     	this.setIsBat(true);
     	this.setCanMoveToTarget(false);
-    	this.level.broadcastEntityEvent(this, (byte) 1);
+    	this.level.broadcastEntityEvent(this, (byte) 98);
 		this.level.playSound(null, this.blockPosition(), SoundEvents.FIRE_EXTINGUISH, this.getSoundSource(), 1, 1);
     }
     

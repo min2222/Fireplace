@@ -26,15 +26,12 @@ public class KaratRaidMembers
 			for(int length = 0; length < list.size(); length++)
 			{
 				String string = list.get(length);
-				if(string.split("=").length > 1)
+				String mobid = string.split("=")[0];
+				String count = string.split("=")[1];
+				if(mobid.contains(resourcelocation.toString()))
 				{
-					String mobid = string.split("=")[0];
-					String count = string.split("=")[1];
-					if(mobid.contains(resourcelocation.toString()))
-					{
-						String[] counts = count.split(",");
-						translateToWaves((EntityType<? extends AbstractKaratFeng>) type, counts);
-					}
+					String[] counts = count.split(",");
+					translateToWaves((EntityType<? extends AbstractKaratFeng>) type, counts);
 				}
 			}
 		}

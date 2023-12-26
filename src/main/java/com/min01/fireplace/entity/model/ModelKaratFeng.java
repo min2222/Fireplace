@@ -30,6 +30,8 @@ public class ModelKaratFeng<T extends AbstractKaratFeng> extends PlayerModel<T>
 			this.leftArm.zRot = -2.3561945F;
 			this.rightArm.yRot = 0.0F;
 			this.leftArm.yRot = 0.0F;
+			this.leftSleeve.copyFrom(this.leftArm);
+			this.rightSleeve.copyFrom(this.rightArm);
 		}
 		if(entity.isUsingItem() && entity.getMainHandItem().getItem() == Items.BOW)
 		{

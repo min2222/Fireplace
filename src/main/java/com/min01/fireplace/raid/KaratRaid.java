@@ -796,7 +796,7 @@ public class KaratRaid
 
 	public int getDefaultNumSpawns(Integer[] spawnsPerWaveBeforeBonus, int p_37732_, boolean p_37733_)
 	{
-		return p_37733_ ? spawnsPerWaveBeforeBonus[this.numGroups]	: spawnsPerWaveBeforeBonus[p_37732_];
+		return p_37733_ ? spawnsPerWaveBeforeBonus[this.numGroups]	: spawnsPerWaveBeforeBonus[p_37732_ - 1];
 	}
 
 	public int getPotentialBonusSpawns(EntityType<? extends AbstractKaratFeng> p_219829_, RandomSource p_219830_, int p_219831_, DifficultyInstance p_219832_, boolean p_219833_)

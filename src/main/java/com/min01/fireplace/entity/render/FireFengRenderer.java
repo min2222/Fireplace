@@ -22,7 +22,7 @@ public class FireFengRenderer extends AbstractKaratFengRenderer<EntityFireFeng, 
 		super.setupRotations(p_115317_, p_115318_, p_115319_, p_115320_, p_115321_);
 		if(p_115317_.isDashing())
 		{
-			p_115318_.translate(0, 0, 0);
+			p_115318_.translate(0, 1, 0);
 			p_115318_.mulPose(Vector3f.XP.rotationDegrees(p_115317_.getXRot() - 90));
 			p_115318_.mulPose(Vector3f.YP.rotationDegrees(((float)p_115317_.tickCount + p_115321_) * -75.0F));
 		}

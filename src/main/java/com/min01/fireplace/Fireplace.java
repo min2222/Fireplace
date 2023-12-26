@@ -45,9 +45,23 @@ public class Fireplace
 	
 	private void commonSetup(FMLCommonSetupEvent event)
     {
-		//TODO
-		//ORANGE_COLOR = new ChatFormatting("ORANGE", 'g', 16, 16744448);
-		ORANGE = BossBarColor.BLUE; //= new BossBarColor("orange", ORANGE_COLOR);
+        try 
+        {
+        	//TODO
+			/*Constructor<ChatFormatting> constructor = ChatFormatting.class.getDeclaredConstructor();
+			Constructor<BossBarColor> constructor2 = BossBarColor.class.getDeclaredConstructor();
+	        constructor.setAccessible(true);
+	        constructor2.setAccessible(true);
+	        ChatFormatting chatFormatting = constructor.newInstance("ORANGE", 'g', 16, 16744448);
+	        BossBarColor bossbarColor = constructor2.newInstance("orange", ORANGE_COLOR);
+			ORANGE_COLOR = chatFormatting;
+			ORANGE = bossbarColor;*/
+        	ORANGE = BossBarColor.BLUE;
+		}
+        catch (Exception  e) 
+        {
+			e.printStackTrace();
+		}
     }
 	
 	private void completeSetup(FMLLoadCompleteEvent event)

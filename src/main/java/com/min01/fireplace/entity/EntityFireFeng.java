@@ -8,6 +8,7 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -33,7 +34,7 @@ public class EntityFireFeng extends AbstractFlyingHostileKaratFeng
     			.add(Attributes.MAX_HEALTH, 120.0D)
     			.add(Attributes.MOVEMENT_SPEED, 0.55D)
     			.add(Attributes.ATTACK_DAMAGE, 9.0D)
-        		.add(Attributes.FOLLOW_RANGE, 60);
+        		.add(Attributes.FOLLOW_RANGE, 80);
     }
     
     @Override
@@ -56,20 +57,17 @@ public class EntityFireFeng extends AbstractFlyingHostileKaratFeng
     	this.resetFallDistance();
 		if(this.getTarget() != null)
 		{
-			if(this.distanceTo(this.getTarget()) <= 8 && this.distanceTo(this.getTarget()) >= 4)
+			if(this.distanceTo(this.getTarget()) < 12 && this.distanceTo(this.getTarget()) > 6)
 			{
 				this.setAttackType(AttackType.FIREBALL);
-				this.setCanMoveToTarget(false);
 			}
-			else if(this.distanceTo(this.getTarget()) <= 3)
+			else if(this.distanceTo(this.getTarget()) <= 4)
 			{
 				this.setAttackType(AttackType.FIRE_BREATH);
-				this.setCanMoveToTarget(true);
 			}
-			else if(this.distanceTo(this.getTarget()) > 8)
+			else if(this.distanceTo(this.getTarget()) > 12)
 			{
 				this.setAttackType(AttackType.FIRE_DASH);
-				this.setCanMoveToTarget(true);
 			}
 			
 			switch(this.getAttackType())
@@ -82,34 +80,42 @@ public class EntityFireFeng extends AbstractFlyingHostileKaratFeng
 					Vec3 motion = FireplaceUtil.getEntityShootVector(fireball, this.getTarget());
 					fireball.setDeltaMovement(motion);
 					this.level.addFreshEntity(fireball);
-					this.setShooting();
+					this.level.playSound(null, this.blockPosition(), SoundEvents.BLAZE_SHOOT, this.getSoundSource(), 1, 1);
 				}
 				break;
 			case FIRE_BREATH:
-				LivingEntity breathVictim = FireplaceUtil.createBreathParticle(this.level, ParticleTypes.FLAME, this, this.position(), 10, 1, 0.3, 0.25);
-				if(breathVictim != null && this.tickCount % 20 == 0)
+				LivingEntity breathVictim = FireplaceUtil.createBreath(this.level, this, this.position().add(0, this.getEyeHeight(), 0), 5);
+				boolean flag2 = breathVictim instanceof AbstractKaratFeng karat ? karat.getCurrentRaid() == null : true;
+				this.level.broadcastEntityEvent(this, (byte) 67);
+				if(breathVictim != null && flag2 && this.tickCount % 20 == 0)
 				{
 					breathVictim.setSecondsOnFire(10);
-					breathVictim.hurt(DamageSource.mobAttack(this), 0.1F);
+					breathVictim.hurt(DamageSource.mobAttack(this), 0.5F);
+					breathVictim.invulnerableTime = 0;
+				}
+				if(this.tickCount % 5 == 0)
+				{
+					this.level.playSound(null, this.blockPosition(), SoundEvents.GENERIC_BURN, this.getSoundSource(), 0.2F, 1);
 				}
 				break;
 			case FIRE_DASH:
 				if(this.tickCount % 20 == 0)
 				{
-					Vec3 vec3 = FireplaceUtil.getEntityShootVector(this, this.getTarget());
 					List<LivingEntity> list = this.level.getEntitiesOfClass(LivingEntity.class, getBoundingBox());
 					for(int i = 0; i < list.size(); i++)
 					{
 						LivingEntity living = list.get(i);
-						boolean flag = living instanceof AbstractKaratFeng karat ? karat.getCurrentRaid() == null : living != this;
-						if(flag)
+						boolean flag = living instanceof AbstractKaratFeng karat ? karat.getCurrentRaid() == null : true;
+						if(flag && living != this)
 						{
 							living.setSecondsOnFire(40);
 							living.hurt(DamageSource.mobAttack(this), (float) this.getAttributeBaseValue(Attributes.ATTACK_DAMAGE));
 						}
 					}
-					this.setDeltaMovement(vec3);
+					this.level.playSound(null, this.blockPosition(), SoundEvents.BLAZE_SHOOT, this.getSoundSource(), 1, 1);
 				}
+				Vec3 vec3 = FireplaceUtil.getEntityShootVector(this, this.getTarget());
+				this.setDeltaMovement(this.getDeltaMovement().add(vec3));
 				break;
 			case NONE:
 				break;
@@ -117,29 +123,32 @@ public class EntityFireFeng extends AbstractFlyingHostileKaratFeng
 		}
 		else
 		{
-			this.setAttackType(AttackType.NONE);
+			if(this.isEffectiveAi())
+			{
+				this.setAttackType(AttackType.NONE);
+			}
+			this.setCanMoveToTarget(true);
 		}
 		
-		this.level.broadcastEntityEvent(this, (byte) 1);
+		this.level.broadcastEntityEvent(this, (byte) 98);
     }
     
     @Override
     public void handleEntityEvent(byte p_21375_)
     {
     	super.handleEntityEvent(p_21375_);
-    	if(p_21375_ == 1)
+    	if(p_21375_ == 98)
     	{
-        	for(int i = 0; i < 100; i++)
+        	for(int i = 0; i < 5; i++)
         	{
-        		this.level.addAlwaysVisibleParticle(ParticleTypes.SMALL_FLAME, this.getX() + this.level.random.nextGaussian() * 0.2D, this.getEyeY() + this.level.random.nextGaussian() * 0.2D, this.getZ() + this.level.random.nextGaussian() * 0.2D, 0, 0, 0);
+        		this.level.addAlwaysVisibleParticle(ParticleTypes.SMALL_FLAME, this.getX() + this.level.random.nextGaussian() * 0.3, this.getY() + 1F + this.level.random.nextGaussian() * 0.5, this.getZ() + this.level.random.nextGaussian() * 0.3, 0, 0, 0);
         	}
     	}
+    	if(p_21375_ == 67)
+    	{
+    		FireplaceUtil.createBreathParticle(this.level, ParticleTypes.FLAME, this, this.position().add(0, this.getEyeHeight(), 0), 5, 0, 0.3, 0.25);
+    	}
     }
-    
-    private void setShooting()
-    {
-    	this.setAttackType(AttackType.FIREBALL);
-	}
 
 	public boolean isShooting()
     {
