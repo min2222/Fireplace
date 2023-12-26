@@ -16,7 +16,6 @@ import javax.annotation.Nullable;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import com.min01.fireplace.Fireplace;
 import com.min01.fireplace.config.FireplaceConfig;
 import com.min01.fireplace.entity.AbstractKaratFeng;
 import com.min01.fireplace.init.FireplaceEffects;
@@ -40,6 +39,7 @@ import net.minecraft.stats.Stats;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.BossEvent;
+import net.minecraft.world.BossEvent.BossBarColor;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.effect.MobEffect;
@@ -97,7 +97,8 @@ public class KaratRaid
 	public int effectLevel;
 	public boolean active;
 	public int groupsSpawned;
-	public final ServerBossEvent raidEvent = new ServerBossEvent(RAID_NAME_COMPONENT, Fireplace.ORANGE, BossEvent.BossBarOverlay.NOTCHED_10);
+	//TODO
+	public final ServerBossEvent raidEvent = new ServerBossEvent(RAID_NAME_COMPONENT, BossBarColor.YELLOW, BossEvent.BossBarOverlay.NOTCHED_10);
 	public int postRaidTicks;
 	public int raidCooldownTicks;
 	public final RandomSource random = RandomSource.create();

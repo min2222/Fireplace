@@ -9,8 +9,6 @@ import com.min01.fireplace.proxy.ClientProxy;
 import com.min01.fireplace.proxy.CommonProxy;
 import com.min01.fireplace.sound.FireplaceSounds;
 
-import net.minecraft.ChatFormatting;
-import net.minecraft.world.BossEvent.BossBarColor;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
@@ -27,8 +25,6 @@ public class Fireplace
 	public static IEventBus MOD_EVENT_BUS;
 	public static SimpleChannel wrapper;
 	public static CommonProxy proxy = DistExecutor.safeRunForDist(() -> ClientProxy::new, () -> CommonProxy::new);
-	public static BossBarColor ORANGE;
-	public static ChatFormatting ORANGE_COLOR;
 	
 	public Fireplace() 
 	{
@@ -45,23 +41,7 @@ public class Fireplace
 	
 	private void commonSetup(FMLCommonSetupEvent event)
     {
-        try 
-        {
-        	//TODO
-			/*Constructor<ChatFormatting> constructor = ChatFormatting.class.getDeclaredConstructor();
-			Constructor<BossBarColor> constructor2 = BossBarColor.class.getDeclaredConstructor();
-	        constructor.setAccessible(true);
-	        constructor2.setAccessible(true);
-	        ChatFormatting chatFormatting = constructor.newInstance("ORANGE", 'g', 16, 16744448);
-	        BossBarColor bossbarColor = constructor2.newInstance("orange", ORANGE_COLOR);
-			ORANGE_COLOR = chatFormatting;
-			ORANGE = bossbarColor;*/
-        	ORANGE = BossBarColor.BLUE;
-		}
-        catch (Exception  e) 
-        {
-			e.printStackTrace();
-		}
+		
     }
 	
 	private void completeSetup(FMLLoadCompleteEvent event)

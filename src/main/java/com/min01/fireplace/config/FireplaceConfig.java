@@ -49,8 +49,15 @@ public class FireplaceConfig
         FireplaceConfig.useBlackListForProjectile = config.comment("use blacklist for karat's projectile shooting, false to use whitelist").define("useBlackListForProjectile", true);
         FireplaceConfig.karatSummoningWhiteList = config.comment(new String[] { "put any mod id here, then karat only summon mobs from listed mods. example : minecraft" }).defineList("karatSummoningWhiteList", Arrays.asList(new String[] { "minecraft" }), String.class::isInstance);
         FireplaceConfig.karatProjectileWhiteList = config.comment(new String[] { "put any mod id here, then karat only shoot projectiles from listed mods. example : minecraft" }).defineList("karatProjectileWhiteList", Arrays.asList(new String[] { "minecraft" }), String.class::isInstance);
-        FireplaceConfig.karatRaidMembers = config.comment("put any type of karat id for ultra karatted raid. example : fireplace:karat_feng=1,5,0,0,0,0,0").define("karatRaidMembers", Arrays.asList(new String[] {"fireplace:carrot_fang=10,0,0,0,0,0,0", "fireplace:vampire_feng=2,0,0,0,0,0,0"}), String.class::isInstance);
-        FireplaceConfig.maxWave = config.comment("max wave number for ultra karatted raid").define("maxWave", 7);
+        FireplaceConfig.karatRaidMembers = config.comment("put any type of karat id for ultra karatted raid. example : fireplace:karat_feng=1,5,0,0,0,0,0").define("karatRaidMembers", Arrays.asList(new String[] {
+        		"fireplace:carrot_fang=3,5,8,10,15,10,10,15", 
+        		"fireplace:snowy_feng=3,5,5,4,6,6,5,8", 
+        		"fireplace:evoker_feng=0,0,0,2,5,7,7,9", 
+        		"fireplace:santa_feng=0,0,0,0,1,0,0,2", 
+        		"fireplace:vampire_feng=0,0,1,2,2,6,4,8", 
+        		"fireplace:fire_feng=0,0,0,0,0,1,2,4", 
+        		"fireplace:necro_feng=0,0,0,0,0,1,2,4"}), String.class::isInstance);
+        FireplaceConfig.maxWave = config.comment("max wave number for ultra karatted raid").define("maxWave", 8);
         config.pop();
     }
 }

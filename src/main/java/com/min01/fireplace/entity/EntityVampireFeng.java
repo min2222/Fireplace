@@ -9,6 +9,7 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
@@ -93,6 +94,7 @@ public class EntityVampireFeng extends AbstractHostileKaratFeng
     			{
         			this.heal(0.5F);
     			}
+    			
     			if(this.getTarget() != null && this.distanceTo(this.getTarget()) <= 12)
     			{
     				this.setDeltaMovement(this.getDeltaMovement().multiply(1.0D, 0.6D, 1.0D));
@@ -101,19 +103,24 @@ public class EntityVampireFeng extends AbstractHostileKaratFeng
     				{
     					this.targetPosition = new BlockPos(this.getTarget().getX() - this.getX() + (double)this.random.nextInt(7) - (double)this.random.nextInt(7), this.getY() + (double)this.random.nextInt(6) - 2.0D, this.getTarget().getZ() - this.getZ() + (double)this.random.nextInt(7) - (double)this.random.nextInt(7));
     				}
-
+    
     				if(this.targetPosition != null)
-    				{
-        				double d2 = (double)this.targetPosition.getX() + 0.5D - this.getX();
-        				double d0 = (double)this.targetPosition.getY() + 0.1D - this.getY();
-        				double d1 = (double)this.targetPosition.getZ() + 0.5D - this.getZ();
-        				Vec3 vec3 = this.getDeltaMovement();
-        				Vec3 vec31 = vec3.add((Math.signum(d2) * 0.5D - vec3.x) * (double)0.1F, (Math.signum(d0) * (double)0.7F - vec3.y) * (double)0.1F, (Math.signum(d1) * 0.5D - vec3.z) * (double)0.1F);
-        				this.setDeltaMovement(vec31);
-        				float f = (float)(Mth.atan2(vec31.z, vec31.x) * (double)(180F / (float)Math.PI)) - 90.0F;
-        				float f1 = Mth.wrapDegrees(f - this.getYRot());
-        				this.zza = 0.5F;
-        				this.setYRot(this.getYRot() + f1);
+    				{				
+        				boolean flag = this.getCurrentRaid() == null ? true : ((ServerLevel) this.level).isVillage(this.targetPosition);
+
+    					if(flag)
+    					{
+            				double d2 = (double)this.targetPosition.getX() + 0.5D - this.getX();
+            				double d0 = (double)this.targetPosition.getY() + 0.1D - this.getY();
+            				double d1 = (double)this.targetPosition.getZ() + 0.5D - this.getZ();
+            				Vec3 vec3 = this.getDeltaMovement();
+            				Vec3 vec31 = vec3.add((Math.signum(d2) * 0.5D - vec3.x) * (double)0.1F, (Math.signum(d0) * (double)0.7F - vec3.y) * (double)0.1F, (Math.signum(d1) * 0.5D - vec3.z) * (double)0.1F);
+            				this.setDeltaMovement(vec31);
+            				float f = (float)(Mth.atan2(vec31.z, vec31.x) * (double)(180F / (float)Math.PI)) - 90.0F;
+            				float f1 = Mth.wrapDegrees(f - this.getYRot());
+            				this.zza = 0.5F;
+            				this.setYRot(this.getYRot() + f1);
+    					}
     				}
     			}
     		}

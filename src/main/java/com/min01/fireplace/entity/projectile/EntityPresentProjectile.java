@@ -130,6 +130,10 @@ public class EntityPresentProjectile extends ThrowableProjectile
         	EntitySnowyFeng snowyFeng = new EntitySnowyFeng(FireplaceEntities.SNOWY_FENG.get(), this.level);
         	snowyFeng.setPos(this.position().add(0, 0.5F, 0));
         	snowyFeng.setDeltaMovement(d2, d4, d3);
+        	if(this.getOwner() != null && ((AbstractKaratFeng) this.getOwner()).getCurrentRaid() != null)
+        	{
+        		snowyFeng.setCurrentRaid(((AbstractKaratFeng) this.getOwner()).getCurrentRaid());
+        	}
         	this.level.addFreshEntity(snowyFeng);
         }
     }

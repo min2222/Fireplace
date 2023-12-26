@@ -27,7 +27,7 @@ public class EntitySnowyFeng extends AbstractHostileKaratFeng
     {
         return AbstractKaratFeng.createFireplaceAttributes()
     			.add(Attributes.MAX_HEALTH, 10.0D)
-    			.add(Attributes.MOVEMENT_SPEED, 0.35D)
+    			.add(Attributes.MOVEMENT_SPEED, 0.45D)
     			.add(Attributes.ATTACK_DAMAGE, 4.0D)
         		.add(Attributes.ARMOR, 6)
         		.add(Attributes.ARMOR_TOUGHNESS, 6);

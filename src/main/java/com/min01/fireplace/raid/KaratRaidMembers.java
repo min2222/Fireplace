@@ -28,7 +28,7 @@ public class KaratRaidMembers
 				String string = list.get(length);
 				String mobid = string.split("=")[0];
 				String count = string.split("=")[1];
-				if(mobid.contains(resourcelocation.toString()))
+				if(mobid.equals(resourcelocation.toString()))
 				{
 					String[] counts = count.split(",");
 					translateToWaves((EntityType<? extends AbstractKaratFeng>) type, counts);

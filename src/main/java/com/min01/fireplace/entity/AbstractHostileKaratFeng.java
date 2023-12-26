@@ -4,6 +4,7 @@ import net.minecraft.commands.arguments.EntityAnchorArgument.Anchor;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
@@ -49,10 +50,21 @@ public abstract class AbstractHostileKaratFeng extends AbstractKaratFeng
 		super.tick();
 		if(this.getTarget() != null)
 		{
-			this.lookAt(Anchor.EYES, this.getTarget().position().add(0, this.getTarget().getEyeHeight(), 0));
+			boolean flag = this instanceof EntityVampireFeng vampire ? !vampire.isBat() : true;
+			
+			if(flag)
+			{
+				this.lookAt(Anchor.EYES, this.getTarget().position().add(0, this.getTarget().getEyeHeight(), 0));
+			}
+			
 			if(this.canMoveToTarget())
 			{
-				this.getNavigation().moveTo(this.getTarget(), this.getAttributeBaseValue(Attributes.MOVEMENT_SPEED));
+				boolean targetFlag = this.getCurrentRaid() == null ? true : ((ServerLevel) this.level).isVillage(this.getTarget().blockPosition());
+				
+				if(targetFlag)
+				{
+					this.getNavigation().moveTo(this.getTarget(), this.getAttributeBaseValue(Attributes.MOVEMENT_SPEED));
+				}
 			}
 		}
 	}

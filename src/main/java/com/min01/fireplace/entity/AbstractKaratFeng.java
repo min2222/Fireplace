@@ -251,7 +251,8 @@ public abstract class AbstractKaratFeng extends Monster
 		public boolean canUse()
 		{
 			this.updateVisited();
-			return this.isValidRaid() && this.hasSuitablePoi() && this.raider.getTarget() == null;
+			boolean flag = this.raider.getTarget() == null || !((ServerLevel) this.raider.level).isVillage(this.raider.blockPosition());
+			return this.isValidRaid() && this.hasSuitablePoi() && flag;
 		}
 
 		private boolean isValidRaid() 
@@ -364,7 +365,7 @@ public abstract class AbstractKaratFeng extends Monster
         	} 
         });
 		this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 8.0F));
-		this.goalSelector.addGoal(4, new AbstractKaratFeng.RaiderMoveThroughVillageGoal(this, (double) 1.05F, 1));
+		this.goalSelector.addGoal(4, new AbstractKaratFeng.RaiderMoveThroughVillageGoal(this, this.getAttributeBaseValue(Attributes.MOVEMENT_SPEED), 1));
 		this.targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers(this.getClass()));
 	}
 

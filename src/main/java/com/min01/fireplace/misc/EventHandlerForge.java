@@ -160,6 +160,9 @@ public class EventHandlerForge
 		LivingEntity newtarget = event.getNewTarget();
 		LivingEntity originaltarget = event.getOriginalTarget();
 		
+		//TODO
+		//necro fengs undead need to allied with other fengs when they are in raid
+		
 		for(int i = 0; i < FireplaceUtil.UUID.length; i++)
 		{
 			preventTargetingOwnerOrTeam(event, entity, newtarget, originaltarget, FireplaceUtil.UUID[i]);
@@ -281,13 +284,17 @@ public class EventHandlerForge
 				
 				if(owner instanceof EntitySnowyFeng)
 				{
-					hitentity.hurt(DamageSource.indirectMobAttack(proj, (LivingEntity) proj.getOwner()), 3);
-					hitentity.setTicksFrozen(100);
+					boolean flag = hitentity.getType().is(FireplaceTags.THE_FENGS) ? ((AbstractKaratFeng) hitentity).getCurrentRaid() == null : true;
+					if(flag)
+					{
+						hitentity.hurt(DamageSource.indirectMobAttack(proj, (LivingEntity) proj.getOwner()), 3);
+						hitentity.setTicksFrozen(100);
+					}
 				}
 				
-				if(owner instanceof AbstractKaratFeng ownerFeng && hitentity instanceof AbstractKaratFeng hitFeng)
+				if(owner.getType().is(FireplaceTags.THE_FENGS) && hitentity.getType().is(FireplaceTags.THE_FENGS))
 				{
-					if(ownerFeng.getCurrentRaid() != null && hitFeng.getCurrentRaid() != null)
+					if(((AbstractKaratFeng) owner).getCurrentRaid() != null && ((AbstractKaratFeng) hitentity).getCurrentRaid() != null)
 					{
 						event.setCanceled(true);
 					}
@@ -297,7 +304,6 @@ public class EventHandlerForge
 				{
 					preventHitAlliesWithProjectile2(event, owner, hitentity, FireplaceUtil.UUID[i]);
 				}
-				
 			}
 			
 			for(int i = 0; i < FireplaceUtil.UUID.length; i++)
