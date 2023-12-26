@@ -48,6 +48,16 @@ public class EventHandlerForge
 	{
     	Entity sourceMob = event.getExplosion().getSourceMob();
     	List<Entity> list = event.getAffectedEntities();
+    	
+		for(int i = 0; i < FireplaceUtil.UUID.length; i++)
+		{
+			preventExplodedByAllieOrOwner(sourceMob, list, FireplaceUtil.UUID[i]);
+		}
+	}
+	
+	public static void preventExplodedByAllieOrOwner(Entity sourceMob, List<Entity> list, String name)
+	{
+		//when fengs cause explode and fengs affected
     	if(sourceMob != null)
     	{
     		if(sourceMob instanceof AbstractKaratFeng sourceFeng)
@@ -58,6 +68,105 @@ public class EventHandlerForge
     				if(entity instanceof AbstractKaratFeng feng)
     				{
     					if(sourceFeng.getCurrentRaid() != null && feng.getCurrentRaid() != null)
+    					{
+        					itr.remove();
+    					}
+    				}
+    			}
+    		}
+    	}
+    	
+		//when summoned cause explode, and karat feng affected
+    	if(sourceMob != null)
+    	{
+    		if(sourceMob.getPersistentData().contains(name))
+    		{
+    			UUID uuid = sourceMob.getPersistentData().getUUID(name);
+    			for(Iterator<Entity> itr = list.iterator(); itr.hasNext();)
+    			{
+    				Entity entity = itr.next();
+    				if(entity.getUUID().equals(uuid))
+    				{
+    					itr.remove();
+    				}
+    			}
+    		}
+    	}
+    	
+		//when karat feng cause explode, and summoned affected
+    	if(sourceMob != null)
+    	{
+			for(Iterator<Entity> itr = list.iterator(); itr.hasNext();)
+			{
+				Entity entity = itr.next();
+				if(entity.getPersistentData().contains(name))
+				{
+					UUID uuid = entity.getPersistentData().getUUID(name);
+					if(sourceMob.getUUID().equals(uuid))
+					{
+						itr.remove();
+					}
+				}
+			}
+    	}
+    	
+		//when summoned cause explode, and summoned affected
+    	//this handle necro feng undeads too
+    	if(sourceMob != null)
+    	{
+    		if(sourceMob.getPersistentData().contains(name))
+    		{
+    			UUID uuid = sourceMob.getPersistentData().getUUID(name);
+    			for(Iterator<Entity> itr = list.iterator(); itr.hasNext();)
+    			{
+    				Entity entity = itr.next();
+    				if(entity.getPersistentData().contains(name))
+    				{
+    					if(uuid.equals(entity.getPersistentData().getUUID(name)))
+    					{
+        					itr.remove();
+    					}
+    				}
+    			}
+    		}
+    	}
+    	
+		if(!(sourceMob.level instanceof ServerLevel))
+			return;
+		//when undead cause explode, and fengs affected
+    	if(sourceMob != null)
+    	{
+    		if(sourceMob.getPersistentData().contains(name))
+    		{
+    			UUID uuid = sourceMob.getPersistentData().getUUID(name);
+    			EntityNecroFeng necrofeng = (EntityNecroFeng) ((ServerLevel)sourceMob.level).getEntity(uuid);
+    			for(Iterator<Entity> itr = list.iterator(); itr.hasNext();)
+    			{
+    				Entity entity = itr.next();
+    				if(entity instanceof AbstractKaratFeng feng)
+    				{
+    					if(necrofeng.getCurrentRaid() != null && feng.getCurrentRaid() != null)
+    					{
+        					itr.remove();
+    					}
+    				}
+    			}
+    		}
+    	}
+    	
+		//when fengs cause explode, and undead affected
+    	if(sourceMob != null)
+    	{
+    		if(sourceMob instanceof AbstractKaratFeng feng)
+    		{
+    			for(Iterator<Entity> itr = list.iterator(); itr.hasNext();)
+    			{
+    				Entity entity = itr.next();
+    				if(entity.getPersistentData().contains(name))
+    				{
+    	    			UUID uuid = entity.getPersistentData().getUUID(name);
+    	    			EntityNecroFeng necrofeng = (EntityNecroFeng) ((ServerLevel)entity.level).getEntity(uuid);
+    					if(necrofeng.getCurrentRaid() != null && feng.getCurrentRaid() != null)
     					{
         					itr.remove();
     					}
@@ -104,11 +213,11 @@ public class EventHandlerForge
 		
 		for(int i = 0; i < FireplaceUtil.UUID.length; i++)
 		{
-			preventDamageOwner(event, entity, directentity, FireplaceUtil.UUID[i]);
+			preventDamageOwnerOrAllie(event, entity, directentity, FireplaceUtil.UUID[i]);
 		}
 	}
 	
-	public static void preventDamageOwner(LivingDamageEvent event, Entity entity, Entity directentity, String name)
+	public static void preventDamageOwnerOrAllie(LivingDamageEvent event, Entity entity, Entity directentity, String name)
 	{
 		//when hit
 		if(entity != null)
@@ -116,11 +225,13 @@ public class EventHandlerForge
 			if(entity.getPersistentData().contains(name))
 			{
 				UUID uuid = entity.getPersistentData().getUUID(name);
+				//if owner
 				if(event.getEntity().getUUID().equals(uuid))
 				{
 					event.setCanceled(true);
 				}
 				
+				//if same team
 				if(event.getEntity().getPersistentData().contains(name))
 				{
 					if(event.getEntity().getPersistentData().getUUID(name).equals(uuid))
@@ -137,14 +248,88 @@ public class EventHandlerForge
 			if(directentity.getPersistentData().contains(name))
 			{
 				UUID uuid = directentity.getPersistentData().getUUID(name);
+				//same above
 				if(event.getEntity().getUUID().equals(uuid))
 				{
 					event.setCanceled(true);
 				}
 				
+				//same above
 				if(event.getEntity().getPersistentData().contains(name))
 				{
 					if(event.getEntity().getPersistentData().getUUID(name).equals(uuid))
+					{
+						event.setCanceled(true);
+					}
+				}
+			}
+		}
+		
+		if(!(entity.level instanceof ServerLevel))
+			return;
+		//when hit
+		if(entity != null)
+		{
+			if(entity.getPersistentData().contains(name))
+			{
+				UUID uuid = entity.getPersistentData().getUUID(name);
+				EntityNecroFeng necro = (EntityNecroFeng) ((ServerLevel)entity.level).getEntity(uuid);
+				//if undead hit feng
+				if(necro != null)
+				{
+					if(necro.getCurrentRaid() != null && event.getEntity() instanceof AbstractKaratFeng feng)
+					{
+						if(feng.getCurrentRaid() != null)
+						{
+							event.setCanceled(true);
+						}
+					}
+				}
+			}
+			
+			//if feng hit undead
+			if(event.getEntity().getPersistentData().contains(name))
+			{
+				UUID uuid = event.getEntity().getPersistentData().getUUID(name);
+				EntityNecroFeng necro = (EntityNecroFeng) ((ServerLevel)event.getEntity().level).getEntity(uuid);
+				if(necro.getCurrentRaid() != null && entity instanceof AbstractKaratFeng feng)
+				{
+					if(feng.getCurrentRaid() != null)
+					{
+						event.setCanceled(true);
+					}
+				}
+			}
+		}
+		
+		//when hit with non-living entity
+		if(directentity != null)
+		{
+			if(directentity.getPersistentData().contains(name))
+			{
+				UUID uuid = directentity.getPersistentData().getUUID(name);
+				EntityNecroFeng necro = (EntityNecroFeng) ((ServerLevel)directentity.level).getEntity(uuid);
+				//same above
+				if(necro != null)
+				{
+					if(necro.getCurrentRaid() != null && event.getEntity() instanceof AbstractKaratFeng feng)
+					{
+						if(feng.getCurrentRaid() != null)
+						{
+							event.setCanceled(true);
+						}
+					}
+				}
+			}
+
+			//same above
+			if(event.getEntity().getPersistentData().contains(name))
+			{
+				UUID uuid = event.getEntity().getPersistentData().getUUID(name);
+				EntityNecroFeng necro = (EntityNecroFeng) ((ServerLevel)event.getEntity().level).getEntity(uuid);
+				if(necro.getCurrentRaid() != null && directentity instanceof AbstractKaratFeng feng)
+				{
+					if(feng.getCurrentRaid() != null)
 					{
 						event.setCanceled(true);
 					}
@@ -159,10 +344,7 @@ public class EventHandlerForge
 		LivingEntity entity = event.getEntity();
 		LivingEntity newtarget = event.getNewTarget();
 		LivingEntity originaltarget = event.getOriginalTarget();
-		
-		//TODO
-		//necro fengs undead need to allied with other fengs when they are in raid
-		
+
 		for(int i = 0; i < FireplaceUtil.UUID.length; i++)
 		{
 			preventTargetingOwnerOrTeam(event, entity, newtarget, originaltarget, FireplaceUtil.UUID[i]);
@@ -223,6 +405,76 @@ public class EventHandlerForge
 					if(uuid.equals(originaltargetUUID))
 					{
 						event.setCanceled(true);
+					}
+				}
+			}
+		}
+		
+		if(!(entity.level instanceof ServerLevel))
+			return;
+		//when target is feng
+		if(newtarget != null && entity.getPersistentData().contains(name))
+		{
+			UUID uuid = entity.getPersistentData().getUUID(name);
+			EntityNecroFeng necro = (EntityNecroFeng) ((ServerLevel)entity.level).getEntity(uuid);
+			if(necro != null)
+			{
+				if(necro.getCurrentRaid() != null && newtarget instanceof AbstractKaratFeng feng)
+				{
+					if(feng.getCurrentRaid() != null)
+					{
+						event.setCanceled(true);					
+					}
+				}
+			}
+		}
+		
+		//same above
+		if(originaltarget != null && entity.getPersistentData().contains(name))
+		{
+			UUID uuid = entity.getPersistentData().getUUID(name);
+			EntityNecroFeng necro = (EntityNecroFeng) ((ServerLevel)entity.level).getEntity(uuid);
+			if(necro != null)
+			{
+				if(necro.getCurrentRaid() != null && originaltarget instanceof AbstractKaratFeng feng)
+				{
+					if(feng.getCurrentRaid() != null)
+					{
+						event.setCanceled(true);					
+					}
+				}
+			}
+		}
+		
+		//when target is undead
+		if(newtarget != null && newtarget.getPersistentData().contains(name))
+		{
+			UUID uuid = newtarget.getPersistentData().getUUID(name);
+			EntityNecroFeng necro = (EntityNecroFeng) ((ServerLevel)newtarget.level).getEntity(uuid);
+			if(necro != null)
+			{
+				if(necro.getCurrentRaid() != null && entity instanceof AbstractKaratFeng feng)
+				{
+					if(feng.getCurrentRaid() != null)
+					{
+						event.setCanceled(true);					
+					}
+				}
+			}
+		}
+		
+		//same above
+		if(originaltarget != null && originaltarget.getPersistentData().contains(name))
+		{
+			UUID uuid = originaltarget.getPersistentData().getUUID(name);
+			EntityNecroFeng necro = (EntityNecroFeng) ((ServerLevel)originaltarget.level).getEntity(uuid);
+			if(necro != null)
+			{
+				if(necro.getCurrentRaid() != null && entity instanceof AbstractKaratFeng feng)
+				{
+					if(feng.getCurrentRaid() != null)
+					{
+						event.setCanceled(true);					
 					}
 				}
 			}
@@ -302,18 +554,20 @@ public class EventHandlerForge
 				
 				for(int i = 0; i < FireplaceUtil.UUID.length; i++)
 				{
-					preventHitAlliesWithProjectile2(event, owner, hitentity, FireplaceUtil.UUID[i]);
+					preventHitAlliesWithProjectile(event, owner, hitentity, FireplaceUtil.UUID[i]);
 				}
 			}
-			
-			for(int i = 0; i < FireplaceUtil.UUID.length; i++)
+			else
 			{
-				preventHitAlliesWithProjectile(event, proj, hitentity, FireplaceUtil.UUID[i]);
+				for(int i = 0; i < FireplaceUtil.UUID.length; i++)
+				{
+					preventHitAlliesWithProjectileWhenOwnerIsDeadOrNull(event, proj, hitentity, FireplaceUtil.UUID[i]);
+				}
 			}
 		}
 	}
 	
-	public static void preventHitAlliesWithProjectile2(ProjectileImpactEvent event, Entity owner, Entity hitentity, String string)
+	public static void preventHitAlliesWithProjectile(ProjectileImpactEvent event, Entity owner, Entity hitentity, String string)
 	{
 		if(owner.getPersistentData().contains(string))
 		{
@@ -335,13 +589,58 @@ public class EventHandlerForge
 				}
 			}
 		}
+		
+		if(!(owner.level instanceof ServerLevel))
+			return;
+		if(owner.getPersistentData().contains(string))
+		{
+			UUID uuid = owner.getPersistentData().getUUID(string);
+			EntityNecroFeng necro = (EntityNecroFeng) ((ServerLevel)owner.level).getEntity(uuid);
+			//hit entity is feng?
+			if(necro != null)
+			{
+				if(necro.getCurrentRaid() != null && hitentity instanceof AbstractKaratFeng feng)
+				{
+					if(feng.getCurrentRaid() != null)
+					{
+						event.setCanceled(true);
+					}
+				}
+			}
+		}
+		
+		//hit entity is necro fengs undead?
+		if(hitentity.getPersistentData().contains(string))
+		{
+			UUID uuid = hitentity.getPersistentData().getUUID(string);
+			EntityNecroFeng necro = (EntityNecroFeng) ((ServerLevel)owner.level).getEntity(uuid);
+			if(necro != null)
+			{
+				if(necro.getCurrentRaid() != null && owner instanceof AbstractKaratFeng feng)
+				{
+					if(feng.getCurrentRaid() != null)
+					{
+						event.setCanceled(true);
+					}
+				}
+			}
+		}
 	}
 	
-	public static void preventHitAlliesWithProjectile(ProjectileImpactEvent event, Projectile proj, Entity hitentity, String string)
+	public static void preventHitAlliesWithProjectileWhenOwnerIsDeadOrNull(ProjectileImpactEvent event, Projectile proj, Entity hitentity, String string)
 	{
 		if(proj.getPersistentData().contains(string))
 		{
 			UUID uuid = proj.getPersistentData().getUUID(string);
+			
+			//hit entity is feng?
+			if(hitentity instanceof AbstractKaratFeng feng)
+			{
+				if(feng.getCurrentRaid() != null)
+				{
+					event.setCanceled(true);
+				}
+			}
 			
 			//hit entity is owner?
 			if(hitentity.getUUID().equals(uuid))
