@@ -16,7 +16,6 @@ import javax.annotation.Nullable;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import com.min01.fireplace.Fireplace;
 import com.min01.fireplace.config.FireplaceConfig;
 import com.min01.fireplace.entity.AbstractKaratFeng;
 import com.min01.fireplace.init.FireplaceEffects;
@@ -40,6 +39,7 @@ import net.minecraft.stats.Stats;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.BossEvent;
+import net.minecraft.world.BossEvent.BossBarColor;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.effect.MobEffect;
@@ -95,7 +95,7 @@ public class KaratRaid
 	public int effectLevel;
 	public boolean active;
 	public int groupsSpawned;
-	public final ServerBossEvent raidEvent;
+	public final ServerBossEvent raidEvent = new ServerBossEvent(RAID_NAME_COMPONENT, BossBarColor.BLUE, BossEvent.BossBarOverlay.NOTCHED_10);
 	public int postRaidTicks;
 	public int raidCooldownTicks;
 	public final RandomSource random = RandomSource.create();
@@ -106,7 +106,6 @@ public class KaratRaid
 
 	public KaratRaid(int p_37692_, ServerLevel p_37693_, BlockPos p_37694_)
 	{
-		this.raidEvent =  new ServerBossEvent(RAID_NAME_COMPONENT, Fireplace.ORANGE, BossEvent.BossBarOverlay.NOTCHED_10);
 		this.id = p_37692_;
 		this.level = p_37693_;
 		this.active = true;
@@ -119,7 +118,6 @@ public class KaratRaid
 
 	public KaratRaid(ServerLevel p_37696_, CompoundTag p_37697_) 
 	{
-		this.raidEvent =  new ServerBossEvent(RAID_NAME_COMPONENT, Fireplace.ORANGE, BossEvent.BossBarOverlay.NOTCHED_10);
 		this.level = p_37696_;
 		this.id = p_37697_.getInt("Id");
 		this.started = p_37697_.getBoolean("Started");
