@@ -16,6 +16,7 @@ import javax.annotation.Nullable;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import com.min01.fireplace.Fireplace;
 import com.min01.fireplace.config.FireplaceConfig;
 import com.min01.fireplace.entity.AbstractKaratFeng;
 import com.min01.fireplace.init.FireplaceEffects;
@@ -39,7 +40,6 @@ import net.minecraft.stats.Stats;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.BossEvent;
-import net.minecraft.world.BossEvent.BossBarColor;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.effect.MobEffect;
@@ -67,8 +67,6 @@ public class KaratRaid
 	public static final int VILLAGE_SEARCH_RADIUS = 32;
 	public static final int RAID_TIMEOUT_TICKS = 48000;
 	public static final int NUM_SPAWN_ATTEMPTS = 3;
-	public static final String OMINOUS_BANNER_PATTERN_NAME = "block.minecraft.ominous_banner";
-	public static final String RAIDERS_REMAINING = "event.minecraft.raid.raiders_remaining";
 	public static final int VILLAGE_RADIUS_BUFFER = 16;
 	public static final int POST_RAID_TICK_LIMIT = 40;
 	public static final int DEFAULT_PRE_RAID_TICKS = 300;
@@ -97,8 +95,7 @@ public class KaratRaid
 	public int effectLevel;
 	public boolean active;
 	public int groupsSpawned;
-	//TODO
-	public final ServerBossEvent raidEvent = new ServerBossEvent(RAID_NAME_COMPONENT, BossBarColor.YELLOW, BossEvent.BossBarOverlay.NOTCHED_10);
+	public final ServerBossEvent raidEvent;
 	public int postRaidTicks;
 	public int raidCooldownTicks;
 	public final RandomSource random = RandomSource.create();
@@ -109,6 +106,7 @@ public class KaratRaid
 
 	public KaratRaid(int p_37692_, ServerLevel p_37693_, BlockPos p_37694_)
 	{
+		this.raidEvent =  new ServerBossEvent(RAID_NAME_COMPONENT, Fireplace.ORANGE, BossEvent.BossBarOverlay.NOTCHED_10);
 		this.id = p_37692_;
 		this.level = p_37693_;
 		this.active = true;
@@ -121,6 +119,7 @@ public class KaratRaid
 
 	public KaratRaid(ServerLevel p_37696_, CompoundTag p_37697_) 
 	{
+		this.raidEvent =  new ServerBossEvent(RAID_NAME_COMPONENT, Fireplace.ORANGE, BossEvent.BossBarOverlay.NOTCHED_10);
 		this.level = p_37696_;
 		this.id = p_37697_.getInt("Id");
 		this.started = p_37697_.getBoolean("Started");
