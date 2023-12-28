@@ -33,7 +33,7 @@ public class EffectKaratOmen extends MobEffect
 					
 		            if (serverlevel.isVillage(p_19467_.blockPosition()))
 		            {
-		            	((IKaratRaid)serverlevel).getRaids().createOrExtendRaid(serverplayer);
+		            	((IKaratRaid)serverlevel).getKaratRaids().createOrExtendRaid(serverplayer);
 		            }
 				}
 			}

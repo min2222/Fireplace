@@ -210,7 +210,7 @@ public class KaratRaid
 		return (p_37723_) ->
 		{
 			BlockPos blockpos = p_37723_.blockPosition();
-			return p_37723_.isAlive() && ((IKaratRaid) this.level).getRaidAt(blockpos) == this;
+			return p_37723_.isAlive() && ((IKaratRaid) this.level).getKaratRaidAt(blockpos) == this;
 		};
 	}
 

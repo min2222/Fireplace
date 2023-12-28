@@ -7,7 +7,7 @@ import net.minecraft.core.BlockPos;
 
 public interface IKaratRaid 
 {
-	public KaratRaid getRaidAt(BlockPos pos);
+	public KaratRaid getKaratRaidAt(BlockPos pos);
 	
-	public KaratRaidSaveData getRaids();
+	public KaratRaidSaveData getKaratRaids();
 }

@@ -98,7 +98,7 @@ public abstract class AbstractKaratFeng extends Monster
 				{
 					if (this.level.getGameTime() % 20L == 0L)
 					{
-						KaratRaid raid1 = ((IKaratRaid)(ServerLevel) this.level).getRaidAt(this.blockPosition());
+						KaratRaid raid1 = ((IKaratRaid)(ServerLevel) this.level).getKaratRaidAt(this.blockPosition());
 						if (raid1 != null && KaratRaidSaveData.canJoinRaid(this, raid1)) 
 						{
 							raid1.joinRaid(raid1.getGroupsSpawned(), this, (BlockPos) null, true);
@@ -192,7 +192,7 @@ public abstract class AbstractKaratFeng extends Monster
 		{
 			if (this.level instanceof ServerLevel) 
 			{
-				this.raid = ((IKaratRaid)(ServerLevel) this.level).getRaids().get(p_37862_.getInt("RaidId"));
+				this.raid = ((IKaratRaid)(ServerLevel) this.level).getKaratRaids().get(p_37862_.getInt("RaidId"));
 			}
 
 			if (this.raid != null)

@@ -61,13 +61,13 @@ public abstract class MixinServerLevel extends Level implements IKaratRaid
 	}
 	
 	@Override
-	public KaratRaid getRaidAt(BlockPos pos)
+	public KaratRaid getKaratRaidAt(BlockPos pos)
 	{
 		return this.raidSaveData.getNearbyRaid(pos, 9216);
 	}
 	
 	@Override
-	public KaratRaidSaveData getRaids() 
+	public KaratRaidSaveData getKaratRaids() 
 	{
 		return this.raidSaveData;
 	}
