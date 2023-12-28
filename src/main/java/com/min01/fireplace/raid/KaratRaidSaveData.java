@@ -178,7 +178,7 @@ public class KaratRaidSaveData extends SavedData
 
 	public KaratRaid getOrCreateRaid(ServerLevel p_37961_, BlockPos p_37962_)
 	{
-		KaratRaid raid = ((IKaratRaid)p_37961_).getKaratRaidAt(p_37962_);
+		KaratRaid raid = ((IKaratRaid)p_37961_).getRaidAt(p_37962_);
 		return raid != null ? raid : new KaratRaid(this.getUniqueId(), p_37961_, p_37962_);
 	}
 	
@@ -218,7 +218,7 @@ public class KaratRaidSaveData extends SavedData
 
 	public static String getFileId(Holder<DimensionType> p_211597_)
 	{
-		return p_211597_.is(BuiltinDimensionTypes.END) ? "universe_raids_end" : "universe_raids";
+		return p_211597_.is(BuiltinDimensionTypes.END) ? "karat_raids_end" : "karat_raids";
 	}
 
 	public int getUniqueId()
