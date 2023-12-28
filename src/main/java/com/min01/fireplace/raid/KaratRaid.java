@@ -95,7 +95,7 @@ public class KaratRaid
 	public int effectLevel;
 	public boolean active;
 	public int groupsSpawned;
-	public final ServerBossEvent raidEvent = new ServerBossEvent(RAID_NAME_COMPONENT, BossBarColor.BLUE, BossEvent.BossBarOverlay.NOTCHED_10);
+	public final ServerBossEvent raidEvent = new ServerBossEvent(RAID_NAME_COMPONENT, BossBarColor.YELLOW, BossEvent.BossBarOverlay.NOTCHED_10);
 	public int postRaidTicks;
 	public int raidCooldownTicks;
 	public final RandomSource random = RandomSource.create();
