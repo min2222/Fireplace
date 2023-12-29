@@ -145,9 +145,12 @@ public class EventHandlerForge
     				Entity entity = itr.next();
     				if(entity instanceof AbstractKaratFeng feng)
     				{
-    					if(necrofeng.getCurrentRaid() != null && feng.getCurrentRaid() != null)
+    					if(necrofeng != null) 
     					{
-        					itr.remove();
+        					if(necrofeng.getCurrentRaid() != null && feng.getCurrentRaid() != null)
+        					{
+            					itr.remove();
+        					}
     					}
     				}
     			}
@@ -168,9 +171,12 @@ public class EventHandlerForge
     				{
     	    			UUID uuid = entity.getPersistentData().getUUID(name);
     	    			EntityNecroFeng necrofeng = (EntityNecroFeng) ((ServerLevel)entity.level).getEntity(uuid);
-    					if(necrofeng.getCurrentRaid() != null && feng.getCurrentRaid() != null)
+    					if(necrofeng != null) 
     					{
-        					itr.remove();
+        					if(necrofeng.getCurrentRaid() != null && feng.getCurrentRaid() != null)
+        					{
+            					itr.remove();
+        					}
     					}
     				}
     			}
