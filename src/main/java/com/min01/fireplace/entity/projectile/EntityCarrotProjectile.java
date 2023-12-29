@@ -2,6 +2,7 @@ package com.min01.fireplace.entity.projectile;
 
 import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
@@ -47,7 +48,11 @@ public class EntityCarrotProjectile extends ThrowableItemProjectile
 		super.onHitEntity(p_37259_);
 		if(p_37259_.getEntity() != null && p_37259_.getEntity() instanceof LivingEntity living)
 		{
-			living.knockback(0.8F, this.getX() - p_37259_.getEntity().getX(), this.getZ() - p_37259_.getEntity().getZ());
+			if(this.getOwner() != null)
+			{
+				living.hurt(DamageSource.mobAttack((LivingEntity) this.getOwner()), 5);
+			}
+			living.knockback(0.3F, this.getX() - p_37259_.getEntity().getX(), this.getZ() - p_37259_.getEntity().getZ());
 		}
 	}
 

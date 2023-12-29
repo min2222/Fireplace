@@ -32,7 +32,7 @@ public class EntityCarrotFang extends AbstractHostileKaratFeng
 			if(this.distanceTo(this.getTarget()) <= 6)
 			{
 				this.setCanMoveToTarget(false);
-				if(this.tickCount % 20 == 0)
+				if(this.tickCount % 30 == 0)
 				{
 					EntityCarrotProjectile carrot = new EntityCarrotProjectile(FireplaceEntities.CARROT.get(), this, this.level);
 					carrot.setPos(this.position().add(0, this.getEyeHeight(), 0));
