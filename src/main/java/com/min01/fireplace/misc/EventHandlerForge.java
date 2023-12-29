@@ -264,12 +264,11 @@ public class EventHandlerForge
 				}
 			}
 		}
-		
-		if(!(entity.level instanceof ServerLevel))
-			return;
 		//when hit
 		if(entity != null)
 		{
+			if(!(entity.level instanceof ServerLevel))
+				return;
 			if(entity.getPersistentData().contains(name))
 			{
 				UUID uuid = entity.getPersistentData().getUUID(name);
@@ -305,6 +304,8 @@ public class EventHandlerForge
 		//when hit with non-living entity
 		if(directentity != null)
 		{
+			if(!(directentity.level instanceof ServerLevel))
+				return;
 			if(directentity.getPersistentData().contains(name))
 			{
 				UUID uuid = directentity.getPersistentData().getUUID(name);
