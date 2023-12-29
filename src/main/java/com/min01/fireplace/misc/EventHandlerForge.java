@@ -131,11 +131,12 @@ public class EventHandlerForge
     		}
     	}
     	
-		if(!(sourceMob.level instanceof ServerLevel))
-			return;
 		//when undead cause explode, and fengs affected
     	if(sourceMob != null)
     	{
+    		if(!(sourceMob.level instanceof ServerLevel))
+    			return;
+    		
     		if(sourceMob.getPersistentData().contains(name))
     		{
     			UUID uuid = sourceMob.getPersistentData().getUUID(name);
