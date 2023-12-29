@@ -136,7 +136,6 @@ public class EventHandlerForge
     	{
     		if(!(sourceMob.level instanceof ServerLevel))
     			return;
-    		
     		if(sourceMob.getPersistentData().contains(name))
     		{
     			UUID uuid = sourceMob.getPersistentData().getUUID(name);
@@ -158,6 +157,8 @@ public class EventHandlerForge
 		//when fengs cause explode, and undead affected
     	if(sourceMob != null)
     	{
+    		if(!(sourceMob.level instanceof ServerLevel))
+    			return;
     		if(sourceMob instanceof AbstractKaratFeng feng)
     		{
     			for(Iterator<Entity> itr = list.iterator(); itr.hasNext();)
@@ -287,16 +288,21 @@ public class EventHandlerForge
 				}
 			}
 			
+			if(!(event.getEntity().level instanceof ServerLevel))
+				return;
 			//if feng hit undead
 			if(event.getEntity().getPersistentData().contains(name))
 			{
 				UUID uuid = event.getEntity().getPersistentData().getUUID(name);
 				EntityNecroFeng necro = (EntityNecroFeng) ((ServerLevel)event.getEntity().level).getEntity(uuid);
-				if(necro.getCurrentRaid() != null && entity instanceof AbstractKaratFeng feng)
+				if(necro != null)
 				{
-					if(feng.getCurrentRaid() != null)
+					if(necro.getCurrentRaid() != null && entity instanceof AbstractKaratFeng feng)
 					{
-						event.setCanceled(true);
+						if(feng.getCurrentRaid() != null)
+						{
+							event.setCanceled(true);
+						}
 					}
 				}
 			}
@@ -324,16 +330,21 @@ public class EventHandlerForge
 				}
 			}
 
+			if(!(event.getEntity().level instanceof ServerLevel))
+				return;
 			//same above
 			if(event.getEntity().getPersistentData().contains(name))
 			{
 				UUID uuid = event.getEntity().getPersistentData().getUUID(name);
 				EntityNecroFeng necro = (EntityNecroFeng) ((ServerLevel)event.getEntity().level).getEntity(uuid);
-				if(necro.getCurrentRaid() != null && directentity instanceof AbstractKaratFeng feng)
+				if(necro != null)
 				{
-					if(feng.getCurrentRaid() != null)
+					if(necro.getCurrentRaid() != null && directentity instanceof AbstractKaratFeng feng)
 					{
-						event.setCanceled(true);
+						if(feng.getCurrentRaid() != null)
+						{
+							event.setCanceled(true);
+						}
 					}
 				}
 			}
