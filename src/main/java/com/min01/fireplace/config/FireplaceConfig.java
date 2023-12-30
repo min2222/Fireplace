@@ -53,10 +53,11 @@ public class FireplaceConfig
         		"fireplace:carrot_fang=3,5,8,10,15,10,10,15", 
         		"fireplace:snowy_feng=3,5,5,4,6,6,5,8", 
         		"fireplace:evoker_feng=0,0,0,2,5,7,7,9", 
-        		"fireplace:santa_feng=0,0,0,0,1,0,0,2", 
+        		"fireplace:santa_feng=0,0,0,0,1,1,2,2", 
         		"fireplace:vampire_feng=0,0,1,2,2,6,4,8", 
-        		"fireplace:fire_feng=0,0,0,0,0,1,2,4", 
-        		"fireplace:necro_feng=0,0,0,0,0,1,2,4"}), String.class::isInstance);
+        		"fireplace:fire_feng=0,0,0,0,1,1,2,4", 
+        		"fireplace:necro_feng=0,0,0,0,1,1,2,4",
+        		"fireplace:alien_feng=0,0,0,0,0,1,1,2"}), String.class::isInstance);
         FireplaceConfig.maxWave = config.comment("max wave number for ultra karatted raid").define("maxWave", 8);
         config.pop();
     }
