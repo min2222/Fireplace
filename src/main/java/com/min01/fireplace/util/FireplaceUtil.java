@@ -16,6 +16,7 @@ import com.min01.fireplace.entity.model.ModelKaratFeng;
 import com.min01.fireplace.misc.EntityTimer;
 import com.min01.fireplace.network.EntityTimerSyncPacket;
 import com.min01.fireplace.network.FireplaceNetwork;
+import com.min01.universe.util.UniverseUtil;
 import com.replaymod.replay.ReplayModReplay;
 
 import net.minecraft.client.model.geom.ModelLayers;
@@ -70,42 +71,56 @@ public class FireplaceUtil
 		}
 	}
 	
-	public static boolean hasConflictMod()
+	public static boolean hasMU()
 	{
 		return FireplaceUtil.isModLoaded(MINS_UNIVERSE);
 	}
 	
     public static void setTickrate(Entity entity, float tickrate)
     {
-    	if(!entity.level.isClientSide)
+    	if(hasMU())
     	{
-        	for(ServerPlayer player : ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers()) 
+    		UniverseUtil.setTickrate(entity, tickrate);
+    	}
+    	else
+    	{
+        	if(!entity.level.isClientSide)
         	{
-        		FireplaceNetwork.CHANNEL.sendTo(new EntityTimerSyncPacket(entity.getUUID(), tickrate, false), player.connection.getConnection(), NetworkDirection.PLAY_TO_CLIENT);
+            	for(ServerPlayer player : ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers()) 
+            	{
+            		FireplaceNetwork.CHANNEL.sendTo(new EntityTimerSyncPacket(entity.getUUID(), tickrate, false), player.connection.getConnection(), NetworkDirection.PLAY_TO_CLIENT);
+            	}
+            	
+        		if(TIMER_MAP.containsKey(entity.getUUID()))
+        		{
+        			TIMER_MAP.remove(entity.getUUID());
+        		}
+        		
+    			TIMER_MAP.put(entity.getUUID(), new EntityTimer(tickrate, 0));
         	}
-        	
-    		if(TIMER_MAP.containsKey(entity.getUUID()))
-    		{
-    			TIMER_MAP.remove(entity.getUUID());
-    		}
-    		
-			TIMER_MAP.put(entity.getUUID(), new EntityTimer(tickrate, 0));
     	}
     }
     
     public static void resetTickrate(Entity entity)
     {
-    	if(!entity.level.isClientSide)
+    	if(hasMU())
     	{
-        	for(ServerPlayer player : ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers()) 
+    		UniverseUtil.resetTickrate(entity);
+    	}
+    	else
+    	{
+        	if(!entity.level.isClientSide)
         	{
-        		FireplaceNetwork.CHANNEL.sendTo(new EntityTimerSyncPacket(entity.getUUID(), 0, true), player.connection.getConnection(), NetworkDirection.PLAY_TO_CLIENT);
+            	for(ServerPlayer player : ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers()) 
+            	{
+            		FireplaceNetwork.CHANNEL.sendTo(new EntityTimerSyncPacket(entity.getUUID(), 0, true), player.connection.getConnection(), NetworkDirection.PLAY_TO_CLIENT);
+            	}
+            	
+        		if(TIMER_MAP.containsKey(entity.getUUID()))
+        		{
+        			TIMER_MAP.remove(entity.getUUID());
+        		}
         	}
-        	
-    		if(TIMER_MAP.containsKey(entity.getUUID()))
-    		{
-    			TIMER_MAP.remove(entity.getUUID());
-    		}
     	}
     }
     

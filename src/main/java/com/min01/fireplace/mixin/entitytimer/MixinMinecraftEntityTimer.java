@@ -1,4 +1,4 @@
-package com.min01.fireplace.mixin;
+package com.min01.fireplace.mixin.entitytimer;
 
 import javax.annotation.Nullable;
 
@@ -23,7 +23,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
 
 @Mixin(Minecraft.class)
-public class MixinMinecraft implements IEntityTicker
+public class MixinMinecraftEntityTimer implements IEntityTicker
 {
 	@Shadow
 	private @Final Timer timer;
@@ -43,7 +43,7 @@ public class MixinMinecraft implements IEntityTicker
 	@Inject(at = @At("HEAD"), method = "getFrameTime", cancellable = true)
 	private void getFrameTime(CallbackInfoReturnable<Float> ci) 
 	{
-		if(FireplaceUtil.isNotReplay() && !FireplaceUtil.hasConflictMod())
+		if(FireplaceUtil.isNotReplay())
 		{
 			ci.setReturnValue(FireplaceUtil.ENTITY_TIMER.partialTickEntity);
 		}
@@ -56,7 +56,7 @@ public class MixinMinecraft implements IEntityTicker
 	@Inject(at = @At("HEAD"), method = "getDeltaFrameTime", cancellable = true)
 	private void getDeltaFrameTime(CallbackInfoReturnable<Float> ci) 
 	{
-		if(FireplaceUtil.isNotReplay() && !FireplaceUtil.hasConflictMod())
+		if(FireplaceUtil.isNotReplay()) 
 		{
 			ci.setReturnValue(FireplaceUtil.ENTITY_TIMER.tickDeltaEntity);
 		}
@@ -69,7 +69,7 @@ public class MixinMinecraft implements IEntityTicker
 	@Inject(at = @At("HEAD"), method = "runTick", cancellable = true)
 	private void runTick(boolean p_91384_, CallbackInfo ci) 
 	{
-		if(FireplaceUtil.isNotReplay() && !FireplaceUtil.hasConflictMod())
+		if(FireplaceUtil.isNotReplay())
 		{
 			if (p_91384_) 
 			{
@@ -95,7 +95,7 @@ public class MixinMinecraft implements IEntityTicker
 	@Redirect(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Minecraft;tick()V"), method = "runTick")
 	public void tick(Minecraft instance)
 	{
-		if(!FireplaceUtil.isNotReplay() && FireplaceUtil.hasConflictMod())
+		if(!FireplaceUtil.isNotReplay())
 		{
 			instance.tick();
 		}
@@ -110,7 +110,7 @@ public class MixinMinecraft implements IEntityTicker
 	@Redirect(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/GameRenderer;render(FJZ)V"), method = "runTick")
 	public void render(GameRenderer instance, float f1, long crashreport, boolean crashreportcategory)
 	{
-		if(FireplaceUtil.isNotReplay() && !FireplaceUtil.hasConflictMod())
+		if(FireplaceUtil.isNotReplay())
 		{
 			instance.render(this.pause ? this.pausePartialTick : FireplaceUtil.ENTITY_TIMER.partialTickEntity, crashreport, crashreportcategory);
 		}
@@ -123,7 +123,7 @@ public class MixinMinecraft implements IEntityTicker
 	@Redirect(at = @At(value = "INVOKE", target = "Lnet/minecraftforge/event/ForgeEventFactory;onRenderTickStart(F)V"), method = "runTick")
 	public void onRenderTickStart(float timer)
 	{
-		if(FireplaceUtil.isNotReplay() && !FireplaceUtil.hasConflictMod())
+		if(FireplaceUtil.isNotReplay())
 		{
 			MinecraftForge.EVENT_BUS.post(new TickEvent.RenderTickEvent(TickEvent.Phase.START, this.pause ? this.pausePartialTick : FireplaceUtil.ENTITY_TIMER.partialTickEntity));
 		}
@@ -136,7 +136,7 @@ public class MixinMinecraft implements IEntityTicker
 	@Redirect(at = @At(value = "INVOKE", target = "Lnet/minecraftforge/event/ForgeEventFactory;onRenderTickEnd(F)V"), method = "runTick")
 	public void onRenderTickEnd(float timer)
 	{
-		if(FireplaceUtil.isNotReplay() && !FireplaceUtil.hasConflictMod())
+		if(FireplaceUtil.isNotReplay())
 		{
 			MinecraftForge.EVENT_BUS.post(new TickEvent.RenderTickEvent(TickEvent.Phase.END, this.pause ? this.pausePartialTick : FireplaceUtil.ENTITY_TIMER.partialTickEntity));
 		}
@@ -149,7 +149,7 @@ public class MixinMinecraft implements IEntityTicker
 	@Redirect(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/multiplayer/ClientLevel;tickEntities()V"), method = "tick")
 	public void tick(ClientLevel instance)
 	{
-		if(!FireplaceUtil.isNotReplay() && FireplaceUtil.hasConflictMod())
+		if(!FireplaceUtil.isNotReplay())
 		{
 			instance.tickEntities();
 		}

@@ -1,4 +1,4 @@
-package com.min01.fireplace.mixin;
+package com.min01.fireplace.mixin.entitytimer;
 
 import java.util.function.Supplier;
 
@@ -26,12 +26,12 @@ import net.minecraft.world.level.entity.EntityTickList;
 import net.minecraft.world.level.storage.WritableLevelData;
 
 @Mixin(ClientLevel.class)
-public abstract class MixinClientLevel extends Level
+public abstract class MixinClientLevelEntityTimer extends Level
 {
 	@Shadow
 	@Final EntityTickList tickingEntities;
 	
-	protected MixinClientLevel(WritableLevelData p_220352_, ResourceKey<Level> p_220353_, Holder<DimensionType> p_220354_, Supplier<ProfilerFiller> p_220355_, boolean p_220356_, boolean p_220357_, long p_220358_, int p_220359_) 
+	protected MixinClientLevelEntityTimer(WritableLevelData p_220352_, ResourceKey<Level> p_220353_, Holder<DimensionType> p_220354_, Supplier<ProfilerFiller> p_220355_, boolean p_220356_, boolean p_220357_, long p_220358_, int p_220359_) 
 	{
 		super(p_220352_, p_220353_, p_220354_, p_220355_, p_220356_, p_220357_, p_220358_, p_220359_);
 	}
@@ -40,7 +40,7 @@ public abstract class MixinClientLevel extends Level
 	@Inject(at = @At("HEAD"), method = "tickNonPassenger", cancellable = true)
 	private void tickNonPassenger(Entity p_104640_, CallbackInfo ci) 
 	{
-		if(FireplaceUtil.isNotReplay() && !FireplaceUtil.hasConflictMod())
+		if(FireplaceUtil.isNotReplay())
 		{
 			ci.cancel();
 			if(!FireplaceUtil.CLIENT_TIMER_MAP.isEmpty())

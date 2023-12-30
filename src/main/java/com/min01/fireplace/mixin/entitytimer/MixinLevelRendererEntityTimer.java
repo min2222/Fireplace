@@ -1,4 +1,4 @@
-package com.min01.fireplace.mixin;
+package com.min01.fireplace.mixin.entitytimer;
 
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -20,7 +20,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 
 @Mixin(LevelRenderer.class)
-public class MixinLevelRenderer
+public class MixinLevelRendererEntityTimer
 {
     @Shadow
     private ClientLevel level;
@@ -34,7 +34,7 @@ public class MixinLevelRenderer
     @Inject(at = @At("HEAD"), method = "renderEntity", cancellable = true)
     private void renderEntity(Entity p_109518_, double p_109519_, double p_109520_, double p_109521_, float p_109522_, PoseStack p_109523_, MultiBufferSource p_109524_, CallbackInfo ci)
     {
-		if(FireplaceUtil.isNotReplay() && !FireplaceUtil.hasConflictMod())
+		if(FireplaceUtil.isNotReplay())
 		{
 	    	ci.cancel();
 			if(!FireplaceUtil.CLIENT_TIMER_MAP.isEmpty())
