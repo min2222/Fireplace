@@ -2,6 +2,7 @@ package com.min01.fireplace.init;
 
 import com.min01.fireplace.Fireplace;
 import com.min01.fireplace.entity.AbstractKaratFeng;
+import com.min01.fireplace.entity.EntityAlienFeng;
 import com.min01.fireplace.entity.EntityCarrotFang;
 import com.min01.fireplace.entity.EntityEvokerFeng;
 import com.min01.fireplace.entity.EntityFireFeng;
@@ -9,11 +10,13 @@ import com.min01.fireplace.entity.EntityKaratFeng;
 import com.min01.fireplace.entity.EntityNecroFeng;
 import com.min01.fireplace.entity.EntitySantaFeng;
 import com.min01.fireplace.entity.EntitySnowyFeng;
+import com.min01.fireplace.entity.EntityUFO;
 import com.min01.fireplace.entity.EntityVampireFeng;
 import com.min01.fireplace.entity.projectile.EntityCarrotProjectile;
 import com.min01.fireplace.entity.projectile.EntityPresentProjectile;
 
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.projectile.Projectile;
@@ -33,6 +36,8 @@ public class FireplaceEntities
 	public static final RegistryObject<EntityType<EntityVampireFeng>> VAMPIRE_FENG = registerKarat(EntityVampireFeng::new, "vampire_feng", MobCategory.MONSTER);
 	public static final RegistryObject<EntityType<EntityFireFeng>> FIRE_FENG = registerKaratWithFireImmune(EntityFireFeng::new, "fire_feng", MobCategory.MONSTER);
 	public static final RegistryObject<EntityType<EntityNecroFeng>> NECRO_FENG = registerKarat(EntityNecroFeng::new, "necro_feng", MobCategory.MONSTER);
+	public static final RegistryObject<EntityType<EntityAlienFeng>> ALIEN_FENG = registerKaratWithSize(EntityAlienFeng::new, 0.6F, 2.2F, "alien_feng", MobCategory.MONSTER);
+	public static final RegistryObject<EntityType<EntityUFO>> UFO = registerEntityWithSize(EntityUFO::new, 4F, 2F, "ufo", MobCategory.MONSTER);
 	
 	public static final RegistryObject<EntityType<EntityCarrotProjectile>> CARROT = registerProjectile(EntityCarrotProjectile::new, "carrot");
 	public static final RegistryObject<EntityType<EntityPresentProjectile>> PRESENT = registerProjectile(EntityPresentProjectile::new, "present");
@@ -40,6 +45,16 @@ public class FireplaceEntities
 	public static <T extends Projectile> RegistryObject<EntityType<T>> registerProjectile(EntityType.EntityFactory<T> entity, String name) 
 	{
 		return ENTITY_TYPES.register(name, () -> EntityType.Builder.of(entity, MobCategory.MISC).sized(0.25F, 0.25F).build(new ResourceLocation(Fireplace.MODID, name).toString()));
+	}
+	
+	public static <T extends Entity> RegistryObject<EntityType<T>> registerEntityWithSize(EntityType.EntityFactory<T> entity, float width, float height, String name, MobCategory category) 
+	{
+		return ENTITY_TYPES.register(name, () -> EntityType.Builder.of(entity, category).sized(width, height).build(new ResourceLocation(Fireplace.MODID, name).toString()));
+	}
+	
+	public static <T extends AbstractKaratFeng> RegistryObject<EntityType<T>> registerKaratWithSize(EntityType.EntityFactory<T> entity, float width, float height, String name, MobCategory category) 
+	{
+		return ENTITY_TYPES.register(name, () -> EntityType.Builder.of(entity, category).sized(width, height).build(new ResourceLocation(Fireplace.MODID, name).toString()));
 	}
 	
 	public static <T extends AbstractKaratFeng> RegistryObject<EntityType<T>> registerKaratWithFireImmune(EntityType.EntityFactory<T> entity, String name, MobCategory category) 

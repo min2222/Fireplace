@@ -1,5 +1,7 @@
 package com.min01.fireplace.mixin;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Set;
 
@@ -7,10 +9,26 @@ import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
 
-import com.min01.fireplace.util.FireplaceUtil;
-
 public class FireplaceMixinConfigPlugin implements IMixinConfigPlugin
 {
+	private final boolean hasMU = hasClass("com.min01.universe.MinsUniverse");
+	
+	public FireplaceMixinConfigPlugin() throws IOException 
+	{
+		
+	}
+	
+	static boolean hasClass(String name) throws IOException 
+	{
+		InputStream stream = Thread.currentThread().getContextClassLoader().getResourceAsStream(name.replace('.', '/') + ".class");
+		if (stream != null) 
+		{
+			stream.close();
+		}
+
+		return stream != null;
+	}
+	
 	@Override
 	public void onLoad(String mixinPackage)
 	{
@@ -26,7 +44,7 @@ public class FireplaceMixinConfigPlugin implements IMixinConfigPlugin
 	@Override
 	public boolean shouldApplyMixin(String targetClassName, String mixinClassName)
 	{
-		return mixinClassName.endsWith("EntityTimer") ? !FireplaceUtil.hasMU() : true;
+		return mixinClassName.endsWith("EntityTimer") ? !this.hasMU : true;
 	}
 
 	@Override
