@@ -1,8 +1,11 @@
 package com.min01.fireplace.util;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.function.Predicate;
 
 import javax.annotation.Nullable;
@@ -10,11 +13,16 @@ import javax.annotation.Nullable;
 import com.min01.fireplace.Fireplace;
 import com.min01.fireplace.entity.AbstractKaratFeng;
 import com.min01.fireplace.entity.model.ModelKaratFeng;
+import com.min01.fireplace.misc.EntityTimer;
+import com.min01.fireplace.network.EntityTimerSyncPacket;
+import com.min01.fireplace.network.FireplaceNetwork;
+import com.replaymod.replay.ReplayModReplay;
 
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -25,13 +33,86 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.fml.ModList;
+import net.minecraftforge.network.NetworkDirection;
+import net.minecraftforge.server.ServerLifecycleHooks;
 
 public class FireplaceUtil 
 {
+	public static final Map<UUID, EntityTimer> TIMER_MAP = new HashMap<>();
+	public static final Map<UUID, EntityTimer> CLIENT_TIMER_MAP = new HashMap<>();
+	public static final EntityTimer ENTITY_TIMER = new EntityTimer(20.0F, 0L);
+	
 	public static final String[] UUID = new String[] { "karatUUID", "necroFengUUID" };
 	public static final String KARAT_UUID = UUID[0];
 	public static final String NECRO_UUID = UUID[1];
 	public static final List<Mob> NECRO_LIST = new ArrayList<>();
+	
+	public static final String REPLAYMOD = "replaymod";
+	public static final String MINS_UNIVERSE = "minsuniverse";
+	
+	public static boolean isNotReplay()
+	{
+		if(FireplaceUtil.isModLoaded(REPLAYMOD))
+		{
+			if(ReplayModReplay.instance.getReplayHandler() == null)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+		else
+		{
+			return true;
+		}
+	}
+	
+	public static boolean hasConflictMod()
+	{
+		return FireplaceUtil.isModLoaded(MINS_UNIVERSE);
+	}
+	
+    public static void setTickrate(Entity entity, float tickrate)
+    {
+    	if(!entity.level.isClientSide)
+    	{
+        	for(ServerPlayer player : ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers()) 
+        	{
+        		FireplaceNetwork.CHANNEL.sendTo(new EntityTimerSyncPacket(entity.getUUID(), tickrate, false), player.connection.getConnection(), NetworkDirection.PLAY_TO_CLIENT);
+        	}
+        	
+    		if(TIMER_MAP.containsKey(entity.getUUID()))
+    		{
+    			TIMER_MAP.remove(entity.getUUID());
+    		}
+    		
+			TIMER_MAP.put(entity.getUUID(), new EntityTimer(tickrate, 0));
+    	}
+    }
+    
+    public static void resetTickrate(Entity entity)
+    {
+    	if(!entity.level.isClientSide)
+    	{
+        	for(ServerPlayer player : ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers()) 
+        	{
+        		FireplaceNetwork.CHANNEL.sendTo(new EntityTimerSyncPacket(entity.getUUID(), 0, true), player.connection.getConnection(), NetworkDirection.PLAY_TO_CLIENT);
+        	}
+        	
+    		if(TIMER_MAP.containsKey(entity.getUUID()))
+    		{
+    			TIMER_MAP.remove(entity.getUUID());
+    		}
+    	}
+    }
+    
+	public static boolean isModLoaded(String modid)
+	{
+		return ModList.get().isLoaded(modid);
+	}
 	
 	public static LivingEntity createBreath(Level level, LivingEntity caster, Vec3 startPosition, double range)
 	{

@@ -20,6 +20,7 @@ public class FireplaceNetwork
 	public static void registerMessages()
 	{
 		CHANNEL.registerMessage(ID++, KaratDataSyncPacket.class, KaratDataSyncPacket::encode, KaratDataSyncPacket::new, KaratDataSyncPacket.Handler::onMessage);
+		CHANNEL.registerMessage(ID++, EntityTimerSyncPacket.class, EntityTimerSyncPacket::encode, EntityTimerSyncPacket::new, EntityTimerSyncPacket.Handler::onMessage);
 	}
 	
     public static <MSG> void sendToAll(MSG message) 
