@@ -42,13 +42,44 @@ public class ClientEventHandlerForge
 				}
 			}
 		}
+
+		LivingEntity living = event.getEntity();
+		PoseStack stack = event.getPoseStack();
 		
-		if(FireplaceUtil.NECRO_LIST.contains(event.getEntity()))
+		if(FireplaceUtil.GRAVITY_MAP.containsKey(living))
 		{
-			LivingEntity living = event.getEntity();
+			if(living.isAlive())
+			{
+				if(FireplaceUtil.GRAVITY_MAP.get(living) < 180 && living.isCurrentlyGlowing())
+				{
+					FireplaceUtil.GRAVITY_MAP.replace(living, FireplaceUtil.GRAVITY_MAP.get(living) + 1);
+				}
+				else if(FireplaceUtil.GRAVITY_MAP.get(living) > 0 && !living.isCurrentlyGlowing())
+				{
+					FireplaceUtil.GRAVITY_MAP.replace(living, FireplaceUtil.GRAVITY_MAP.get(living) - 1);
+					
+					if(FireplaceUtil.GRAVITY_MAP.get(living) <= 0)
+					{
+						FireplaceUtil.GRAVITY_MAP.remove(living);
+					}
+				}
+				
+				if(FireplaceUtil.GRAVITY_MAP.get(living) != null)
+				{
+					stack.translate(0, FireplaceUtil.GRAVITY_MAP.get(living) / 180 + 0.5F, 0);
+					stack.mulPose(Vector3f.XP.rotationDegrees(FireplaceUtil.GRAVITY_MAP.get(living)));
+				}
+			}
+			else
+			{
+				FireplaceUtil.GRAVITY_MAP.remove(living);
+			}
+		}
+		
+		if(FireplaceUtil.NECRO_LIST.contains(living))
+		{
 			if(living.isAlive() && living.isAddedToWorld() && living.tickCount < 20)
 			{
-				PoseStack stack = event.getPoseStack();
 				double offset = -living.getEyeHeight() + (living.tickCount * 0.1);
 				if(offset <= 0)
 				{

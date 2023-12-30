@@ -48,6 +48,7 @@ public class FireplaceUtil
 	public static final String KARAT_UUID = UUID[0];
 	public static final String NECRO_UUID = UUID[1];
 	public static final List<Mob> NECRO_LIST = new ArrayList<>();
+	public static final Map<LivingEntity, Integer> GRAVITY_MAP = new HashMap<>();
 	
 	public static final String REPLAYMOD = "replaymod";
 	public static final String MINS_UNIVERSE = "minsuniverse";

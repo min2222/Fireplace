@@ -1,6 +1,13 @@
 package com.min01.fireplace.entity;
 
+import java.util.List;
+
+import com.min01.fireplace.misc.FireplaceTags;
+import com.min01.fireplace.util.FireplaceUtil;
+
 import net.minecraft.commands.arguments.EntityAnchorArgument.Anchor;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MoverType;
@@ -109,6 +116,19 @@ public class EntityUFO extends AbstractOwnableMonster<EntityAlienFeng>
 			if(this.getOwner().getTarget() != null)
 			{
 				this.lookAt(Anchor.EYES, this.getOwner().getTarget().position().add(0, this.getOwner().getTarget().getEyeHeight(), 0));
+				
+				List<LivingEntity> list = this.level.getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(6));
+				for(int i = 0; i < list.size(); i++)
+				{
+					LivingEntity living = list.get(i);
+					boolean flag = living.getType().is(FireplaceTags.THE_FENGS) ? ((AbstractKaratFeng) living).getCurrentRaid() == null : true;
+					if(list.size() >= 9 && !FireplaceUtil.GRAVITY_MAP.containsKey(living) && living != this && living != this.getOwner() && flag)
+					{
+						living.addEffect(new MobEffectInstance(MobEffects.LEVITATION, 200, 1, false, false));
+						living.addEffect(new MobEffectInstance(MobEffects.GLOWING, 200, 1, false, false));
+						FireplaceUtil.GRAVITY_MAP.put(living, 0);
+					}
+				}
 			}
 		}
 	}
