@@ -40,7 +40,7 @@ public class EntitySantaFeng extends AbstractHostileKaratFeng
 			if(this.distanceTo(this.getTarget()) <= 10)
 			{
 				this.setCanMoveToTarget(false);
-				float tick = this.getHealth() == this.getHealth() / 2 ? 5 : 15;
+				float tick = this.getHealth() == this.getHealth() / 2 ? 5 : 35;
 				if(this.tickCount % tick == 0)
 				{
 					EntityPresentProjectile present = new EntityPresentProjectile(FireplaceEntities.PRESENT.get(), this, this.level);

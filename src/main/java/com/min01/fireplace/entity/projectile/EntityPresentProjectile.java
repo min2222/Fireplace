@@ -121,7 +121,7 @@ public class EntityPresentProjectile extends ThrowableProjectile
     	double d0 = this.random.nextGaussian() * 0.05D;
         double d1 = this.random.nextGaussian() * 0.05D;
 
-        for(int i = 0; i < 5; ++i) 
+        for(int i = 0; i < 3; ++i) 
         {
 			Vec3 vec3 = this.getDeltaMovement();
         	double d2 = vec3.x * 0.5D + this.random.nextGaussian() * 0.15D + d0;
