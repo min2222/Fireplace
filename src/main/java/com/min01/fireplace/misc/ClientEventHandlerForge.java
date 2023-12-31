@@ -14,6 +14,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
@@ -141,11 +142,11 @@ public class ClientEventHandlerForge
     	p_229108_0_.vertex(p_229108_1_, p_229108_3_, p_229108_4_, p_229108_5_).color(p_229108_6_, p_229108_7_, p_229108_8_, 255).uv(p_229108_9_, p_229108_10_).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(packedLight).normal(p_229108_2_, 0.0F, 1.0F, 0.0F).endVertex();
     }
 
-    private static Vec3 getPosition(Entity LivingEntityIn, double p_177110_2_, float p_177110_4_)
+    private static Vec3 getPosition(Entity p_114803_, double p_114804_, float p_114805_)
     {
-    	double d0 = LivingEntityIn.xOld + (LivingEntityIn.getX() - LivingEntityIn.xOld) * (double) p_177110_4_;
-        double d1 = p_177110_2_ + LivingEntityIn.yOld + (LivingEntityIn.getY() - LivingEntityIn.yOld) * (double) p_177110_4_;
-        double d2 = LivingEntityIn.zOld + (LivingEntityIn.getZ() - LivingEntityIn.zOld) * (double) p_177110_4_;
+    	double d0 = Mth.lerp((double)p_114805_, p_114803_.xOld, p_114803_.getX());
+    	double d1 = Mth.lerp((double)p_114805_, p_114803_.yOld, p_114803_.getY()) + p_114804_;
+        double d2 = Mth.lerp((double)p_114805_, p_114803_.zOld, p_114803_.getZ());
         return new Vec3(d0, d1, d2);
     }
 }
