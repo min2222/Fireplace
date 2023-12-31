@@ -35,6 +35,13 @@ public abstract class AbstractOwnableMonster<T extends LivingEntity> extends Mon
 		this.entityData.define(OWNER_ID, 0);
 	}
 	
+    @Override
+    public void tick() 
+    {
+    	super.tick();
+		this.setOwner(this.getOwner());
+    }
+	
 	@Override
 	public void addAdditionalSaveData(CompoundTag p_37265_) 
 	{
