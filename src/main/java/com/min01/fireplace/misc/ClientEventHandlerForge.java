@@ -113,7 +113,8 @@ public class ClientEventHandlerForge
         float f22 = -0.2F;
         
         float f29 = 0;
-        float f30 = f4 + f29;
+        float f30 = f4 + 0.2F;
+        
         float f32 = 0.75F;
         float f31 = f4 + f32;
 
@@ -123,15 +124,27 @@ public class ClientEventHandlerForge
         Matrix3f matrix3f = matrixstack$entry.normal();
         
         matrixStackIn.pushPose();
-        drawVertex(ivertexbuilder, matrix4f, matrix3f, f19, f4, f20, j, k, l, 0.5F, f30, lightIn);
-        drawVertex(ivertexbuilder, matrix4f, matrix3f, f19, 0.0F, f20, j, k, l, 0.5F, f29, lightIn);
-        drawVertex(ivertexbuilder, matrix4f, matrix3f, f21, 0.0F, f22, j, k, l, 0.0F, f29, lightIn);
-        drawVertex(ivertexbuilder, matrix4f, matrix3f, f21, f4, f22, j, k, l, 0.0F, f30, lightIn);
+        drawVertex(ivertexbuilder, matrix4f, matrix3f, f19 - 0.01F, f4, f20 + 0.02F, j, k, l, 0.5F, f30, lightIn);
+        drawVertex(ivertexbuilder, matrix4f, matrix3f, f19 - 0.01F, 0.0F, f20 + 0.02F, j, k, l, 0.5F, f29, lightIn);
+        drawVertex(ivertexbuilder, matrix4f, matrix3f, f21 - 0.01F, 0.0F, f22 + 0.02F, j, k, l, 0.0F, f29, lightIn);
+        drawVertex(ivertexbuilder, matrix4f, matrix3f, f21 - 0.01F, f4, f22 + 0.02F, j, k, l, 0.0F, f30, lightIn);
 
-        drawVertex(ivertexbuilder, matrix4f, matrix3f, f20, f4, f19, j, k, l, 0.5F, f31, lightIn);
-        drawVertex(ivertexbuilder, matrix4f, matrix3f, f20, 0.0F, f19, j, k, l, 0.5F, f32, lightIn);
-        drawVertex(ivertexbuilder, matrix4f, matrix3f, f22, 0.0F, f21, j, k, l, 0.0F, f32, lightIn);
-        drawVertex(ivertexbuilder, matrix4f, matrix3f, f22, f4, f21, j, k, l, 0.0F, f31, lightIn);
+        drawVertex(ivertexbuilder, matrix4f, matrix3f, f20 + 0.02F, f4, f19 - 0.01F, j, k, l, 0.5F, f31, lightIn);
+        drawVertex(ivertexbuilder, matrix4f, matrix3f, f20 + 0.02F, 0.0F, f19 - 0.01F, j, k, l, 0.5F, f32, lightIn);
+        drawVertex(ivertexbuilder, matrix4f, matrix3f, f22 + 0.02F, 0.0F, f21 - 0.01F, j, k, l, 0.0F, f32, lightIn);
+        drawVertex(ivertexbuilder, matrix4f, matrix3f, f22 + 0.02F, f4, f21 - 0.01F, j, k, l, 0.0F, f31, lightIn);
+        matrixStackIn.popPose();
+        
+        matrixStackIn.pushPose();
+        drawVertex(ivertexbuilder, matrix4f, matrix3f, f19 - 0.01F, 0.0F, f20 + 0.02F, j, k, l, 0.5F, f30, lightIn);
+        drawVertex(ivertexbuilder, matrix4f, matrix3f, f19 - 0.01F, f4, f20 + 0.02F, j, k, l, 0.5F, f29, lightIn);
+        drawVertex(ivertexbuilder, matrix4f, matrix3f, f21 - 0.01F, f4, f22 + 0.02F, j, k, l, 0.0F, f29, lightIn);
+        drawVertex(ivertexbuilder, matrix4f, matrix3f, f21 - 0.01F, 0.0F, f22 + 0.02F, j, k, l, 0.0F, f30, lightIn);
+
+        drawVertex(ivertexbuilder, matrix4f, matrix3f, f20 + 0.02F, 0.0F, f19 - 0.01F, j, k, l, 0.5F, f31, lightIn);
+        drawVertex(ivertexbuilder, matrix4f, matrix3f, f20 + 0.02F, f4, f19 - 0.01F, j, k, l, 0.5F, f32, lightIn);
+        drawVertex(ivertexbuilder, matrix4f, matrix3f, f22 + 0.02F, f4, f21 - 0.01F, j, k, l, 0.0F, f32, lightIn);
+        drawVertex(ivertexbuilder, matrix4f, matrix3f, f22 + 0.02F, 0.0F, f21 - 0.01F, j, k, l, 0.0F, f31, lightIn);
         matrixStackIn.popPose();
         
         matrixStackIn.popPose();
