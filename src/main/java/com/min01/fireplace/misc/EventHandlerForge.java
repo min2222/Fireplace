@@ -142,20 +142,23 @@ public class EventHandlerForge
     		if(sourceMob.getPersistentData().contains(name))
     		{
     			UUID uuid = sourceMob.getPersistentData().getUUID(name);
-    			EntityNecroFeng necrofeng = (EntityNecroFeng) ((ServerLevel)sourceMob.level).getEntity(uuid);
-    			for(Iterator<Entity> itr = list.iterator(); itr.hasNext();)
+    			Entity uuidEntity = ((ServerLevel)sourceMob.level).getEntity(uuid);
+    			if(uuidEntity instanceof EntityNecroFeng necrofeng)
     			{
-    				Entity entity = itr.next();
-    				if(entity instanceof AbstractKaratFeng feng)
-    				{
-    					if(necrofeng != null) 
-    					{
-        					if(necrofeng.getCurrentRaid() != null && feng.getCurrentRaid() != null)
+        			for(Iterator<Entity> itr = list.iterator(); itr.hasNext();)
+        			{
+        				Entity entity = itr.next();
+        				if(entity instanceof AbstractKaratFeng feng)
+        				{
+        					if(necrofeng != null) 
         					{
-            					itr.remove();
+            					if(necrofeng.getCurrentRaid() != null && feng.getCurrentRaid() != null)
+            					{
+                					itr.remove();
+            					}
         					}
-    					}
-    				}
+        				}
+        			}
     			}
     		}
     	}
@@ -173,14 +176,17 @@ public class EventHandlerForge
     				if(entity.getPersistentData().contains(name))
     				{
     	    			UUID uuid = entity.getPersistentData().getUUID(name);
-    	    			EntityNecroFeng necrofeng = (EntityNecroFeng) ((ServerLevel)entity.level).getEntity(uuid);
-    					if(necrofeng != null) 
-    					{
-        					if(necrofeng.getCurrentRaid() != null && feng.getCurrentRaid() != null)
+    	    			Entity uuidEntity = (EntityNecroFeng) ((ServerLevel)entity.level).getEntity(uuid);
+    	    			if(uuidEntity instanceof EntityNecroFeng necrofeng)
+    	    			{
+        					if(necrofeng != null) 
         					{
-            					itr.remove();
+            					if(necrofeng.getCurrentRaid() != null && feng.getCurrentRaid() != null)
+            					{
+                					itr.remove();
+            					}
         					}
-    					}
+    	    			}
     				}
     			}
     		}
@@ -283,18 +289,21 @@ public class EventHandlerForge
 			if(entity.getPersistentData().contains(name))
 			{
 				UUID uuid = entity.getPersistentData().getUUID(name);
-				EntityNecroFeng necro = (EntityNecroFeng) ((ServerLevel)entity.level).getEntity(uuid);
-				//if undead hit feng
-				if(necro != null)
-				{
-					if(necro.getCurrentRaid() != null && event.getEntity() instanceof AbstractKaratFeng feng)
-					{
-						if(feng.getCurrentRaid() != null)
-						{
-							event.setCanceled(true);
-						}
-					}
-				}
+				Entity uuidEntity = (EntityNecroFeng) ((ServerLevel)entity.level).getEntity(uuid);
+    			if(uuidEntity instanceof EntityNecroFeng necro)
+    			{
+    				//if undead hit feng
+    				if(necro != null)
+    				{
+    					if(necro.getCurrentRaid() != null && event.getEntity() instanceof AbstractKaratFeng feng)
+    					{
+    						if(feng.getCurrentRaid() != null)
+    						{
+    							event.setCanceled(true);
+    						}
+    					}
+    				}
+    			}
 			}
 			
 			if(!(event.getEntity().level instanceof ServerLevel))
@@ -303,17 +312,20 @@ public class EventHandlerForge
 			if(event.getEntity().getPersistentData().contains(name))
 			{
 				UUID uuid = event.getEntity().getPersistentData().getUUID(name);
-				EntityNecroFeng necro = (EntityNecroFeng) ((ServerLevel)event.getEntity().level).getEntity(uuid);
-				if(necro != null)
-				{
-					if(necro.getCurrentRaid() != null && entity instanceof AbstractKaratFeng feng)
-					{
-						if(feng.getCurrentRaid() != null)
-						{
-							event.setCanceled(true);
-						}
-					}
-				}
+				Entity uuidEntity = (EntityNecroFeng) ((ServerLevel)event.getEntity().level).getEntity(uuid);
+    			if(uuidEntity instanceof EntityNecroFeng necro)
+    			{
+    				if(necro != null)
+    				{
+    					if(necro.getCurrentRaid() != null && entity instanceof AbstractKaratFeng feng)
+    					{
+    						if(feng.getCurrentRaid() != null)
+    						{
+    							event.setCanceled(true);
+    						}
+    					}
+    				}
+    			}
 			}
 		}
 		
@@ -325,18 +337,21 @@ public class EventHandlerForge
 			if(directentity.getPersistentData().contains(name))
 			{
 				UUID uuid = directentity.getPersistentData().getUUID(name);
-				EntityNecroFeng necro = (EntityNecroFeng) ((ServerLevel)directentity.level).getEntity(uuid);
-				//same above
-				if(necro != null)
-				{
-					if(necro.getCurrentRaid() != null && event.getEntity() instanceof AbstractKaratFeng feng)
-					{
-						if(feng.getCurrentRaid() != null)
-						{
-							event.setCanceled(true);
-						}
-					}
-				}
+				Entity uuidEntity = (EntityNecroFeng) ((ServerLevel)directentity.level).getEntity(uuid);
+    			if(uuidEntity instanceof EntityNecroFeng necro)
+    			{
+    				//same above
+    				if(necro != null)
+    				{
+    					if(necro.getCurrentRaid() != null && event.getEntity() instanceof AbstractKaratFeng feng)
+    					{
+    						if(feng.getCurrentRaid() != null)
+    						{
+    							event.setCanceled(true);
+    						}
+    					}
+    				}
+    			}
 			}
 
 			if(!(event.getEntity().level instanceof ServerLevel))
@@ -345,17 +360,20 @@ public class EventHandlerForge
 			if(event.getEntity().getPersistentData().contains(name))
 			{
 				UUID uuid = event.getEntity().getPersistentData().getUUID(name);
-				EntityNecroFeng necro = (EntityNecroFeng) ((ServerLevel)event.getEntity().level).getEntity(uuid);
-				if(necro != null)
-				{
-					if(necro.getCurrentRaid() != null && directentity instanceof AbstractKaratFeng feng)
-					{
-						if(feng.getCurrentRaid() != null)
-						{
-							event.setCanceled(true);
-						}
-					}
-				}
+				Entity uuidEntity = (EntityNecroFeng) ((ServerLevel)event.getEntity().level).getEntity(uuid);
+    			if(uuidEntity instanceof EntityNecroFeng necro)
+    			{
+    				if(necro != null)
+    				{
+    					if(necro.getCurrentRaid() != null && directentity instanceof AbstractKaratFeng feng)
+    					{
+    						if(feng.getCurrentRaid() != null)
+    						{
+    							event.setCanceled(true);
+    						}
+    					}
+    				}
+    			}
 			}
 		}
 	}
@@ -438,14 +456,17 @@ public class EventHandlerForge
 		if(newtarget != null && entity.getPersistentData().contains(name))
 		{
 			UUID uuid = entity.getPersistentData().getUUID(name);
-			EntityNecroFeng necro = (EntityNecroFeng) ((ServerLevel)entity.level).getEntity(uuid);
-			if(necro != null)
+			Entity uuidEntity = (EntityNecroFeng) ((ServerLevel)entity.level).getEntity(uuid);
+			if(uuidEntity instanceof EntityNecroFeng necro)
 			{
-				if(necro.getCurrentRaid() != null && newtarget instanceof AbstractKaratFeng feng)
+				if(necro != null)
 				{
-					if(feng.getCurrentRaid() != null)
+					if(necro.getCurrentRaid() != null && newtarget instanceof AbstractKaratFeng feng)
 					{
-						event.setCanceled(true);					
+						if(feng.getCurrentRaid() != null)
+						{
+							event.setCanceled(true);					
+						}
 					}
 				}
 			}
@@ -455,14 +476,17 @@ public class EventHandlerForge
 		if(originaltarget != null && entity.getPersistentData().contains(name))
 		{
 			UUID uuid = entity.getPersistentData().getUUID(name);
-			EntityNecroFeng necro = (EntityNecroFeng) ((ServerLevel)entity.level).getEntity(uuid);
-			if(necro != null)
+			Entity uuidEntity = (EntityNecroFeng) ((ServerLevel)entity.level).getEntity(uuid);
+			if(uuidEntity instanceof EntityNecroFeng necro)
 			{
-				if(necro.getCurrentRaid() != null && originaltarget instanceof AbstractKaratFeng feng)
+				if(necro != null)
 				{
-					if(feng.getCurrentRaid() != null)
+					if(necro.getCurrentRaid() != null && originaltarget instanceof AbstractKaratFeng feng)
 					{
-						event.setCanceled(true);					
+						if(feng.getCurrentRaid() != null)
+						{
+							event.setCanceled(true);					
+						}
 					}
 				}
 			}
@@ -472,14 +496,17 @@ public class EventHandlerForge
 		if(newtarget != null && newtarget.getPersistentData().contains(name))
 		{
 			UUID uuid = newtarget.getPersistentData().getUUID(name);
-			EntityNecroFeng necro = (EntityNecroFeng) ((ServerLevel)newtarget.level).getEntity(uuid);
-			if(necro != null)
+			Entity uuidEntity = (EntityNecroFeng) ((ServerLevel)newtarget.level).getEntity(uuid);
+			if(uuidEntity instanceof EntityNecroFeng necro)
 			{
-				if(necro.getCurrentRaid() != null && entity instanceof AbstractKaratFeng feng)
+				if(necro != null)
 				{
-					if(feng.getCurrentRaid() != null)
+					if(necro.getCurrentRaid() != null && entity instanceof AbstractKaratFeng feng)
 					{
-						event.setCanceled(true);					
+						if(feng.getCurrentRaid() != null)
+						{
+							event.setCanceled(true);					
+						}
 					}
 				}
 			}
@@ -489,14 +516,17 @@ public class EventHandlerForge
 		if(originaltarget != null && originaltarget.getPersistentData().contains(name))
 		{
 			UUID uuid = originaltarget.getPersistentData().getUUID(name);
-			EntityNecroFeng necro = (EntityNecroFeng) ((ServerLevel)originaltarget.level).getEntity(uuid);
-			if(necro != null)
+			Entity uuidEntity = (EntityNecroFeng) ((ServerLevel)originaltarget.level).getEntity(uuid);
+			if(uuidEntity instanceof EntityNecroFeng necro)
 			{
-				if(necro.getCurrentRaid() != null && entity instanceof AbstractKaratFeng feng)
+				if(necro != null)
 				{
-					if(feng.getCurrentRaid() != null)
+					if(necro.getCurrentRaid() != null && entity instanceof AbstractKaratFeng feng)
 					{
-						event.setCanceled(true);					
+						if(feng.getCurrentRaid() != null)
+						{
+							event.setCanceled(true);					
+						}
 					}
 				}
 			}
@@ -617,15 +647,18 @@ public class EventHandlerForge
 		if(owner.getPersistentData().contains(string))
 		{
 			UUID uuid = owner.getPersistentData().getUUID(string);
-			EntityNecroFeng necro = (EntityNecroFeng) ((ServerLevel)owner.level).getEntity(uuid);
-			//hit entity is feng?
-			if(necro != null)
+			Entity uuidEntity = (EntityNecroFeng) ((ServerLevel)owner.level).getEntity(uuid);
+			if(uuidEntity instanceof EntityNecroFeng necro)
 			{
-				if(necro.getCurrentRaid() != null && hitentity instanceof AbstractKaratFeng feng)
+				//hit entity is feng?
+				if(necro != null)
 				{
-					if(feng.getCurrentRaid() != null)
+					if(necro.getCurrentRaid() != null && hitentity instanceof AbstractKaratFeng feng)
 					{
-						event.setCanceled(true);
+						if(feng.getCurrentRaid() != null)
+						{
+							event.setCanceled(true);
+						}
 					}
 				}
 			}
@@ -635,14 +668,17 @@ public class EventHandlerForge
 		if(hitentity.getPersistentData().contains(string))
 		{
 			UUID uuid = hitentity.getPersistentData().getUUID(string);
-			EntityNecroFeng necro = (EntityNecroFeng) ((ServerLevel)owner.level).getEntity(uuid);
-			if(necro != null)
+			Entity uuidEntity = (EntityNecroFeng) ((ServerLevel)owner.level).getEntity(uuid);
+			if(uuidEntity instanceof EntityNecroFeng necro)
 			{
-				if(necro.getCurrentRaid() != null && owner instanceof AbstractKaratFeng feng)
+				if(necro != null)
 				{
-					if(feng.getCurrentRaid() != null)
+					if(necro.getCurrentRaid() != null && owner instanceof AbstractKaratFeng feng)
 					{
-						event.setCanceled(true);
+						if(feng.getCurrentRaid() != null)
+						{
+							event.setCanceled(true);
+						}
 					}
 				}
 			}
