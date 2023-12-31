@@ -14,7 +14,6 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
@@ -27,7 +26,7 @@ import net.minecraftforge.fml.common.Mod;
 public class ClientEventHandlerForge 
 {
 	private static final ResourceLocation CHAIN_LOCATION = new ResourceLocation(Fireplace.MODID + ":textures/entity/fire_chain.png");
-	private static final RenderType CHAIN_RENDER_TYPE = FireplaceRenderType.getGlowingEffect(CHAIN_LOCATION);
+	private static final RenderType CHAIN_RENDER_TYPE = RenderType.eyes(CHAIN_LOCATION);
 	
 	@SubscribeEvent
 	public static void onRenderLivingPre(RenderLivingEvent.Pre<?, ?> event)
@@ -38,7 +37,7 @@ public class ClientEventHandlerForge
 			{
 				if(living.isAlive() && living.isAddedToWorld() && living.tickCount >= 2)
 				{
-					renderLink(karat, event.getPartialTick(), event.getPoseStack(), event.getMultiBufferSource(), 15728880, living);
+					drawChain(karat, event.getPartialTick(), event.getPoseStack(), event.getMultiBufferSource(), 15728880, living);
 				}
 			}
 		}
@@ -89,7 +88,7 @@ public class ClientEventHandlerForge
 		}
 	}
 	
-    public static <E extends Entity> void renderLink(Entity entityLivingIn, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int lightIn, Entity chainTarget) 
+    public static <E extends Entity> void drawChain(Entity entityLivingIn, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int lightIn, Entity chainTarget) 
     {
     	RenderSystem.enableDepthTest();
         float f3 = entityLivingIn.getEyeHeight();
@@ -104,7 +103,6 @@ public class ClientEventHandlerForge
         float f6 = (float) Math.atan2(Vec32.z, Vec32.x);
         matrixStackIn.mulPose(Vector3f.YP.rotationDegrees((((float) Math.PI / 2F) - f6) * (180F / (float) Math.PI)));
         matrixStackIn.mulPose(Vector3f.XP.rotationDegrees(f5 * (180F / (float) Math.PI)));
-        float f7 = -1.0F;
         int j = 255;
         int k = 255;
         int l = 255;
@@ -112,10 +110,7 @@ public class ClientEventHandlerForge
         float f20 = 0.2F;
         float f21 = 0F;
         float f22 = -0.2F;
-        float f23 = Mth.cos(f7 + ((float) Math.PI / 2F)) * 0.2F;
-        float f24 = Mth.sin(f7 + ((float) Math.PI / 2F)) * 0.2F;
-        float f25 = Mth.cos(f7 + ((float) Math.PI * 1.5F)) * 0.2F;
-        float f26 = Mth.sin(f7 + ((float) Math.PI * 1.5F)) * 0.2F;
+        
         float f29 = 0;
         float f30 = f4 + f29;
         float f32 = 0.75F;
@@ -125,17 +120,19 @@ public class ClientEventHandlerForge
         PoseStack.Pose matrixstack$entry = matrixStackIn.last();
         Matrix4f matrix4f = matrixstack$entry.pose();
         Matrix3f matrix3f = matrixstack$entry.normal();
+        
         matrixStackIn.pushPose();
-        drawVertex(ivertexbuilder, matrix4f, matrix3f, f19, f4, f20, j, k, l, 0.4999F, f30, lightIn);
-        drawVertex(ivertexbuilder, matrix4f, matrix3f, f19, 0.0F, f20, j, k, l, 0.4999F, f29, lightIn);
+        drawVertex(ivertexbuilder, matrix4f, matrix3f, f19, f4, f20, j, k, l, 0.5F, f30, lightIn);
+        drawVertex(ivertexbuilder, matrix4f, matrix3f, f19, 0.0F, f20, j, k, l, 0.5F, f29, lightIn);
         drawVertex(ivertexbuilder, matrix4f, matrix3f, f21, 0.0F, f22, j, k, l, 0.0F, f29, lightIn);
         drawVertex(ivertexbuilder, matrix4f, matrix3f, f21, f4, f22, j, k, l, 0.0F, f30, lightIn);
 
-        drawVertex(ivertexbuilder, matrix4f, matrix3f, f23, f4, f24, j, k, l, 0.4999F, f31, lightIn);
-        drawVertex(ivertexbuilder, matrix4f, matrix3f, f23, 0.0F, f24, j, k, l, 0.4999F, f32, lightIn);
-        drawVertex(ivertexbuilder, matrix4f, matrix3f, f25, 0.0F, f26, j, k, l, 0.0F, f32, lightIn);
-        drawVertex(ivertexbuilder, matrix4f, matrix3f, f25, f4, f26, j, k, l, 0.0F, f31, lightIn);
+        drawVertex(ivertexbuilder, matrix4f, matrix3f, f20, f4, f19, j, k, l, 0.5F, f31, lightIn);
+        drawVertex(ivertexbuilder, matrix4f, matrix3f, f20, 0.0F, f19, j, k, l, 0.5F, f32, lightIn);
+        drawVertex(ivertexbuilder, matrix4f, matrix3f, f22, 0.0F, f21, j, k, l, 0.0F, f32, lightIn);
+        drawVertex(ivertexbuilder, matrix4f, matrix3f, f22, f4, f21, j, k, l, 0.0F, f31, lightIn);
         matrixStackIn.popPose();
+        
         matrixStackIn.popPose();
     }
 
