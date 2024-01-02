@@ -1,4 +1,4 @@
-package com.min01.fireplace.item.render;
+package com.min01.fireplace.item.renderer;
 
 import com.min01.fireplace.Fireplace;
 import com.min01.fireplace.item.model.ModelKingsStaff;

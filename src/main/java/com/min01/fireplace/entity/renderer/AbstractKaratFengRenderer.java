@@ -1,4 +1,4 @@
-package com.min01.fireplace.entity.render;
+package com.min01.fireplace.entity.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 

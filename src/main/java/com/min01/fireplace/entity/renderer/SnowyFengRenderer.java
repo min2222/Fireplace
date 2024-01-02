@@ -1,4 +1,4 @@
-package com.min01.fireplace.entity.render;
+package com.min01.fireplace.entity.renderer;
 
 import com.min01.fireplace.entity.EntitySnowyFeng;
 import com.min01.fireplace.entity.model.ModelSnowyFeng;

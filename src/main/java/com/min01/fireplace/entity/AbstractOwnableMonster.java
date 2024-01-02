@@ -45,6 +45,7 @@ public abstract class AbstractOwnableMonster<T extends LivingEntity> extends Mon
 	@Override
 	public void addAdditionalSaveData(CompoundTag p_37265_) 
 	{
+		super.addAdditionalSaveData(p_37265_);
 		if (this.ownerUUID != null)
 		{
 			p_37265_.putUUID("Owner", this.ownerUUID);
@@ -54,6 +55,7 @@ public abstract class AbstractOwnableMonster<T extends LivingEntity> extends Mon
 	@Override
 	public void readAdditionalSaveData(CompoundTag p_37262_) 
 	{
+		super.readAdditionalSaveData(p_37262_);
 		if (p_37262_.hasUUID("Owner")) 
 		{
 			this.ownerUUID = p_37262_.getUUID("Owner");
