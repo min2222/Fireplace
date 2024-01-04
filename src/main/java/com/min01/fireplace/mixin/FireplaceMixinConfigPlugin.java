@@ -25,7 +25,6 @@ public class FireplaceMixinConfigPlugin implements IMixinConfigPlugin
 		{
 			stream.close();
 		}
-
 		return stream != null;
 	}
 	

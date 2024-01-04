@@ -176,7 +176,7 @@ public class EventHandlerForge
     				if(entity.getPersistentData().contains(name))
     				{
     	    			UUID uuid = entity.getPersistentData().getUUID(name);
-    	    			Entity uuidEntity = (EntityNecroFeng) ((ServerLevel)entity.level).getEntity(uuid);
+    	    			Entity uuidEntity = ((ServerLevel)entity.level).getEntity(uuid);
     	    			if(uuidEntity instanceof EntityNecroFeng necrofeng)
     	    			{
         					if(necrofeng != null) 
@@ -289,7 +289,7 @@ public class EventHandlerForge
 			if(entity.getPersistentData().contains(name))
 			{
 				UUID uuid = entity.getPersistentData().getUUID(name);
-				Entity uuidEntity = (EntityNecroFeng) ((ServerLevel)entity.level).getEntity(uuid);
+				Entity uuidEntity = ((ServerLevel)entity.level).getEntity(uuid);
     			if(uuidEntity instanceof EntityNecroFeng necro)
     			{
     				//if undead hit feng
@@ -312,7 +312,7 @@ public class EventHandlerForge
 			if(event.getEntity().getPersistentData().contains(name))
 			{
 				UUID uuid = event.getEntity().getPersistentData().getUUID(name);
-				Entity uuidEntity = (EntityNecroFeng) ((ServerLevel)event.getEntity().level).getEntity(uuid);
+				Entity uuidEntity = ((ServerLevel)event.getEntity().level).getEntity(uuid);
     			if(uuidEntity instanceof EntityNecroFeng necro)
     			{
     				if(necro != null)
@@ -337,7 +337,7 @@ public class EventHandlerForge
 			if(directentity.getPersistentData().contains(name))
 			{
 				UUID uuid = directentity.getPersistentData().getUUID(name);
-				Entity uuidEntity = (EntityNecroFeng) ((ServerLevel)directentity.level).getEntity(uuid);
+				Entity uuidEntity = ((ServerLevel)directentity.level).getEntity(uuid);
     			if(uuidEntity instanceof EntityNecroFeng necro)
     			{
     				//same above
@@ -360,7 +360,7 @@ public class EventHandlerForge
 			if(event.getEntity().getPersistentData().contains(name))
 			{
 				UUID uuid = event.getEntity().getPersistentData().getUUID(name);
-				Entity uuidEntity = (EntityNecroFeng) ((ServerLevel)event.getEntity().level).getEntity(uuid);
+				Entity uuidEntity = ((ServerLevel)event.getEntity().level).getEntity(uuid);
     			if(uuidEntity instanceof EntityNecroFeng necro)
     			{
     				if(necro != null)
@@ -456,7 +456,7 @@ public class EventHandlerForge
 		if(newtarget != null && entity.getPersistentData().contains(name))
 		{
 			UUID uuid = entity.getPersistentData().getUUID(name);
-			Entity uuidEntity = (EntityNecroFeng) ((ServerLevel)entity.level).getEntity(uuid);
+			Entity uuidEntity = ((ServerLevel)entity.level).getEntity(uuid);
 			if(uuidEntity instanceof EntityNecroFeng necro)
 			{
 				if(necro != null)
@@ -476,7 +476,7 @@ public class EventHandlerForge
 		if(originaltarget != null && entity.getPersistentData().contains(name))
 		{
 			UUID uuid = entity.getPersistentData().getUUID(name);
-			Entity uuidEntity = (EntityNecroFeng) ((ServerLevel)entity.level).getEntity(uuid);
+			Entity uuidEntity = ((ServerLevel)entity.level).getEntity(uuid);
 			if(uuidEntity instanceof EntityNecroFeng necro)
 			{
 				if(necro != null)
@@ -496,7 +496,7 @@ public class EventHandlerForge
 		if(newtarget != null && newtarget.getPersistentData().contains(name))
 		{
 			UUID uuid = newtarget.getPersistentData().getUUID(name);
-			Entity uuidEntity = (EntityNecroFeng) ((ServerLevel)newtarget.level).getEntity(uuid);
+			Entity uuidEntity = ((ServerLevel)newtarget.level).getEntity(uuid);
 			if(uuidEntity instanceof EntityNecroFeng necro)
 			{
 				if(necro != null)
@@ -516,7 +516,7 @@ public class EventHandlerForge
 		if(originaltarget != null && originaltarget.getPersistentData().contains(name))
 		{
 			UUID uuid = originaltarget.getPersistentData().getUUID(name);
-			Entity uuidEntity = (EntityNecroFeng) ((ServerLevel)originaltarget.level).getEntity(uuid);
+			Entity uuidEntity = ((ServerLevel)originaltarget.level).getEntity(uuid);
 			if(uuidEntity instanceof EntityNecroFeng necro)
 			{
 				if(necro != null)
@@ -647,7 +647,7 @@ public class EventHandlerForge
 		if(owner.getPersistentData().contains(string))
 		{
 			UUID uuid = owner.getPersistentData().getUUID(string);
-			Entity uuidEntity = (EntityNecroFeng) ((ServerLevel)owner.level).getEntity(uuid);
+			Entity uuidEntity = ((ServerLevel)owner.level).getEntity(uuid);
 			if(uuidEntity instanceof EntityNecroFeng necro)
 			{
 				//hit entity is feng?
@@ -668,7 +668,7 @@ public class EventHandlerForge
 		if(hitentity.getPersistentData().contains(string))
 		{
 			UUID uuid = hitentity.getPersistentData().getUUID(string);
-			Entity uuidEntity = (EntityNecroFeng) ((ServerLevel)owner.level).getEntity(uuid);
+			Entity uuidEntity = ((ServerLevel)owner.level).getEntity(uuid);
 			if(uuidEntity instanceof EntityNecroFeng necro)
 			{
 				if(necro != null)
