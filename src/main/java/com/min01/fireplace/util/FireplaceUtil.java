@@ -16,7 +16,6 @@ import com.min01.fireplace.entity.model.ModelKaratFeng;
 import com.min01.fireplace.misc.EntityTimer;
 import com.min01.fireplace.network.EntityTimerSyncPacket;
 import com.min01.fireplace.network.FireplaceNetwork;
-import com.min01.universe.util.UniverseUtil;
 import com.replaymod.replay.ReplayModReplay;
 
 import net.minecraft.client.model.geom.ModelLayers;
@@ -79,11 +78,7 @@ public class FireplaceUtil
 	
     public static void setTickrate(Entity entity, float tickrate)
     {
-    	if(hasMU())
-    	{
-    		UniverseUtil.setTickrate(entity, tickrate);
-    	}
-    	else
+    	if(!hasMU())
     	{
         	if(!entity.level.isClientSide)
         	{
@@ -104,11 +99,7 @@ public class FireplaceUtil
     
     public static void resetTickrate(Entity entity)
     {
-    	if(hasMU())
-    	{
-    		UniverseUtil.resetTickrate(entity);
-    	}
-    	else
+    	if(!hasMU())
     	{
         	if(!entity.level.isClientSide)
         	{
