@@ -1,9 +1,7 @@
 package com.min01.fireplace.misc;
 
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 import com.min01.fireplace.Fireplace;
@@ -37,7 +35,6 @@ import net.minecraftforge.fml.common.Mod;
 @Mod.EventBusSubscriber(modid = Fireplace.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class EventHandlerForge 
 {
-	public static final Map<Class<? extends Entity>, Object> ENTITY_MAP = new HashMap<>();
 	private static final String TAG_ARROW_DODGE_CHECKED = Fireplace.MODID + "_dodge_check";
 	
 	@SubscribeEvent
@@ -721,8 +718,6 @@ public class EventHandlerForge
 	@SubscribeEvent
     public static void karatJoinLevel(EntityJoinLevelEvent event)
 	{
-		ENTITY_MAP.put(event.getEntity().getClass(), event.getEntity());
-		
 		if(event.getEntity() instanceof Projectile)
 		{
 			Projectile proj = (Projectile) event.getEntity();

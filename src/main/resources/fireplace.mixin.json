@@ -2,16 +2,11 @@
 	"required": true,
 	"minVersion": "0.8",
 	"package": "com.min01.fireplace.mixin",
-	"plugin": "com.min01.fireplace.mixin.FireplaceMixinConfigPlugin",
 	"compatibilityLevel": "JAVA_17",
 	"mixins": [
-		"MixinServerLevel",
-		"entitytimer.MixinServerLevelEntityTimer"
+		"MixinServerLevel"
 	],
 	"client": [
-		"entitytimer.MixinLevelRendererEntityTimer",
-		"entitytimer.MixinClientLevelEntityTimer",
-		"entitytimer.MixinMinecraftEntityTimer"
 	],
 	"server": [],
 	"injectors": {
