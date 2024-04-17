@@ -7,7 +7,6 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.PotionUtils;
@@ -15,7 +14,7 @@ import net.minecraft.world.item.alchemy.Potions;
 
 public class KaratSplashPotionsGoal extends AbstractFireplaceSkillGoal<EntityKaratFeng>
 {
-	public Item prevItem;
+	public ItemStack prevItem;
 	public KaratSplashPotionsGoal(EntityKaratFeng mob)
 	{
 		super(mob);
@@ -33,7 +32,7 @@ public class KaratSplashPotionsGoal extends AbstractFireplaceSkillGoal<EntityKar
 		super.start();
 		this.mob.swing(InteractionHand.MAIN_HAND);
 		this.mob.playSound(SoundEvents.SPLASH_POTION_THROW, 1.0F, 1.0F);
-		this.prevItem = this.mob.getMainHandItem().copy().getItem();
+		this.prevItem = this.mob.getMainHandItem().copy();
 		this.mob.setItemInHand(InteractionHand.MAIN_HAND, PotionUtils.setPotion(new ItemStack(Items.SPLASH_POTION), Potions.STRONG_STRENGTH));
 	}
 
@@ -48,7 +47,7 @@ public class KaratSplashPotionsGoal extends AbstractFireplaceSkillGoal<EntityKar
 	public void stop() 
 	{
 		super.stop();
-		this.mob.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(this.prevItem));
+		this.mob.setItemInHand(InteractionHand.MAIN_HAND, this.prevItem);
 	}
 	
 	@Override

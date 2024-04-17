@@ -261,6 +261,7 @@ public class EntityKaratFeng extends AbstractKaratFeng
         	Item item = this.diamondSet[this.getEquipIndex()];
         	EquipmentSlot slots = this.slots[this.getEquipIndex()];
         	ItemStack stack = new ItemStack(item);
+        	stack.getOrCreateTag().putBoolean("Unbreakable", true);
         	this.setEquipTick(this.getEquipTick() + 1);
         	if(this.getEquipTick() >= 20)
         	{
@@ -290,6 +291,7 @@ public class EntityKaratFeng extends AbstractKaratFeng
         	Item item = this.netheriteSet[this.getEquipIndex()];
         	EquipmentSlot slots = this.slots[this.getEquipIndex()];
         	ItemStack stack = new ItemStack(item);
+        	stack.getOrCreateTag().putBoolean("Unbreakable", true);
         	this.setEquipTick(this.getEquipTick() + 1);
         	if(this.getEquipTick() >= 20)
         	{
@@ -334,6 +336,7 @@ public class EntityKaratFeng extends AbstractKaratFeng
 			ItemStack[] enchantedNetheriteSet = {helmetStack, chestStack, legsStack, feetsStack, new ItemStack(Items.SHIELD), handStack};
         	EquipmentSlot slots = this.slots[this.getEquipIndex()];
         	ItemStack stack = enchantedNetheriteSet[this.getEquipIndex()];
+        	stack.getOrCreateTag().putBoolean("Unbreakable", true);
         	this.setEquipTick(this.getEquipTick() + 1);
         	if(this.getEquipTick() >= 20)
         	{
