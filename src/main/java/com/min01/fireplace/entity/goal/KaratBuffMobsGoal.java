@@ -1,6 +1,5 @@
 package com.min01.fireplace.entity.goal;
 
-import com.min01.fireplace.entity.AbstractKaratFeng;
 import com.min01.fireplace.entity.AbstractKaratFeng.KaratSkills;
 import com.min01.fireplace.entity.EntityKaratFeng;
 
@@ -9,10 +8,10 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 
-public class KaratBuffMobsGoal extends AbstractFireplaceSkillGoal
+public class KaratBuffMobsGoal extends AbstractFireplaceSkillGoal<EntityKaratFeng>
 {
 	public MobEffect[] effects = {MobEffects.ABSORPTION, MobEffects.REGENERATION, MobEffects.DAMAGE_RESISTANCE, MobEffects.MOVEMENT_SPEED, MobEffects.DAMAGE_BOOST, MobEffects.HEALTH_BOOST, MobEffects.INVISIBILITY, MobEffects.SLOW_FALLING};
-	public KaratBuffMobsGoal(AbstractKaratFeng mob)
+	public KaratBuffMobsGoal(EntityKaratFeng mob)
 	{
 		super(mob);
 	}
@@ -34,17 +33,16 @@ public class KaratBuffMobsGoal extends AbstractFireplaceSkillGoal
 	@Override
 	public boolean canUse() 
 	{
-		return super.canUse() && !((EntityKaratFeng) this.mob).stopFlying() && ((EntityKaratFeng)this.mob).getRemainSummoningHP() > 0;
+		return super.canUse() && this.mob.isFlying() && !this.mob.isChangeEquip() && this.mob.getRemainSummoningHP() > 0;
 	}
 
 	@Override
 	protected void performSkill()
 	{
-		EntityKaratFeng karat = (EntityKaratFeng) this.mob;
-		if(karat.entityList.size() > 0)
+		if(this.mob.entityList.size() > 0)
 		{
-			int rand = (int)Math.floor(Math.random()*karat.entityList.size());
-			LivingEntity living = karat.entityList.get(rand);
+			int rand = (int)Math.floor(Math.random() * this.mob.entityList.size());
+			LivingEntity living = this.mob.entityList.get(rand);
 			if(living.isAlive())
 			{
 				living.addEffect(new MobEffectInstance(this.effects[getRandomNumber(0, 7)], getRandomNumber(60, 200), getRandomNumber(0, 1)));

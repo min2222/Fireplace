@@ -2,16 +2,17 @@ package com.min01.fireplace.entity.goal;
 
 import com.min01.fireplace.entity.AbstractKaratFeng;
 
+import net.minecraft.commands.arguments.EntityAnchorArgument.Anchor;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
 
-public abstract class AbstractFireplaceSkillGoal extends Goal
+public abstract class AbstractFireplaceSkillGoal<T extends AbstractKaratFeng> extends Goal
 {
 	protected int skillWarmupDelay;
 	protected int nextAttackTickCount;
-	public AbstractKaratFeng mob;
+	public T mob;
 	
-	public AbstractFireplaceSkillGoal(AbstractKaratFeng mob) 
+	public AbstractFireplaceSkillGoal(T mob) 
 	{
 		this.mob = mob;
 	}
@@ -70,7 +71,7 @@ public abstract class AbstractFireplaceSkillGoal extends Goal
     {
     	if(this.mob.getTarget() != null)
     	{
-        	this.mob.getLookControl().setLookAt(this.mob.getTarget(), 30.0F, 30.0F);
+        	this.mob.lookAt(Anchor.EYES, this.mob.getTarget().getEyePosition());
     	}
     	
     	--this.skillWarmupDelay;

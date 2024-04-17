@@ -1,6 +1,5 @@
 package com.min01.fireplace.entity.goal;
 
-import com.min01.fireplace.entity.AbstractKaratFeng;
 import com.min01.fireplace.entity.AbstractKaratFeng.KaratSkills;
 import com.min01.fireplace.entity.EntityKaratFeng;
 
@@ -14,10 +13,10 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.item.alchemy.Potions;
 
-public class KaratSplashPotionsGoal extends AbstractFireplaceSkillGoal
+public class KaratSplashPotionsGoal extends AbstractFireplaceSkillGoal<EntityKaratFeng>
 {
 	public Item prevItem;
-	public KaratSplashPotionsGoal(AbstractKaratFeng mob)
+	public KaratSplashPotionsGoal(EntityKaratFeng mob)
 	{
 		super(mob);
 	}
@@ -25,7 +24,7 @@ public class KaratSplashPotionsGoal extends AbstractFireplaceSkillGoal
 	@Override
 	public boolean canUse() 
 	{
-		return super.canUse() && ((EntityKaratFeng) this.mob).stopFlying() && this.mob.getPhase() > 0 && this.mob.distanceTo(this.mob.getTarget()) > 4 && !this.mob.hasEffect(MobEffects.DAMAGE_BOOST);
+		return super.canUse() && this.mob.isMelee() && !this.mob.isChangeEquip() && this.mob.getPhase() > 0 && this.mob.distanceTo(this.mob.getTarget()) > 4 && !this.mob.hasEffect(MobEffects.DAMAGE_BOOST);
 	}
 	
 	@Override

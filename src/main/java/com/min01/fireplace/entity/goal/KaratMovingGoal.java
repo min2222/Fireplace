@@ -26,7 +26,7 @@ public class KaratMovingGoal extends Goal
 	@Override
 	public boolean canUse()
 	{
-		return !this.mob.stopFlying();
+		return this.mob.isFlying() && !this.mob.isChangeEquip();
 	}
 
 	@Override
@@ -123,7 +123,7 @@ public class KaratMovingGoal extends Goal
 					this.strafingBackwards = true;
 				}
 				
-				if(!this.mob.stopFlying())
+				if(this.mob.isFlying())
 				{
 			        this.mob.setZza(this.direction ? -1.5f : 1.5F);
 			        this.mob.setXxa(this.direction ? 1.5F : -1.5F);

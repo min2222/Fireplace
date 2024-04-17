@@ -3,7 +3,6 @@ package com.min01.fireplace.entity.goal;
 import java.util.ArrayList;
 
 import com.min01.fireplace.config.FireplaceConfig;
-import com.min01.fireplace.entity.AbstractKaratFeng;
 import com.min01.fireplace.entity.AbstractKaratFeng.KaratSkills;
 import com.min01.fireplace.entity.EntityKaratFeng;
 import com.min01.fireplace.util.FireplaceUtil;
@@ -17,20 +16,18 @@ import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.scores.PlayerTeam;
 import net.minecraftforge.registries.ForgeRegistries;
 
-public class KaratShootProjectileGoal extends AbstractFireplaceSkillGoal
+public class KaratShootProjectileGoal extends AbstractFireplaceSkillGoal<EntityKaratFeng>
 {
-	public EntityKaratFeng mob;
 	public ArrayList<Projectile> projectileList = new ArrayList<>();
-	public KaratShootProjectileGoal(AbstractKaratFeng mob) 
+	public KaratShootProjectileGoal(EntityKaratFeng mob) 
 	{
 		super(mob);
-		this.mob = (EntityKaratFeng) mob;
 	}
 	
 	@Override
 	public boolean canUse() 
 	{
-		return super.canUse() && !((EntityKaratFeng) this.mob).stopFlying();
+		return super.canUse() && this.mob.isFlying() && !this.mob.isChangeEquip();
 	}
 	
 	@Override

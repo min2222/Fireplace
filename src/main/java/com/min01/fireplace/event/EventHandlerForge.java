@@ -1,4 +1,4 @@
-package com.min01.fireplace.misc;
+package com.min01.fireplace.event;
 
 import java.util.Iterator;
 import java.util.List;
@@ -10,6 +10,7 @@ import com.min01.fireplace.entity.EntityKaratFeng;
 import com.min01.fireplace.entity.EntityNecroFeng;
 import com.min01.fireplace.entity.EntitySnowyFeng;
 import com.min01.fireplace.entity.goal.DodgeArrowsGoal;
+import com.min01.fireplace.misc.FireplaceTags;
 import com.min01.fireplace.raid.KaratRaidMembers;
 import com.min01.fireplace.util.FireplaceUtil;
 

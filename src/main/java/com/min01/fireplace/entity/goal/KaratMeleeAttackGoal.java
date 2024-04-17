@@ -18,7 +18,7 @@ public class KaratMeleeAttackGoal extends MeleeAttackGoal
 	@Override
 	public boolean canUse()
 	{
-		return super.canUse() && this.mob.stopFlying();
+		return super.canUse() && this.mob.isMelee() && !this.mob.isChangeEquip();
 	}
 	
 	@Override

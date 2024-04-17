@@ -2,7 +2,6 @@ package com.min01.fireplace.entity.goal;
 
 import java.util.ArrayList;
 
-import com.min01.fireplace.entity.AbstractKaratFeng;
 import com.min01.fireplace.entity.AbstractKaratFeng.KaratSkills;
 import com.min01.fireplace.entity.EntityNecroFeng;
 import com.min01.fireplace.network.FireplaceNetwork;
@@ -24,14 +23,12 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.scores.PlayerTeam;
 import net.minecraftforge.registries.ForgeRegistries;
 
-public class NecroFengSummonUndeadGoal extends AbstractFireplaceSkillGoal
+public class NecroFengSummonUndeadGoal extends AbstractFireplaceSkillGoal<EntityNecroFeng>
 {
-	public EntityNecroFeng mob;
 	public ArrayList<LivingEntity> entityList = new ArrayList<>();
-	public NecroFengSummonUndeadGoal(AbstractKaratFeng mob)
+	public NecroFengSummonUndeadGoal(EntityNecroFeng mob)
 	{
 		super(mob);
-		this.mob = (EntityNecroFeng) mob;
 	}
 	
 	@Override

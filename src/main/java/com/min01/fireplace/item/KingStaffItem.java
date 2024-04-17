@@ -7,8 +7,8 @@ import java.util.function.Consumer;
 import org.jetbrains.annotations.Nullable;
 
 import com.min01.fireplace.entity.AbstractKaratFeng;
+import com.min01.fireplace.event.ClientEventHandler;
 import com.min01.fireplace.item.renderer.KingsStaffRenderer;
-import com.min01.fireplace.misc.ClientEventHandler;
 import com.min01.fireplace.util.FireplaceUtil;
 
 import net.minecraft.client.Minecraft;

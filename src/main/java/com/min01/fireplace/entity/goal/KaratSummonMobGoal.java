@@ -22,20 +22,18 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.scores.PlayerTeam;
 import net.minecraftforge.registries.ForgeRegistries;
 
-public class KaratSummonMobGoal extends AbstractFireplaceSkillGoal
+public class KaratSummonMobGoal extends AbstractFireplaceSkillGoal<EntityKaratFeng>
 {
-	public EntityKaratFeng mob;
 	public ArrayList<LivingEntity> entityList = new ArrayList<>();
-	public KaratSummonMobGoal(AbstractKaratFeng mob)
+	public KaratSummonMobGoal(EntityKaratFeng mob)
 	{
 		super(mob);
-		this.mob = (EntityKaratFeng) mob;
 	}
 	
 	@Override
 	public boolean canUse() 
 	{
-		return super.canUse() && !((EntityKaratFeng) this.mob).shouldChangeEquip() && !((EntityKaratFeng) this.mob).stopFlying() && ((EntityKaratFeng)this.mob).getRemainSummoningHP() > 0;
+		return super.canUse() && this.mob.isFlying() && !this.mob.isChangeEquip() && this.mob.getRemainSummoningHP() > 0;
 	}
 	
 	@Override
@@ -58,7 +56,7 @@ public class KaratSummonMobGoal extends AbstractFireplaceSkillGoal
 							if(!FireplaceConfig.karatSummoningBlackList.get().contains(entity.getEncodeId()) && !FireplaceConfig.karatSummoningBlackList.get().contains(resourcelocation.toString().split(":")[0]))
 							{
 								LivingEntity living = (LivingEntity) entity;
-								if(living.getMaxHealth() <= ((EntityKaratFeng) this.mob).getRemainSummoningHP())
+								if(living.getMaxHealth() <= this.mob.getRemainSummoningHP())
 								{
 									if(living instanceof Mob && living.getAttribute(Attributes.ATTACK_DAMAGE) != null && !((Mob)living).isNoAi())
 									{
@@ -72,7 +70,7 @@ public class KaratSummonMobGoal extends AbstractFireplaceSkillGoal
 							if(FireplaceConfig.karatSummoningWhiteList.get().contains(resourcelocation.toString().split(":")[0]))
 							{
 								LivingEntity living = (LivingEntity) entity;
-								if(living.getMaxHealth() <= ((EntityKaratFeng) this.mob).getRemainSummoningHP())
+								if(living.getMaxHealth() <= this.mob.getRemainSummoningHP())
 								{
 									if(living instanceof Mob && living.getAttribute(Attributes.ATTACK_DAMAGE) != null && !((Mob)living).isNoAi())
 									{
@@ -88,11 +86,11 @@ public class KaratSummonMobGoal extends AbstractFireplaceSkillGoal
 		
 		if(!this.entityList.isEmpty())
 		{
-			int rand = (int)Math.floor(Math.random()*this.entityList.size());
+			int rand = (int)Math.floor(Math.random() * this.entityList.size());
 			LivingEntity living2 = this.entityList.get(rand);
-			if(!((EntityKaratFeng) this.mob).entityList.contains(living2))
+			if(!this.mob.entityList.contains(living2))
 			{
-				((EntityKaratFeng) this.mob).entityList.add(living2);
+				this.mob.entityList.add(living2);
 				FireplaceNetwork.sendToAll(new KaratDataSyncPacket(DataType.ENTITY_LIST, this.mob.getId()));
 			}
 		}
@@ -101,27 +99,26 @@ public class KaratSummonMobGoal extends AbstractFireplaceSkillGoal
 	@Override
 	protected void performSkill() 
 	{
-		EntityKaratFeng karat = (EntityKaratFeng) this.mob;
-		if(!karat.entityList.isEmpty())
+		if(!this.mob.entityList.isEmpty())
 		{
-			LivingEntity living = karat.entityList.get(karat.entityList.size() - 1);
+			LivingEntity living = this.mob.entityList.get(this.mob.entityList.size() - 1);
 			if(living instanceof Mob)
 			{
 				Mob mob = (Mob) living;
-				karat.setRemainSummoningHP(karat.getRemainSummoningHP() - mob.getMaxHealth());
-				mob.setTarget(karat.getTarget());
-				if(!karat.level.isClientSide)
+				this.mob.setRemainSummoningHP(this.mob.getRemainSummoningHP() - mob.getMaxHealth());
+				mob.setTarget(this.mob.getTarget());
+				if(!this.mob.level.isClientSide)
 				{
-					FireplaceUtil.shootFromRotation(mob, karat, karat.getXRot(), karat.getYRot(), 0.0F, 1.5F, 1.0F);
-					mob.setPos(karat.position());
-					mob.getPersistentData().putUUID(FireplaceUtil.KARAT_UUID, karat.getUUID());
+					FireplaceUtil.shootFromRotation(mob, this.mob, this.mob.getXRot(), this.mob.getYRot(), 0.0F, 1.5F, 1.0F);
+					mob.setPos(this.mob.position());
+					mob.getPersistentData().putUUID(FireplaceUtil.KARAT_UUID, this.mob.getUUID());
 					mob.finalizeSpawn((ServerLevelAccessor) this.mob.getLevel(), this.mob.getLevel().getCurrentDifficultyAt(this.mob.blockPosition()), MobSpawnType.MOB_SUMMONED, null, null);
-					if(karat.getTeam() != null)
+					if(this.mob.getTeam() != null)
 					{
-						PlayerTeam karatTeam = karat.getServer().getScoreboard().getPlayerTeam(karat.getTeam().getName());
-						karat.getServer().getScoreboard().addPlayerToTeam(mob.getStringUUID(), karatTeam);
+						PlayerTeam karatTeam = this.mob.getServer().getScoreboard().getPlayerTeam(this.mob.getTeam().getName());
+						this.mob.getServer().getScoreboard().addPlayerToTeam(mob.getStringUUID(), karatTeam);
 					}
-					karat.level.addFreshEntity(mob);
+					this.mob.level.addFreshEntity(mob);
 				}
 			}
 		}

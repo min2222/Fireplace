@@ -1,4 +1,4 @@
-package com.min01.fireplace.misc;
+package com.min01.fireplace.event;
 
 import java.util.Map;
 import java.util.Objects;
@@ -21,6 +21,7 @@ import com.min01.fireplace.entity.renderer.UFORenderer;
 import com.min01.fireplace.entity.renderer.VampireFengRenderer;
 import com.min01.fireplace.init.FireplaceEntities;
 import com.min01.fireplace.item.model.ModelKingsStaff;
+import com.min01.fireplace.misc.FireplaceArmPose;
 import com.min01.fireplace.util.FireplaceUtil;
 
 import net.minecraft.client.model.EntityModel;

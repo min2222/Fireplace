@@ -1,4 +1,4 @@
-package com.min01.fireplace.misc;
+package com.min01.fireplace.event;
 
 import com.min01.fireplace.Fireplace;
 import com.min01.fireplace.entity.EntityKaratFeng;

@@ -1,7 +1,7 @@
 package com.min01.fireplace.entity.goal;
 
-import com.min01.fireplace.entity.AbstractKaratFeng;
 import com.min01.fireplace.entity.AbstractKaratFeng.KaratSkills;
+import com.min01.fireplace.entity.EntityKaratFeng;
 import com.mojang.datafixers.util.Pair;
 
 import net.minecraft.sounds.SoundEvents;
@@ -13,11 +13,11 @@ import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
-public class KaratEatingGoldenAppleGoal extends AbstractFireplaceSkillGoal
+public class KaratEatingGoldenAppleGoal extends AbstractFireplaceSkillGoal<EntityKaratFeng>
 {
 	public ItemStack prevItem;
 	public ItemStack goldenApple;
-	public KaratEatingGoldenAppleGoal(AbstractKaratFeng mob) 
+	public KaratEatingGoldenAppleGoal(EntityKaratFeng mob) 
 	{
 		super(mob);
 	}
@@ -25,7 +25,7 @@ public class KaratEatingGoldenAppleGoal extends AbstractFireplaceSkillGoal
 	@Override
 	public boolean canUse() 
 	{
-		return super.canUse() && this.mob.getHealth() <= this.mob.getMaxHealth() / 2 && this.mob.getPhase() > 0;
+		return super.canUse() && this.mob.isMelee() && !this.mob.isChangeEquip() && this.mob.getHealth() <= this.mob.getMaxHealth() / 2 && this.mob.getPhase() > 0;
 	}
 	
 	@Override

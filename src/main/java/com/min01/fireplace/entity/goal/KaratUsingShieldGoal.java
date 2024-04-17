@@ -2,7 +2,6 @@ package com.min01.fireplace.entity.goal;
 
 import java.util.UUID;
 
-import com.min01.fireplace.entity.AbstractKaratFeng;
 import com.min01.fireplace.entity.AbstractKaratFeng.KaratSkills;
 import com.min01.fireplace.entity.EntityKaratFeng;
 
@@ -12,13 +11,13 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.Items;
 
-public class KaratUsingShieldGoal extends AbstractFireplaceSkillGoal
+public class KaratUsingShieldGoal extends AbstractFireplaceSkillGoal<EntityKaratFeng>
 {
 	public int shieldingTimer;
 	private static final UUID MODIFIER_UUID = UUID.fromString("5CD17E52-A79A-43D3-A529-90FDE04B181E");
     private static final AttributeModifier MODIFIER = new AttributeModifier(MODIFIER_UUID, "speed penalty", -0.24, AttributeModifier.Operation.ADDITION);
     
-	public KaratUsingShieldGoal(AbstractKaratFeng mob) 
+	public KaratUsingShieldGoal(EntityKaratFeng mob) 
 	{
 		super(mob);
 	}
@@ -26,7 +25,7 @@ public class KaratUsingShieldGoal extends AbstractFireplaceSkillGoal
 	@Override
 	public boolean canUse()
 	{
-		return super.canUse() && ((EntityKaratFeng) this.mob).stopFlying() && this.mob.getItemInHand(InteractionHand.OFF_HAND).getItem() == Items.SHIELD && this.mob.getHurtCount() > this.mob.getMaxHurtCount() && this.mob.distanceTo(this.mob.getTarget()) <= 4;
+		return super.canUse() && this.mob.isMelee() && !this.mob.isChangeEquip() && this.mob.getItemInHand(InteractionHand.OFF_HAND).getItem() == Items.SHIELD && this.mob.getHurtCount() > this.mob.getMaxHurtCount() && this.mob.distanceTo(this.mob.getTarget()) <= 4;
 	}
 
 	@Override
@@ -39,11 +38,11 @@ public class KaratUsingShieldGoal extends AbstractFireplaceSkillGoal
 	public void tick() 
 	{
 		super.tick();
-		if (((EntityKaratFeng) this.mob).isShielding()) 
+		if (this.mob.isShielding()) 
         {
             if (this.shieldingTimer-- <= 0) 
             {
-                ((EntityKaratFeng) this.mob).setShielding(false);
+            	this.mob.setShielding(false);
                 this.mob.getAttribute(Attributes.MOVEMENT_SPEED).removeModifier(MODIFIER);
                 this.mob.stopUsingItem();
             }
@@ -51,7 +50,7 @@ public class KaratUsingShieldGoal extends AbstractFireplaceSkillGoal
 		else
 		{
             this.shieldingTimer = 20;
-            ((EntityKaratFeng) this.mob).setShielding(true);
+            this.mob.setShielding(true);
             this.mob.startUsingItem(InteractionHand.OFF_HAND);
             AttributeInstance iattributeinstance = this.mob.getAttribute(Attributes.MOVEMENT_SPEED);
             iattributeinstance.removeModifier(MODIFIER);

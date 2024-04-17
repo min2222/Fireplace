@@ -1,6 +1,5 @@
 package com.min01.fireplace.entity.goal;
 
-import com.min01.fireplace.entity.AbstractKaratFeng;
 import com.min01.fireplace.entity.AbstractKaratFeng.KaratSkills;
 import com.min01.fireplace.entity.EntityKaratFeng;
 
@@ -14,21 +13,19 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantments;
 
-public class KaratRangedAttackGoal extends AbstractFireplaceSkillGoal
+public class KaratRangedAttackGoal extends AbstractFireplaceSkillGoal<EntityKaratFeng>
 {
 	public ItemStack prevItem;
 	public ItemStack bowItem;
-	private EntityKaratFeng mob;
-	public KaratRangedAttackGoal(AbstractKaratFeng mob) 
+	public KaratRangedAttackGoal(EntityKaratFeng mob) 
 	{
 		super(mob);
-		this.mob = (EntityKaratFeng) mob;
 	}
 	
 	@Override
 	public boolean canUse() 
 	{
-		return super.canUse() && this.mob.stopFlying() && this.mob.distanceTo(this.mob.getTarget()) >= 7;
+		return super.canUse() && !this.mob.isFlying() && !this.mob.isChangeEquip() && this.mob.distanceTo(this.mob.getTarget()) >= 7;
 	}
 	
 	@Override
