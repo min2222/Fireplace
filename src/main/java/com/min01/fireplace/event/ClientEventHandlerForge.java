@@ -1,7 +1,12 @@
 package com.min01.fireplace.event;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
 import com.min01.fireplace.Fireplace;
 import com.min01.fireplace.entity.EntityKaratFeng;
+import com.min01.fireplace.misc.FireplaceBossBarType;
 import com.min01.fireplace.util.FireplaceUtil;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -10,24 +15,60 @@ import com.mojang.math.Matrix3f;
 import com.mojang.math.Matrix4f;
 import com.mojang.math.Vector3f;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.CustomizeGuiOverlayEvent;
 import net.minecraftforge.client.event.RenderLivingEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(modid = Fireplace.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public class ClientEventHandlerForge 
 {
+	public static final Minecraft MC = Minecraft.getInstance();
 	private static final ResourceLocation CHAIN_LOCATION = new ResourceLocation(Fireplace.MODID + ":textures/entity/fire_chain.png");
 	private static final RenderType CHAIN_RENDER_TYPE = RenderType.eyes(CHAIN_LOCATION);
+    public static final Map<UUID, FireplaceBossBarType> BOSS_BAR_MAP = new HashMap<>();
+    public static final ResourceLocation BOSS_BAR_TEXTURE = new ResourceLocation(Fireplace.MODID, "textures/misc/fireplace_bossbar.png");
+    
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void onBossEventProgress(CustomizeGuiOverlayEvent.BossEventProgress event)
+    {
+        if(BOSS_BAR_MAP.containsKey(event.getBossEvent().getId()))
+        {
+        	FireplaceBossBarType barType = BOSS_BAR_MAP.get(event.getBossEvent().getId());
+            int i = Minecraft.getInstance().getWindow().getGuiScaledWidth();
+            int j = event.getY();
+            Component component = event.getBossEvent().getName();
+            event.setCanceled(true);
+            RenderSystem.setShaderTexture(0, BOSS_BAR_TEXTURE);
+            MC.gui.blit(event.getPoseStack(), event.getX(), event.getY(), 0, barType.yOffset, 182, 5);
+            int progressScaled = (int)(event.getBossEvent().getProgress() * 183.0F);
+            MC.gui.blit(event.getPoseStack(), event.getX(), event.getY(), 0, barType.yOffset2, progressScaled, 5);
+            RenderSystem.enableBlend();
+            RenderSystem.defaultBlendFunc();
+            MC.gui.blit(event.getPoseStack(), event.getX(), event.getY(), 0, 80 + (2 - 1) * 5 * 2, 182, 5);
+            RenderSystem.disableBlend();
+            int l = MC.font.width(component);
+            int i1 = i / 2 - l / 2;
+            int j1 = j - 9;
+            PoseStack poseStack = event.getPoseStack();
+            poseStack.pushPose();
+            MC.font.drawShadow(poseStack, component.getVisualOrderText(), (float)i1, (float)j1, 16777215);
+            poseStack.popPose();
+            event.setIncrement(event.getIncrement() + 7);
+        }
+    }
 	
 	@SubscribeEvent
 	public static void onRenderLivingPre(RenderLivingEvent.Pre<?, ?> event)

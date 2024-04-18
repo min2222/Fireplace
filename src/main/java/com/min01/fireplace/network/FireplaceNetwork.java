@@ -20,7 +20,13 @@ public class FireplaceNetwork
 	public static void registerMessages()
 	{
 		CHANNEL.registerMessage(ID++, KaratDataSyncPacket.class, KaratDataSyncPacket::encode, KaratDataSyncPacket::new, KaratDataSyncPacket.Handler::onMessage);
+		CHANNEL.registerMessage(ID++, UpdateBossBarPacket.class, UpdateBossBarPacket::encode, UpdateBossBarPacket::new, UpdateBossBarPacket.Handler::onMessage);
 	}
+	
+    public static <MSG> void sendNonLocal(MSG msg, ServerPlayer player) 
+    {
+        CHANNEL.sendTo(msg, player.connection.connection, NetworkDirection.PLAY_TO_CLIENT);
+    }
 	
     public static <MSG> void sendToAll(MSG message) 
     {
