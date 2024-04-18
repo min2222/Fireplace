@@ -173,15 +173,6 @@ public class EntityKaratFeng extends AbstractKaratFeng
     	
     	if(!this.isChangeEquip())
     	{
-        	if(this.getTarget() != null)
-        	{
-            	this.lookAt(Anchor.EYES, this.getTarget().getEyePosition());
-        		if(this.isMelee())
-        		{
-        			this.getNavigation().moveTo(this.getTarget(), this.getAttributeBaseValue(Attributes.MOVEMENT_SPEED));
-        		}
-        	}
-        	
         	if(!this.isMelee())
         	{
             	if(this.getHealth() <= this.getMaxHealth() / 2 || this.getRemainSummoningHP() <= 0)
@@ -195,6 +186,7 @@ public class EntityKaratFeng extends AbstractKaratFeng
     	}
     	else
     	{
+    		this.setDeltaMovement(Vec3.ZERO);
     		switch(this.getPhase())
     		{
     		case 0:
@@ -206,6 +198,15 @@ public class EntityKaratFeng extends AbstractKaratFeng
     		case 2:
     			this.equipNetheriteWithEnchantment();
     			break;
+    		}
+    	}
+    	
+    	if(this.getTarget() != null)
+    	{
+        	this.lookAt(Anchor.EYES, this.getTarget().getEyePosition());
+    		if(!this.isChangeEquip() && this.isMelee())
+    		{
+    			this.getNavigation().moveTo(this.getTarget(), this.getAttributeBaseValue(Attributes.MOVEMENT_SPEED));
     		}
     	}
     	
