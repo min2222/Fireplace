@@ -121,7 +121,7 @@ public class EntityUFO extends AbstractOwnableMonster<EntityAlienFeng>
 				for(int i = 0; i < list.size(); i++)
 				{
 					LivingEntity living = list.get(i);
-					boolean flag = living.getType().is(FireplaceTags.THE_FENGS) ? ((AbstractKaratFeng) living).getCurrentRaid() == null : true;
+					boolean flag = living.getType().is(FireplaceTags.THE_FENGS) && living instanceof AbstractKaratFeng feng ? feng.getCurrentRaid() == null : true;
 					if(list.size() >= 9 && !FireplaceUtil.GRAVITY_MAP.containsKey(living) && living != this && living != this.getOwner() && flag)
 					{
 						living.addEffect(new MobEffectInstance(MobEffects.LEVITATION, 200, 1, false, false));
