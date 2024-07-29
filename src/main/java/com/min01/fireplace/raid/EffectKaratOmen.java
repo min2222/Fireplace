@@ -19,19 +19,19 @@ public class EffectKaratOmen extends MobEffect
 	@Override
 	public void applyEffectTick(LivingEntity p_19467_, int p_19468_)
 	{
-		if (p_19467_ instanceof ServerPlayer serverplayer && !p_19467_.isSpectator()) 
+		if(p_19467_ instanceof ServerPlayer serverplayer && !p_19467_.isSpectator()) 
 		{
 			if(!serverplayer.level.isClientSide)
 			{
 				ServerLevel serverlevel = (ServerLevel) serverplayer.level;
 				if(serverlevel != null)
 				{
-					if (serverlevel.getDifficulty() == Difficulty.PEACEFUL)
+					if(serverlevel.getDifficulty() == Difficulty.PEACEFUL)
 					{
 						return;
 					}
 					
-		            if (serverlevel.isVillage(p_19467_.blockPosition()))
+		            if(serverlevel.isVillage(p_19467_.blockPosition()))
 		            {
 		            	((IKaratRaid)serverlevel).getRaids().createOrExtendRaid(serverplayer);
 		            }

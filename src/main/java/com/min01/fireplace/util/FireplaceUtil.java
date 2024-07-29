@@ -82,7 +82,7 @@ public class FireplaceUtil
 
         HitResult result = world.clip(new ClipContext(origin, endpoint, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, null));
 
-        if (result != null)
+        if(result != null)
         {
             endpoint = result.getLocation();
         }
@@ -92,34 +92,34 @@ public class FireplaceUtil
         AABB entityBounds;
         Vec3 intercept = null;
 
-        for (Entity entity : entities)
+        for(Entity entity : entities)
         {
             float fuzziness = entity instanceof LivingEntity ? aimAssist : 0;
 
             entityBounds = entity.getBoundingBox();
 
-            if (entityBounds != null)
+            if(entityBounds != null)
             {
                 float entityBorderSize = entity.getPickRadius();
-                if (entityBorderSize != 0)
+                if(entityBorderSize != 0)
                 {
                     entityBounds = entityBounds.inflate(entityBorderSize, entityBorderSize, entityBorderSize);
                 }
 
-                if (fuzziness != 0) entityBounds = entityBounds.inflate(fuzziness, fuzziness, fuzziness);
+                if(fuzziness != 0) entityBounds = entityBounds.inflate(fuzziness, fuzziness, fuzziness);
 
                 Optional<Vec3> hit = entityBounds.clip(origin, endpoint);
-                if (hit.isPresent())
+                if(hit.isPresent())
                 {
                     intercept = hit.get();
                 }
             }
 
-            if (intercept != null) 
+            if(intercept != null) 
             {
                 float currentHitDistance = (float) intercept.distanceTo(origin);
                 float closestHitDistance = (float) closestHitPosition.distanceTo(origin);
-                if (currentHitDistance < closestHitDistance) 
+                if(currentHitDistance < closestHitDistance) 
                 {
                     closestHitEntity = entity;
                     closestHitPosition = intercept;
@@ -127,7 +127,7 @@ public class FireplaceUtil
             }
         }
 
-        if (closestHitEntity != null) 
+        if(closestHitEntity != null) 
         {
             result = new EntityHitResult(closestHitEntity, closestHitPosition);
         }

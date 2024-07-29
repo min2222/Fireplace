@@ -45,7 +45,7 @@ public class ClientEventHandler
 	public static HumanoidModel.ArmPose KING_STAFF;
 	
     @SubscribeEvent
-    public static void registerLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event)
+    public static void onRegisterLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event)
     {
     	event.registerLayerDefinition(ModelKingsStaff.LAYER_LOCATION, ModelKingsStaff::createBodyLayer);
     	event.registerLayerDefinition(ModelSnowyFeng.LAYER_LOCATION, ModelSnowyFeng::createBodyLayer);
@@ -57,13 +57,13 @@ public class ClientEventHandler
     }
     
     @SubscribeEvent
-    public static void onClientSetup(FMLClientSetupEvent event)
+    public static void onFMLClientSetup(FMLClientSetupEvent event)
     {
     	KING_STAFF = HumanoidModel.ArmPose.create("KING_STAFF", false, new FireplaceArmPose());
     }
     
     @SubscribeEvent
-    public static void entityRenderers(EntityRenderersEvent.RegisterRenderers event)
+    public static void onRegisterEntityRenderers(EntityRenderersEvent.RegisterRenderers event)
     {
     	event.registerEntityRenderer(FireplaceEntities.KARAT_FENG.get(), KaratFengRenderer::new);
     	event.registerEntityRenderer(FireplaceEntities.CARROT_FANG.get(), CarrotFangRenderer::new);
@@ -80,7 +80,7 @@ public class ClientEventHandler
     }
     
 	@SubscribeEvent
-	public static void layerRendering(EntityRenderersEvent.AddLayers event)
+	public static void onAddLayers(EntityRenderersEvent.AddLayers event)
 	{
 		Map<EntityType<?>, EntityRenderer<?>> renderers = ObfuscationReflectionHelper.getPrivateValue(EntityRenderersEvent.AddLayers.class, event, "renderers");
 		renderers.values().stream()

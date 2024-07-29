@@ -12,10 +12,8 @@ import net.minecraftforge.server.ServerLifecycleHooks;
 public class FireplaceNetwork 
 {
 	public static int ID;
-    private static final String PROTOCOL_VERSION = "1";
-    public static final SimpleChannel CHANNEL = 
-    		NetworkRegistry.newSimpleChannel(new ResourceLocation(Fireplace.MODID, "fireplace_channel"), 
-    				() -> PROTOCOL_VERSION, PROTOCOL_VERSION::equals, PROTOCOL_VERSION::equals);
+    public static final String PROTOCOL_VERSION = "1";
+    public static final SimpleChannel CHANNEL = NetworkRegistry.newSimpleChannel(new ResourceLocation(Fireplace.MODID, "fireplace_channel"), () -> PROTOCOL_VERSION, PROTOCOL_VERSION::equals, PROTOCOL_VERSION::equals);
 	
 	public static void registerMessages()
 	{
@@ -30,7 +28,7 @@ public class FireplaceNetwork
 	
     public static <MSG> void sendToAll(MSG message) 
     {
-    	for (ServerPlayer player : ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers()) 
+    	for(ServerPlayer player : ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers()) 
     	{
     		CHANNEL.sendTo(message, player.connection.connection, NetworkDirection.PLAY_TO_CLIENT);
     	}

@@ -21,7 +21,7 @@ import net.minecraftforge.fml.common.Mod;
 public class EventHandler
 {
     @SubscribeEvent
-    public static void entityAttributes(EntityAttributeCreationEvent event) 
+    public static void onEntityAttributeCreation(EntityAttributeCreationEvent event) 
     {
     	event.put(FireplaceEntities.KARAT_FENG.get(), EntityKaratFeng.createAttributes().build());
     	event.put(FireplaceEntities.CARROT_FANG.get(), EntityCarrotFang.createAttributes().build());
