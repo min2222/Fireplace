@@ -24,7 +24,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.UseAnim;
@@ -33,13 +32,14 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
+import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class KingStaffItem extends Item
 {
 	public KingStaffItem() 
 	{
-		super(new Item.Properties().tab(CreativeModeTab.TAB_COMBAT).setNoRepair().durability(1000));
+		super(new Item.Properties().setNoRepair().durability(1000));
 	}
 	
 	@Override
@@ -87,7 +87,7 @@ public class KingStaffItem extends Item
 				living.setPos(p_41429_.position());
 				if(living instanceof Mob mob)
 				{
-					mob.finalizeSpawn((ServerLevelAccessor) p_41428_, p_41428_.getCurrentDifficultyAt(p_41429_.blockPosition()), MobSpawnType.MOB_SUMMONED, null, null);
+					ForgeEventFactory.onFinalizeSpawn(mob, (ServerLevelAccessor) p_41428_, p_41428_.getCurrentDifficultyAt(p_41429_.blockPosition()), MobSpawnType.MOB_SUMMONED, null, null);
 				}
 				p_41428_.addFreshEntity(living);
 			}

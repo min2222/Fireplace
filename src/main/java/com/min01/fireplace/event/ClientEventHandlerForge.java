@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import org.joml.Matrix3f;
+import org.joml.Matrix4f;
+
 import com.min01.fireplace.Fireplace;
 import com.min01.fireplace.entity.EntityKaratFeng;
 import com.min01.fireplace.misc.FireplaceBossBarType;
@@ -11,11 +14,10 @@ import com.min01.fireplace.util.FireplaceUtil;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Matrix3f;
-import com.mojang.math.Matrix4f;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.OverlayTexture;
@@ -52,19 +54,20 @@ public class ClientEventHandlerForge
             Component component = event.getBossEvent().getName();
             event.setCanceled(true);
             RenderSystem.setShaderTexture(0, BOSS_BAR_TEXTURE);
-            MC.gui.blit(event.getPoseStack(), event.getX(), event.getY(), 0, barType.yOffset, 182, 5);
+            GuiGraphics guiGraphics = event.getGuiGraphics();
+            guiGraphics.blit(BOSS_BAR_TEXTURE, event.getX(), event.getY(), 0, barType.yOffset, 182, 5);
             int progressScaled = (int)(event.getBossEvent().getProgress() * 183.0F);
-            MC.gui.blit(event.getPoseStack(), event.getX(), event.getY(), 0, barType.yOffset2, progressScaled, 5);
+            guiGraphics.blit(BOSS_BAR_TEXTURE, event.getX(), event.getY(), 0, barType.yOffset2, progressScaled, 5);
             RenderSystem.enableBlend();
             RenderSystem.defaultBlendFunc();
-            MC.gui.blit(event.getPoseStack(), event.getX(), event.getY(), 0, 80 + (2 - 1) * 5 * 2, 182, 5);
+            guiGraphics.blit(BOSS_BAR_TEXTURE, event.getX(), event.getY(), 0, 80 + (2 - 1) * 5 * 2, 182, 5);
             RenderSystem.disableBlend();
             int l = MC.font.width(component);
             int i1 = i / 2 - l / 2;
             int j1 = j - 9;
-            PoseStack poseStack = event.getPoseStack();
+            PoseStack poseStack = guiGraphics.pose();
             poseStack.pushPose();
-            MC.font.drawShadow(poseStack, component.getVisualOrderText(), (float)i1, (float)j1, 16777215);
+            guiGraphics.drawString(MC.font, component, i1, j1, 16777215);
             poseStack.popPose();
             event.setIncrement(event.getIncrement() + 7);
         }
@@ -108,7 +111,7 @@ public class ClientEventHandlerForge
 				if(FireplaceUtil.GRAVITY_MAP.get(living) != null)
 				{
 					stack.translate(0, FireplaceUtil.GRAVITY_MAP.get(living) / 180 + 0.5F, 0);
-					stack.mulPose(Vector3f.XP.rotationDegrees(FireplaceUtil.GRAVITY_MAP.get(living)));
+					stack.mulPose(Axis.XP.rotationDegrees(FireplaceUtil.GRAVITY_MAP.get(living)));
 				}
 			}
 			else
@@ -143,8 +146,8 @@ public class ClientEventHandlerForge
         Vec32 = Vec32.normalize();
         float f5 = (float) Math.acos(Vec32.y);
         float f6 = (float) Math.atan2(Vec32.z, Vec32.x);
-        matrixStackIn.mulPose(Vector3f.YP.rotationDegrees((((float) Math.PI / 2F) - f6) * (180F / (float) Math.PI)));
-        matrixStackIn.mulPose(Vector3f.XP.rotationDegrees(f5 * (180F / (float) Math.PI)));
+        matrixStackIn.mulPose(Axis.YP.rotationDegrees((((float) Math.PI / 2F) - f6) * (180F / (float) Math.PI)));
+        matrixStackIn.mulPose(Axis.XP.rotationDegrees(f5 * (180F / (float) Math.PI)));
         int j = 255;
         int k = 255;
         int l = 255;

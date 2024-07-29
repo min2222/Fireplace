@@ -20,6 +20,7 @@ import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.scores.PlayerTeam;
+import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class KaratSummonMobGoal extends AbstractFireplaceSkillGoal<EntityKaratFeng>
@@ -112,7 +113,7 @@ public class KaratSummonMobGoal extends AbstractFireplaceSkillGoal<EntityKaratFe
 					FireplaceUtil.shootFromRotation(mob, this.mob, this.mob.getXRot(), this.mob.getYRot(), 0.0F, 1.5F, 1.0F);
 					mob.setPos(this.mob.position());
 					mob.getPersistentData().putUUID(FireplaceUtil.KARAT_UUID, this.mob.getUUID());
-					mob.finalizeSpawn((ServerLevelAccessor) this.mob.getLevel(), this.mob.getLevel().getCurrentDifficultyAt(this.mob.blockPosition()), MobSpawnType.MOB_SUMMONED, null, null);
+					ForgeEventFactory.onFinalizeSpawn(this.mob, (ServerLevelAccessor) this.mob.level, this.mob.level.getCurrentDifficultyAt(this.mob.blockPosition()), MobSpawnType.MOB_SUMMONED, null, null);
 					if(this.mob.getTeam() != null)
 					{
 						PlayerTeam karatTeam = this.mob.getServer().getScoreboard().getPlayerTeam(this.mob.getTeam().getName());

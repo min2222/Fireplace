@@ -77,7 +77,7 @@ public abstract class AbstractFlyingHostileKaratFeng extends AbstractKaratFeng
 			this.move(MoverType.SELF, this.getDeltaMovement());
 			this.setDeltaMovement(this.getDeltaMovement().scale((double)0.1));
 		}
-		this.calculateEntityAnimation(this, false);
+		this.calculateEntityAnimation(false);
 	}
 	
 	@Override

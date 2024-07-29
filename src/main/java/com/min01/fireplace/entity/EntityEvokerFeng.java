@@ -3,7 +3,6 @@ package com.min01.fireplace.entity;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -62,7 +61,7 @@ public class EntityEvokerFeng extends AbstractHostileKaratFeng
 			}
 		}
 		
-		if(this.isOnGround() && this.isAttacking() && this.getDeltaMovement().y <= 0)
+		if(this.onGround() && this.isAttacking() && this.getDeltaMovement().y <= 0)
 		{
 			this.setAttacking(false);
 		}
@@ -74,7 +73,7 @@ public class EntityEvokerFeng extends AbstractHostileKaratFeng
 		super.doPush(p_21294_);
 		if(this.isAttacking() && this.getTarget() != null)
 		{
-			this.getTarget().hurt(DamageSource.mobAttack(this), (float) this.getAttributeBaseValue(Attributes.ATTACK_DAMAGE));	
+			this.getTarget().hurt(this.damageSources().mobAttack(this), (float) this.getAttributeBaseValue(Attributes.ATTACK_DAMAGE));	
 		}
 	}
 

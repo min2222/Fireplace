@@ -25,6 +25,7 @@ import com.min01.fireplace.misc.IKaratRaid;
 
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.core.SectionPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -595,7 +596,7 @@ public class KaratRaid
 		}
 	}
 	
-	public SoundEvent getRaidSound()
+	public Holder.Reference<SoundEvent> getRaidSound()
 	{
 		return SoundEvents.RAID_HORN;
 	}

@@ -1,10 +1,12 @@
 package com.min01.fireplace.util;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.function.Predicate;
 
 import javax.annotation.Nullable;
@@ -23,10 +25,12 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.entity.LevelEntityGetter;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
 
 public class FireplaceUtil 
 {
@@ -36,11 +40,27 @@ public class FireplaceUtil
 	public static final List<Mob> NECRO_LIST = new ArrayList<>();
 	public static final Map<LivingEntity, Integer> GRAVITY_MAP = new HashMap<>();
 	
+	@SuppressWarnings("unchecked")
+	public static Entity getEntityByUUID(Level level, UUID uuid)
+	{
+		Method m = ObfuscationReflectionHelper.findMethod(Level.class, "m_142646_");
+		try 
+		{
+			LevelEntityGetter<Entity> entities = (LevelEntityGetter<Entity>) m.invoke(level);
+			return entities.get(uuid);
+		}
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 	public static LivingEntity createBreath(Level level, LivingEntity caster, Vec3 startPosition, double range)
 	{
 		Vec3 direction = caster.getViewVector(0);
 		Vec3 endpoint = startPosition.add(direction.scale(range));
-		HitResult result = FireplaceUtil.rayTrace(level, startPosition, endpoint, 2, LivingEntity.class, (entity) -> entity == caster);
+		HitResult result = rayTrace(level, startPosition, endpoint, 2, LivingEntity.class, (entity) -> entity == caster);
         if(result instanceof EntityHitResult entityHit)
         {
         	if(entityHit.getEntity() instanceof LivingEntity living)
@@ -147,22 +167,25 @@ public class FireplaceUtil
         }
 
         syncEntity(livingInstance, owner);
-
-        livingInstance.getEntityData().clearDirty();
+        
+        //TODO?
+        //livingInstance.getEntityData().clearDirty();
     }
     
     public static void syncEntity(LivingEntity living, LivingEntity owner)
     {
     	syncEntityPosRot(living, owner);
         
-        living.animationPosition = owner.animationPosition;
-        living.animationSpeed = owner.animationSpeed;
-
+    	//TODO?
+        /*living.walkAnimation.speedOld = owner.walkAnimation.speedOld;
+        living.walkAnimation.speed = owner.walkAnimation.speed;
+        living.walkAnimation.position = owner.walkAnimation.position;*/
+        
         living.setDeltaMovement(owner.getDeltaMovement());
 
         living.horizontalCollision = owner.horizontalCollision;
         living.verticalCollision = owner.verticalCollision;
-        living.setOnGround(owner.isOnGround());
+        living.setOnGround(owner.onGround());
         living.setSwimming(owner.isSwimming());
         living.setSprinting(owner.isSprinting());
 
@@ -232,7 +255,7 @@ public class FireplaceUtil
 		float f2 = Mth.cos(p_37254_ * ((float)Math.PI / 180F)) * Mth.cos(p_37253_ * ((float)Math.PI / 180F));
 		shoot(entity, (double)f, (double)f1, (double)f2, p_37256_, p_37257_);
 		Vec3 vec3 = owner.getDeltaMovement();
-		entity.setDeltaMovement(entity.getDeltaMovement().add(vec3.x, owner.isOnGround() ? 0.0D : vec3.y, vec3.z));
+		entity.setDeltaMovement(entity.getDeltaMovement().add(vec3.x, owner.onGround() ? 0.0D : vec3.y, vec3.z));
 	}
 	
 	public static void shoot(Entity entity, double p_37266_, double p_37267_, double p_37268_, float p_37269_, float p_37270_) 

@@ -15,7 +15,6 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -24,8 +23,8 @@ import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.FireworkRocketItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.Explosion.BlockInteraction;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.Level.ExplosionInteraction;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
@@ -106,14 +105,14 @@ public class EntityPresentProjectile extends ThrowableProjectile
 			boolean flag = living instanceof AbstractKaratFeng karat ? karat.getCurrentRaid() == null : true;
 			if(flag && living != this.getOwner())
 			{
-				living.hurt(DamageSource.explosion((LivingEntity) this.getOwner()), (this.tickCount / 20) % 1);
+				living.hurt(this.damageSources().explosion(this, (LivingEntity) this.getOwner()), (this.tickCount / 20) % 1);
 			}
 		}
 	}
 	
 	public void redPresentHit()
 	{
-		this.level.explode(this.getOwner(), this.getX(), this.getY(), this.getZ(), (this.tickCount / 20) % 2, BlockInteraction.NONE);
+		this.level.explode(this.getOwner(), this.getX(), this.getY(), this.getZ(), (this.tickCount / 20) % 2, ExplosionInteraction.NONE);
 	}
 	
     private void spawnEntityBurst()

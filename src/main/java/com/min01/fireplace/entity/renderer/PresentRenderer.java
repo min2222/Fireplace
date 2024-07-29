@@ -4,7 +4,7 @@ import com.min01.fireplace.Fireplace;
 import com.min01.fireplace.entity.model.ModelPresent;
 import com.min01.fireplace.entity.projectile.EntityPresentProjectile;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -31,7 +31,7 @@ public class PresentRenderer extends EntityRenderer<EntityPresentProjectile>
 		p_114488_.scale(-1, -1, 1);
 		p_114488_.translate(0, -1.5F, 0);
 		float yRot = Mth.rotLerp(p_114487_, p_114485_.yRotO, p_114485_.getYRot());
-		p_114488_.mulPose(Vector3f.YP.rotationDegrees(180.0F - yRot));
+		p_114488_.mulPose(Axis.YP.rotationDegrees(180.0F - yRot));
 		this.model.renderToBuffer(p_114488_, p_114489_.getBuffer(RenderType.entityCutout(this.getTextureLocation(p_114485_))), p_114490_, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
 		p_114488_.popPose();
 	}

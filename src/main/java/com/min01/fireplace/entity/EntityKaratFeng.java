@@ -27,6 +27,7 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
@@ -139,7 +140,7 @@ public class EntityKaratFeng extends AbstractKaratFeng
 				this.move(MoverType.SELF, this.getDeltaMovement());
 				this.setDeltaMovement(this.getDeltaMovement().scale((double)0.5));
 			}
-			this.calculateEntityAnimation(this, false);
+			this.calculateEntityAnimation(false);
 		}
 		else
 		{
@@ -228,7 +229,7 @@ public class EntityKaratFeng extends AbstractKaratFeng
     {
     	int phase = this.getPhase();
     	
-    	if(p_21014_.isBypassInvul() || phase >= 2)
+    	if(p_21014_.is(DamageTypeTags.BYPASSES_INVULNERABILITY) || phase >= 2)
     	{
         	super.die(p_21014_);
         	
@@ -432,7 +433,7 @@ public class EntityKaratFeng extends AbstractKaratFeng
             this.playSound(SoundEvents.SHIELD_BLOCK, 1.0f, 0.8f + this.level.random.nextFloat() * 0.4f);
             return false;
         }
-        if(this.isChangeEquip() && !p_21016_.isBypassInvul())
+        if(this.isChangeEquip() && !p_21016_.is(DamageTypeTags.BYPASSES_INVULNERABILITY))
         {
         	return false;
         }
@@ -451,7 +452,7 @@ public class EntityKaratFeng extends AbstractKaratFeng
                 flag = true;
             }
         }
-        if (!damageSourceIn.isBypassArmor() && this.isBlocking() && !flag) 
+        if (!damageSourceIn.is(DamageTypeTags.BYPASSES_ARMOR) && this.isBlocking() && !flag) 
         {
         	Vec3 vec3d2 = damageSourceIn.getSourcePosition();
             if (vec3d2 != null)

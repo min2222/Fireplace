@@ -21,6 +21,7 @@ import net.minecraft.world.entity.MobType;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.scores.PlayerTeam;
+import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class NecroFengSummonUndeadGoal extends AbstractFireplaceSkillGoal<EntityNecroFeng>
@@ -65,7 +66,7 @@ public class NecroFengSummonUndeadGoal extends AbstractFireplaceSkillGoal<Entity
 			}
 		}
 	}
-
+	
 	@Override
 	protected void performSkill() 
 	{
@@ -88,7 +89,7 @@ public class NecroFengSummonUndeadGoal extends AbstractFireplaceSkillGoal<Entity
 				mob.addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 10000000, 1));
 				mob.getPersistentData().putUUID(FireplaceUtil.NECRO_UUID, karat.getUUID());
 				FireplaceUtil.NECRO_LIST.add(mob);
-				mob.finalizeSpawn((ServerLevelAccessor) this.mob.getLevel(), this.mob.getLevel().getCurrentDifficultyAt(this.mob.blockPosition()), MobSpawnType.MOB_SUMMONED, null, null);
+				ForgeEventFactory.onFinalizeSpawn(this.mob, (ServerLevelAccessor) this.mob.level, this.mob.level.getCurrentDifficultyAt(this.mob.blockPosition()), MobSpawnType.MOB_SUMMONED, null, null);
 				
 				if(karat.getTeam() != null)
 				{

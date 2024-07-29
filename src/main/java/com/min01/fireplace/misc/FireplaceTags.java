@@ -2,7 +2,7 @@ package com.min01.fireplace.misc;
 
 import com.min01.fireplace.Fireplace;
 
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
@@ -13,6 +13,6 @@ public class FireplaceTags
 	
 	private static TagKey<EntityType<?>> createEntityTypeTagKey(String p_203849_) 
 	{
-		return TagKey.create(Registry.ENTITY_TYPE_REGISTRY, new ResourceLocation(Fireplace.MODID, p_203849_));
+		return TagKey.create(Registries.ENTITY_TYPE, new ResourceLocation(Fireplace.MODID, p_203849_));
 	}
 }

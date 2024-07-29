@@ -7,7 +7,6 @@ import com.min01.fireplace.entity.AbstractKaratFeng;
 import com.min01.fireplace.item.KingStaffItem;
 
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.registries.DeferredRegister;
@@ -30,6 +29,6 @@ public class FireplaceItems
 	
 	public static <T extends AbstractKaratFeng> RegistryObject<Item> registerKaratSpawnEgg(String name, Supplier<EntityType<T>> entity) 
 	{
-		return ITEMS.register(name, () -> new ForgeSpawnEggItem(entity, 15170860, 3941901, new Item.Properties().tab(CreativeModeTab.TAB_MISC)));
+		return ITEMS.register(name, () -> new ForgeSpawnEggItem(entity, 15170860, 3941901, new Item.Properties()));
 	}
 }

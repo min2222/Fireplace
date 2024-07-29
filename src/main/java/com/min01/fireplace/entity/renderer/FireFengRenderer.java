@@ -4,7 +4,7 @@ import com.min01.fireplace.entity.EntityFireFeng;
 import com.min01.fireplace.entity.model.ModelFireFeng;
 import com.min01.fireplace.util.FireplaceUtil;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 
 import net.minecraft.client.renderer.entity.EntityRendererProvider.Context;
 import net.minecraft.resources.ResourceLocation;
@@ -23,8 +23,8 @@ public class FireFengRenderer extends AbstractKaratFengRenderer<EntityFireFeng, 
 		if(p_115317_.isDashing())
 		{
 			p_115318_.translate(0, 1, 0);
-			p_115318_.mulPose(Vector3f.XP.rotationDegrees(p_115317_.getXRot() - 90));
-			p_115318_.mulPose(Vector3f.YP.rotationDegrees(((float)p_115317_.tickCount + p_115321_) * -75.0F));
+			p_115318_.mulPose(Axis.XP.rotationDegrees(p_115317_.getXRot() - 90));
+			p_115318_.mulPose(Axis.YP.rotationDegrees(((float)p_115317_.tickCount + p_115321_) * -75.0F));
 		}
 	}
 

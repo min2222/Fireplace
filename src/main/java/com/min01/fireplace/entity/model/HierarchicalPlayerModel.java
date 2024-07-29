@@ -2,8 +2,9 @@ package com.min01.fireplace.entity.model;
 
 import java.util.Optional;
 
+import org.joml.Vector3f;
+
 import com.min01.fireplace.entity.AbstractKaratFeng;
-import com.mojang.math.Vector3f;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.animation.AnimationDefinition;

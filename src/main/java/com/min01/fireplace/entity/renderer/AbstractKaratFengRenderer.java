@@ -19,7 +19,7 @@ public abstract class AbstractKaratFengRenderer<T extends Mob, M extends PlayerM
 	public AbstractKaratFengRenderer(Context p_174304_, M p_174305_, float p_174306_)
 	{
 		super(p_174304_, p_174305_, p_174306_);
-		this.addLayer(new HumanoidArmorLayer<>(this, new HumanoidModel<>(p_174304_.bakeLayer(ModelLayers.PLAYER_INNER_ARMOR)), new HumanoidModel<>(p_174304_.bakeLayer(ModelLayers.PLAYER_OUTER_ARMOR))));
+		this.addLayer(new HumanoidArmorLayer<>(this, new HumanoidModel<>(p_174304_.bakeLayer(ModelLayers.PLAYER_INNER_ARMOR)), new HumanoidModel<>(p_174304_.bakeLayer(ModelLayers.PLAYER_OUTER_ARMOR)), p_174304_.getModelManager()));
 		this.addLayer(new ItemInHandLayer<>(this, p_174304_.getItemInHandRenderer()));
 		this.addLayer(new ArrowLayer<>(p_174304_, this));
 		this.addLayer(new CustomHeadLayer<>(this, p_174304_.getModelSet(), p_174304_.getItemInHandRenderer()));

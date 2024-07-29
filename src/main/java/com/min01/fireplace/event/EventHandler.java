@@ -12,7 +12,10 @@ import com.min01.fireplace.entity.EntitySnowyFeng;
 import com.min01.fireplace.entity.EntityUFO;
 import com.min01.fireplace.entity.EntityVampireFeng;
 import com.min01.fireplace.init.FireplaceEntities;
+import com.min01.fireplace.init.FireplaceItems;
 
+import net.minecraft.world.item.CreativeModeTabs;
+import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -33,5 +36,26 @@ public class EventHandler
     	event.put(FireplaceEntities.NECRO_FENG.get(), EntityNecroFeng.createAttributes().build());
     	event.put(FireplaceEntities.ALIEN_FENG.get(), EntityAlienFeng.createAttributes().build());
     	event.put(FireplaceEntities.UFO.get(), EntityUFO.createAttributes().build());
+    }
+    
+    @SubscribeEvent
+    public static void onBuildCreativeModeTabContents(BuildCreativeModeTabContentsEvent event)
+    {
+    	if(event.getTabKey() == CreativeModeTabs.COMBAT)
+    	{
+    		event.accept(FireplaceItems.KING_STAFF.get());
+    	}
+    	else if(event.getTabKey() == CreativeModeTabs.SPAWN_EGGS)
+    	{
+    		event.accept(FireplaceItems.KARAT_FENG_SPAWN_EGG.get());
+    		event.accept(FireplaceItems.CARROT_FANG_SPAWN_EGG.get());
+    		event.accept(FireplaceItems.SNOWY_FENG_SPAWN_EGG.get());
+    		event.accept(FireplaceItems.EVOKER_FENG_SPAWN_EGG.get());
+    		event.accept(FireplaceItems.SANTA_FENG_SPAWN_EGG.get());
+    		event.accept(FireplaceItems.VAMPIRE_FENG_SPAWN_EGG.get());
+    		event.accept(FireplaceItems.FIRE_FENG_SPAWN_EGG.get());
+    		event.accept(FireplaceItems.NECRO_FENG_SPAWN_EGG.get());
+    		event.accept(FireplaceItems.ALIEN_FENG_SPAWN_EGG.get());
+    	}
     }
 }

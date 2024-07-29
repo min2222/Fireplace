@@ -96,7 +96,7 @@ public class EntityUFO extends AbstractOwnableMonster<EntityAlienFeng>
 			this.setDeltaMovement(this.getDeltaMovement().scale((double)0.1));
 		}
 		
-		this.calculateEntityAnimation(this, false);
+		this.calculateEntityAnimation(false);
 	}
 	
 	@Override

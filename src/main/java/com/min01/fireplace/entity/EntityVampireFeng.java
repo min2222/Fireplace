@@ -101,7 +101,7 @@ public class EntityVampireFeng extends AbstractHostileKaratFeng
     				
     				if(this.targetPosition == null || this.random.nextInt(30) == 0 || this.targetPosition.closerToCenterThan(this.position(), 2.0D)) 
     				{
-    					this.targetPosition = new BlockPos(this.getTarget().getX() - this.getX() + (double)this.random.nextInt(7) - (double)this.random.nextInt(7), this.getY() + (double)this.random.nextInt(6) - 2.0D, this.getTarget().getZ() - this.getZ() + (double)this.random.nextInt(7) - (double)this.random.nextInt(7));
+    					this.targetPosition = BlockPos.containing(this.getTarget().getX() - this.getX() + (double)this.random.nextInt(7) - (double)this.random.nextInt(7), this.getY() + (double)this.random.nextInt(6) - 2.0D, this.getTarget().getZ() - this.getZ() + (double)this.random.nextInt(7) - (double)this.random.nextInt(7));
     				}
     
     				if(this.targetPosition != null)

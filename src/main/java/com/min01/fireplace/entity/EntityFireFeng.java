@@ -9,7 +9,6 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -90,7 +89,7 @@ public class EntityFireFeng extends AbstractFlyingHostileKaratFeng
 				if(breathVictim != null && flag2 && this.tickCount % 20 == 0)
 				{
 					breathVictim.setSecondsOnFire(10);
-					breathVictim.hurt(DamageSource.mobAttack(this), 0.5F);
+					breathVictim.hurt(this.damageSources().mobAttack(this), 0.5F);
 					breathVictim.invulnerableTime = 0;
 				}
 				if(this.tickCount % 5 == 0)
@@ -109,7 +108,7 @@ public class EntityFireFeng extends AbstractFlyingHostileKaratFeng
 						if(flag && living != this)
 						{
 							living.setSecondsOnFire(40);
-							living.hurt(DamageSource.mobAttack(this), (float) this.getAttributeBaseValue(Attributes.ATTACK_DAMAGE));
+							living.hurt(this.damageSources().mobAttack(this), (float) this.getAttributeBaseValue(Attributes.ATTACK_DAMAGE));
 						}
 					}
 					this.level.playSound(null, this.blockPosition(), SoundEvents.BLAZE_SHOOT, this.getSoundSource(), 1, 1);

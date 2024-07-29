@@ -224,6 +224,7 @@ public abstract class AbstractKaratFeng extends Monster
 		this.ticksOutsideRaid = p_37864_;
 	}
 	
+	@SuppressWarnings("deprecation")
 	@Override
 	public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_21434_, DifficultyInstance p_21435_, MobSpawnType p_21436_, SpawnGroupData p_21437_, CompoundTag p_21438_)
 	{
@@ -483,7 +484,7 @@ public abstract class AbstractKaratFeng extends Monster
 		}
 		else if(!this.canMove())
 		{
-			double yvec = this.onGround ? 0 : this.isNoGravity() ? 0 : this.getDeltaMovement().y;
+			double yvec = this.onGround() ? 0 : this.isNoGravity() ? 0 : this.getDeltaMovement().y;
 			super.move(p_19973_, new Vec3(0, yvec, 0));
 		}
 	}

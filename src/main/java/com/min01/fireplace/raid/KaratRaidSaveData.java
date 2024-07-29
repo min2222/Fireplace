@@ -131,14 +131,14 @@ public class KaratRaidSaveData extends SavedData
 				if (i > 0) 
 				{
 					vec3 = vec3.scale(1.0D / (double) i);
-					blockpos1 = new BlockPos(vec3);
+					blockpos1 = BlockPos.containing(vec3);
 				}
 				else 
 				{
 					blockpos1 = blockpos;
 				}
 
-				KaratRaid raid = this.getOrCreateRaid(p_37964_.getLevel(), blockpos1);
+				KaratRaid raid = this.getOrCreateRaid(p_37964_.serverLevel(), blockpos1);
 				boolean flag = false;
 				if (!raid.isStarted())
 				{

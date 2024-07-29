@@ -8,23 +8,17 @@ import com.min01.fireplace.Fireplace;
 import com.min01.fireplace.entity.AbstractKaratFeng;
 import com.min01.fireplace.entity.EntityKaratFeng;
 import com.min01.fireplace.entity.EntityNecroFeng;
-import com.min01.fireplace.entity.EntitySnowyFeng;
 import com.min01.fireplace.entity.goal.DodgeArrowsGoal;
-import com.min01.fireplace.misc.FireplaceTags;
 import com.min01.fireplace.raid.KaratRaidMembers;
 import com.min01.fireplace.util.FireplaceUtil;
 
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.projectile.Projectile;
-import net.minecraft.world.phys.EntityHitResult;
-import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.EntityLeaveLevelEvent;
-import net.minecraftforge.event.entity.ProjectileImpactEvent;
 import net.minecraftforge.event.entity.living.LivingChangeTargetEvent;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingTickEvent;
@@ -47,7 +41,7 @@ public class EventHandlerForge
 	@SubscribeEvent
 	public static void karatExplosion(ExplosionEvent.Detonate event)
 	{
-    	Entity sourceMob = event.getExplosion().getSourceMob();
+    	Entity sourceMob = event.getExplosion().getDirectSourceEntity();
     	List<Entity> list = event.getAffectedEntities();
     	
 		for(int i = 0; i < FireplaceUtil.UUID.length; i++)
@@ -566,151 +560,6 @@ public class EventHandlerForge
 							itr.remove();
 						}
 					}
-				}
-			}
-		}
-	}
-	
-	@SubscribeEvent
-	public static void karatProjectile(ProjectileImpactEvent event)
-	{
-		Projectile proj = event.getProjectile();
-		
-		if(event.getRayTraceResult().getType() == HitResult.Type.ENTITY)
-		{
-			EntityHitResult hitresult = (EntityHitResult) event.getRayTraceResult();
-			Entity hitentity = hitresult.getEntity();
-			if(proj.getOwner() != null)
-			{
-				Entity owner = proj.getOwner();
-				
-				if(owner instanceof EntitySnowyFeng)
-				{
-					boolean flag = hitentity.getType().is(FireplaceTags.THE_FENGS) ? ((AbstractKaratFeng) hitentity).getCurrentRaid() == null : true;
-					if(flag)
-					{
-						hitentity.hurt(DamageSource.indirectMobAttack(proj, (LivingEntity) proj.getOwner()), 3);
-						hitentity.setTicksFrozen(100);
-					}
-				}
-				
-				if(owner.getType().is(FireplaceTags.THE_FENGS) && hitentity.getType().is(FireplaceTags.THE_FENGS))
-				{
-					if(((AbstractKaratFeng) owner).getCurrentRaid() != null && ((AbstractKaratFeng) hitentity).getCurrentRaid() != null)
-					{
-						event.setCanceled(true);
-					}
-				}
-				
-				for(int i = 0; i < FireplaceUtil.UUID.length; i++)
-				{
-					preventHitAlliesWithProjectile(event, owner, hitentity, FireplaceUtil.UUID[i]);
-				}
-			}
-			else
-			{
-				for(int i = 0; i < FireplaceUtil.UUID.length; i++)
-				{
-					preventHitAlliesWithProjectileWhenOwnerIsDeadOrNull(event, proj, hitentity, FireplaceUtil.UUID[i]);
-				}
-			}
-		}
-	}
-	
-	public static void preventHitAlliesWithProjectile(ProjectileImpactEvent event, Entity owner, Entity hitentity, String string)
-	{
-		if(owner.getPersistentData().contains(string))
-		{
-			UUID uuid = owner.getPersistentData().getUUID(string);
-			
-			//hit entity is owner?
-			if(hitentity.getUUID().equals(uuid))
-			{
-				event.setCanceled(true);
-			}
-			
-			//hit entity is allied?
-			if(hitentity.getPersistentData().contains(string))
-			{
-				UUID hituuid = hitentity.getPersistentData().getUUID(string);
-				if(hituuid.equals(uuid))
-				{
-					event.setCanceled(true);
-				}
-			}
-		}
-		
-		if(!(owner.level instanceof ServerLevel))
-			return;
-		if(owner.getPersistentData().contains(string))
-		{
-			UUID uuid = owner.getPersistentData().getUUID(string);
-			Entity uuidEntity = ((ServerLevel)owner.level).getEntity(uuid);
-			if(uuidEntity instanceof EntityNecroFeng necro)
-			{
-				//hit entity is feng?
-				if(necro != null)
-				{
-					if(necro.getCurrentRaid() != null && hitentity instanceof AbstractKaratFeng feng)
-					{
-						if(feng.getCurrentRaid() != null)
-						{
-							event.setCanceled(true);
-						}
-					}
-				}
-			}
-		}
-		
-		//hit entity is necro fengs undead?
-		if(hitentity.getPersistentData().contains(string))
-		{
-			UUID uuid = hitentity.getPersistentData().getUUID(string);
-			Entity uuidEntity = ((ServerLevel)owner.level).getEntity(uuid);
-			if(uuidEntity instanceof EntityNecroFeng necro)
-			{
-				if(necro != null)
-				{
-					if(necro.getCurrentRaid() != null && owner instanceof AbstractKaratFeng feng)
-					{
-						if(feng.getCurrentRaid() != null)
-						{
-							event.setCanceled(true);
-						}
-					}
-				}
-			}
-		}
-	}
-	
-	public static void preventHitAlliesWithProjectileWhenOwnerIsDeadOrNull(ProjectileImpactEvent event, Projectile proj, Entity hitentity, String string)
-	{
-		if(proj.getPersistentData().contains(string))
-		{
-			UUID uuid = proj.getPersistentData().getUUID(string);
-			
-			//hit entity is feng?
-			if(hitentity instanceof AbstractKaratFeng feng)
-			{
-				if(feng.getCurrentRaid() != null)
-				{
-					event.setCanceled(true);
-				}
-			}
-			
-			//hit entity is owner?
-			if(hitentity.getUUID().equals(uuid))
-			{
-				event.setCanceled(true);
-			}
-			
-			//hit entity is allied?
-			if(hitentity.getPersistentData().contains(string))
-			{
-				UUID hituuid = hitentity.getPersistentData().getUUID(string);
-				if(hituuid.equals(uuid))
-				{
-					event.setCanceled(true);
 				}
 			}
 		}
