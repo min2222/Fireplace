@@ -1,14 +1,16 @@
 package com.min01.fireplace.entity;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import javax.annotation.Nullable;
 
+import com.min01.fireplace.util.FireplaceUtil;
+i
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.monster.Monster;
@@ -16,12 +18,7 @@ import net.minecraft.world.level.Level;
 
 public abstract class AbstractOwnableMonster<T extends LivingEntity> extends Monster
 {
-	@Nullable
-	private UUID ownerUUID;
-	@Nullable
-	private T cachedOwner;
-	
-	private static final EntityDataAccessor<Integer> OWNER_ID = SynchedEntityData.defineId(AbstractOwnableMonster.class, EntityDataSerializers.INT);
+	public static final EntityDataAccessor<Optional<UUID>> OWNER_UUID = SynchedEntityData.defineId(AbstractOwnableMonster.class, EntityDataSerializers.OPTIONAL_UUID);
 	
 	public AbstractOwnableMonster(EntityType<? extends Monster> p_19870_, Level p_19871_) 
 	{
@@ -32,23 +29,16 @@ public abstract class AbstractOwnableMonster<T extends LivingEntity> extends Mon
 	protected void defineSynchedData()
 	{
 		super.defineSynchedData();
-		this.entityData.define(OWNER_ID, 0);
+		this.entityData.define(OWNER_UUID, Optional.empty());
 	}
-	
-    @Override
-    public void tick() 
-    {
-    	super.tick();
-		this.setOwner(this.getOwner());
-    }
 	
 	@Override
 	public void addAdditionalSaveData(CompoundTag p_37265_) 
 	{
 		super.addAdditionalSaveData(p_37265_);
-		if (this.ownerUUID != null)
+		if(this.entityData.get(OWNER_UUID).isPresent())
 		{
-			p_37265_.putUUID("Owner", this.ownerUUID);
+			p_37265_.putUUID("Owner", this.entityData.get(OWNER_UUID).get());
 		}
 	}
 	
@@ -56,19 +46,17 @@ public abstract class AbstractOwnableMonster<T extends LivingEntity> extends Mon
 	public void readAdditionalSaveData(CompoundTag p_37262_) 
 	{
 		super.readAdditionalSaveData(p_37262_);
-		if (p_37262_.hasUUID("Owner")) 
+		if(p_37262_.hasUUID("Owner")) 
 		{
-			this.ownerUUID = p_37262_.getUUID("Owner");
+			this.entityData.set(OWNER_UUID, Optional.of(p_37262_.getUUID("Owner")));
 		}
 	}
 	
 	public void setOwner(@Nullable T p_37263_)
 	{
-		if (p_37263_ != null)
+		if(p_37263_ != null)
 		{
-			this.ownerUUID = p_37263_.getUUID();
-			this.cachedOwner = p_37263_;
-			this.entityData.set(OWNER_ID, p_37263_.getId());
+			this.entityData.set(OWNER_UUID, Optional.of(p_37263_.getUUID()));
 		}
 	}
 	
@@ -76,18 +64,10 @@ public abstract class AbstractOwnableMonster<T extends LivingEntity> extends Mon
 	@Nullable
 	public T getOwner() 
 	{
-		if (this.cachedOwner != null && !this.cachedOwner.isRemoved()) 
+		if(this.entityData.get(OWNER_UUID).isPresent()) 
 		{
-			return this.cachedOwner;
+			return (T) FireplaceUtil.getEntityByUUID(this.level, this.entityData.get(OWNER_UUID).get());
 		}
-		else if (this.ownerUUID != null && this.level instanceof ServerLevel) 
-		{
-			this.cachedOwner = (T) ((ServerLevel)this.level).getEntity(this.ownerUUID);
-			return this.cachedOwner;
-		}
-		else 
-		{
-			return (T) this.level.getEntity(this.entityData.get(OWNER_ID));
-		}
+		return null;
 	}
 }

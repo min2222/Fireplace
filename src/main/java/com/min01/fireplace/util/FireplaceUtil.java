@@ -1,10 +1,12 @@
 package com.min01.fireplace.util;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.function.Predicate;
 
 import javax.annotation.Nullable;
@@ -23,10 +25,12 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.entity.LevelEntityGetter;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
 
 public class FireplaceUtil 
 {
@@ -35,6 +39,22 @@ public class FireplaceUtil
 	public static final String NECRO_UUID = UUID[1];
 	public static final List<Mob> NECRO_LIST = new ArrayList<>();
 	public static final Map<LivingEntity, Integer> GRAVITY_MAP = new HashMap<>();
+	
+	@SuppressWarnings("unchecked")
+	public static Entity getEntityByUUID(Level level, UUID uuid)
+	{
+		Method m = ObfuscationReflectionHelper.findMethod(Level.class, "m_142646_");
+		try 
+		{
+			LevelEntityGetter<Entity> entities = (LevelEntityGetter<Entity>) m.invoke(level);
+			return entities.get(uuid);
+		}
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+		}
+		return null;
+	}
 	
 	public static LivingEntity createBreath(Level level, LivingEntity caster, Vec3 startPosition, double range)
 	{
