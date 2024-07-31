@@ -89,7 +89,7 @@ public class NecroFengSummonUndeadGoal extends AbstractFireplaceSkillGoal<Entity
 				mob.addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 10000000, 1));
 				mob.getPersistentData().putUUID(FireplaceUtil.NECRO_UUID, karat.getUUID());
 				FireplaceUtil.NECRO_LIST.add(mob);
-				ForgeEventFactory.onFinalizeSpawn(this.mob, (ServerLevelAccessor) this.mob.level, this.mob.level.getCurrentDifficultyAt(this.mob.blockPosition()), MobSpawnType.MOB_SUMMONED, null, null);
+				ForgeEventFactory.onFinalizeSpawn(mob, (ServerLevelAccessor) this.mob.level, this.mob.level.getCurrentDifficultyAt(this.mob.blockPosition()), MobSpawnType.MOB_SUMMONED, null, null);
 				
 				if(karat.getTeam() != null)
 				{
