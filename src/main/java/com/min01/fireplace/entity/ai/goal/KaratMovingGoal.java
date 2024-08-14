@@ -1,4 +1,4 @@
-package com.min01.fireplace.entity.goal;
+package com.min01.fireplace.entity.ai.goal;
 
 import java.util.EnumSet;
 
@@ -54,7 +54,7 @@ public class KaratMovingGoal extends Goal
 	public void tick() 
 	{
 		LivingEntity livingentity = this.mob.getTarget();
-		if (livingentity != null) 
+		if(livingentity != null) 
 		{
 			this.mob.getNavigation().moveTo(livingentity.getX(), livingentity.getEyeY(), livingentity.getZ(), 0.55);
 			
@@ -73,12 +73,12 @@ public class KaratMovingGoal extends Goal
 			double d0 = this.mob.distanceToSqr(livingentity.getX(), livingentity.getY(), livingentity.getZ());
 			boolean flag = this.mob.getSensing().hasLineOfSight(livingentity);
 			boolean flag1 = this.seeTime > 0;
-			if (flag != flag1)
+			if(flag != flag1)
 			{
 				this.seeTime = 0;
 			}
 
-			if (flag) 
+			if(flag) 
 			{
 				++this.seeTime;
 			} 
@@ -87,7 +87,7 @@ public class KaratMovingGoal extends Goal
 				--this.seeTime;
 			}
 
-			if (!(d0 > (double) this.attackRadiusSqr) && this.seeTime >= 20)
+			if(!(d0 > (double) this.attackRadiusSqr) && this.seeTime >= 20)
 			{
 				this.mob.getNavigation().stop();
 				++this.strafingTime;
@@ -97,14 +97,14 @@ public class KaratMovingGoal extends Goal
 				this.strafingTime = -1;
 			}
 
-			if (this.strafingTime >= 20) 
+			if(this.strafingTime >= 20) 
 			{
-				if ((double) this.mob.getRandom().nextFloat() < 0.3D) 
+				if((double) this.mob.getRandom().nextFloat() < 0.3D) 
 				{
 					this.strafingClockwise = !this.strafingClockwise;
 				}
 
-				if ((double) this.mob.getRandom().nextFloat() < 0.3D)
+				if((double) this.mob.getRandom().nextFloat() < 0.3D)
 				{
 					this.strafingBackwards = !this.strafingBackwards;
 				}
@@ -112,13 +112,13 @@ public class KaratMovingGoal extends Goal
 				this.strafingTime = 0;
 			}
 
-			if (this.strafingTime > -1)
+			if(this.strafingTime > -1)
 			{
-				if (d0 > (double) (this.attackRadiusSqr * 0.75F)) 
+				if(d0 > (double) (this.attackRadiusSqr * 0.75F)) 
 				{
 					this.strafingBackwards = false;
 				} 
-				else if (d0 < (double) (this.attackRadiusSqr * 0.25F)) 
+				else if(d0 < (double) (this.attackRadiusSqr * 0.25F)) 
 				{
 					this.strafingBackwards = true;
 				}

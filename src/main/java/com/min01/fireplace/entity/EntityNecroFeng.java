@@ -2,7 +2,7 @@ package com.min01.fireplace.entity;
 
 import java.util.ArrayList;
 
-import com.min01.fireplace.entity.goal.NecroFengSummonUndeadGoal;
+import com.min01.fireplace.entity.ai.goal.NecroFengSummonUndeadGoal;
 
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;

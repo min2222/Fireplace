@@ -89,17 +89,17 @@ public abstract class AbstractKaratFeng extends Monster
 	@Override
 	public void aiStep()
 	{
-		if (this.level instanceof ServerLevel && this.isAlive()) 
+		if(this.level instanceof ServerLevel && this.isAlive()) 
 		{
 			KaratRaid raid = this.getCurrentRaid();
-			if (this.canJoinRaid()) 
+			if(this.canJoinRaid()) 
 			{
-				if (raid == null) 
+				if(raid == null) 
 				{
-					if (this.level.getGameTime() % 20L == 0L)
+					if(this.level.getGameTime() % 20L == 0L)
 					{
 						KaratRaid raid1 = ((IKaratRaid)(ServerLevel) this.level).getRaidAt(this.blockPosition());
-						if (raid1 != null && KaratRaidSaveData.canJoinRaid(this, raid1)) 
+						if(raid1 != null && KaratRaidSaveData.canJoinRaid(this, raid1)) 
 						{
 							raid1.joinRaid(raid1.getGroupsSpawned(), this, (BlockPos) null, true);
 						}
@@ -108,7 +108,7 @@ public abstract class AbstractKaratFeng extends Monster
 				else 
 				{
 					LivingEntity livingentity = this.getTarget();
-					if (livingentity != null && (livingentity.getType() == EntityType.PLAYER || livingentity.getType() == EntityType.IRON_GOLEM)) 
+					if(livingentity != null && (livingentity.getType() == EntityType.PLAYER || livingentity.getType() == EntityType.IRON_GOLEM)) 
 					{
 						this.noActionTime = 0;
 					}
@@ -128,13 +128,13 @@ public abstract class AbstractKaratFeng extends Monster
 	@Override
 	public void die(DamageSource p_37847_)
 	{
-		if (this.level instanceof ServerLevel)
+		if(this.level instanceof ServerLevel)
 		{
 			Entity entity = p_37847_.getEntity();
 			KaratRaid raid = this.getCurrentRaid();
-			if (raid != null) 
+			if(raid != null) 
 			{
-				if (entity != null && entity.getType() == EntityType.PLAYER) 
+				if(entity != null && entity.getType() == EntityType.PLAYER) 
 				{
 					raid.addHeroOfTheVillage(entity);
 				}
@@ -176,7 +176,7 @@ public abstract class AbstractKaratFeng extends Monster
 		super.addAdditionalSaveData(p_37870_);
 		p_37870_.putInt("Wave", this.wave);
 		p_37870_.putBoolean("CanJoinRaid", this.canJoinRaid);
-		if (this.raid != null)
+		if(this.raid != null)
 		{
 			p_37870_.putInt("RaidId", this.raid.getId());
 		}
@@ -188,14 +188,14 @@ public abstract class AbstractKaratFeng extends Monster
 		super.readAdditionalSaveData(p_37862_);
 		this.wave = p_37862_.getInt("Wave");
 		this.canJoinRaid = p_37862_.getBoolean("CanJoinRaid");
-		if (p_37862_.contains("RaidId", 3)) 
+		if(p_37862_.contains("RaidId", 3)) 
 		{
-			if (this.level instanceof ServerLevel) 
+			if(this.level instanceof ServerLevel) 
 			{
 				this.raid = ((IKaratRaid)(ServerLevel) this.level).getRaids().get(p_37862_.getInt("RaidId"));
 			}
 
-			if (this.raid != null)
+			if(this.raid != null)
 			{
 				this.raid.addWaveMob(this.wave, this, false);
 			}
@@ -268,7 +268,7 @@ public abstract class AbstractKaratFeng extends Monster
 			{
 				return p_219843_.is(PoiTypes.HOME);
 			}, this::hasNotVisited, PoiManager.Occupancy.ANY, blockpos, 48, this.raider.random);
-			if (!optional.isPresent()) 
+			if(!optional.isPresent()) 
 			{
 				return false;
 			} 
@@ -281,7 +281,7 @@ public abstract class AbstractKaratFeng extends Monster
 
 		public boolean canContinueToUse() 
 		{
-			if (this.raider.getNavigation().isDone()) 
+			if(this.raider.getNavigation().isDone()) 
 			{
 				return false;
 			} 
@@ -293,7 +293,7 @@ public abstract class AbstractKaratFeng extends Monster
 
 		public void stop() 
 		{
-			if (this.poiPos.closerToCenterThan(this.raider.position(), (double) this.distanceToPoi)) 
+			if(this.poiPos.closerToCenterThan(this.raider.position(), (double) this.distanceToPoi)) 
 			{
 				this.visited.add(this.poiPos);
 			}
@@ -310,16 +310,16 @@ public abstract class AbstractKaratFeng extends Monster
 
 		public void tick()
 		{
-			if (this.raider.getNavigation().isDone()) 
+			if(this.raider.getNavigation().isDone()) 
 			{
 				Vec3 vec3 = Vec3.atBottomCenterOf(this.poiPos);
 				Vec3 vec31 = DefaultRandomPos.getPosTowards(this.raider, 16, 7, vec3, (double) ((float) Math.PI / 10F));
-				if (vec31 == null) 
+				if(vec31 == null) 
 				{
 					vec31 = DefaultRandomPos.getPosTowards(this.raider, 8, 7, vec3, (double) ((float) Math.PI / 2F));
 				}
 
-				if (vec31 == null)
+				if(vec31 == null)
 				{
 					this.stuck = true;
 					return;
@@ -331,9 +331,9 @@ public abstract class AbstractKaratFeng extends Monster
 
 		private boolean hasNotVisited(BlockPos p_37943_) 
 		{
-			for (BlockPos blockpos : this.visited) 
+			for(BlockPos blockpos : this.visited) 
 			{
-				if (Objects.equals(p_37943_, blockpos)) 
+				if(Objects.equals(p_37943_, blockpos)) 
 				{
 					return false;
 				}
@@ -344,7 +344,7 @@ public abstract class AbstractKaratFeng extends Monster
 
 		private void updateVisited() 
 		{
-			if (this.visited.size() > 2) 
+			if(this.visited.size() > 2) 
 			{
 				this.visited.remove(0);
 			}
@@ -381,7 +381,7 @@ public abstract class AbstractKaratFeng extends Monster
 			vec31 = vec31.xRot(-this.getXRot() * ((float)Math.PI / 180F));
 			vec31 = vec31.yRot(-this.getYRot() * ((float)Math.PI / 180F));
 			vec31 = vec31.add(this.getX(), this.getEyeY(), this.getZ());
-			if (this.level instanceof ServerLevel) //Forge: Fix MC-2518 spawnParticle is nooped on server, need to use server specific variant
+			if(this.level instanceof ServerLevel) //Forge: Fix MC-2518 spawnParticle is nooped on server, need to use server specific variant
 				((ServerLevel)this.level).sendParticles(new ItemParticleOption(ParticleTypes.ITEM, p_21061_), vec31.x, vec31.y, vec31.z, 1, vec3.x, vec3.y + 0.05D, vec3.z, 0.0D);
 			else
 				this.level.addParticle(new ItemParticleOption(ParticleTypes.ITEM, p_21061_), vec31.x, vec31.y, vec31.z, vec3.x, vec3.y + 0.05D, vec3.z);
@@ -465,7 +465,7 @@ public abstract class AbstractKaratFeng extends Monster
     @Override
     public boolean hurt(DamageSource p_21016_, float p_21017_)
     {
-		if (this.hasActiveRaid())
+		if(this.hasActiveRaid())
 		{
 			this.getCurrentRaid().updateBossbar();
 		}
@@ -492,7 +492,7 @@ public abstract class AbstractKaratFeng extends Monster
 	protected void customServerAiStep() 
 	{
 		super.customServerAiStep();
-		if (this.skillTickCount > 0)
+		if(this.skillTickCount > 0)
 		{
 			--this.skillTickCount;
 		}
@@ -505,7 +505,7 @@ public abstract class AbstractKaratFeng extends Monster
 	
 	public boolean isUsingSkill() 
 	{
-		if (this.level.isClientSide) 
+		if(this.level.isClientSide) 
 		{
 			return this.entityData.get(DATA_SKILL_ID) > 0;
 		} 
@@ -549,7 +549,7 @@ public abstract class AbstractKaratFeng extends Monster
 		{
 			for(AbstractKaratFeng.KaratSkills EntityGrandmaster$illagerspell : values()) 
 			{
-				if (p_33759_ == EntityGrandmaster$illagerspell.id) 
+				if(p_33759_ == EntityGrandmaster$illagerspell.id) 
 				{
 					return EntityGrandmaster$illagerspell;
 				}

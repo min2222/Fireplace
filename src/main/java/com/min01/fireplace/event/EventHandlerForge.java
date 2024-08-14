@@ -9,7 +9,7 @@ import com.min01.fireplace.entity.AbstractKaratFeng;
 import com.min01.fireplace.entity.EntityKaratFeng;
 import com.min01.fireplace.entity.EntityNecroFeng;
 import com.min01.fireplace.entity.EntitySnowyFeng;
-import com.min01.fireplace.entity.goal.DodgeArrowsGoal;
+import com.min01.fireplace.entity.ai.goal.DodgeArrowsGoal;
 import com.min01.fireplace.misc.FireplaceTags;
 import com.min01.fireplace.raid.KaratRaidMembers;
 import com.min01.fireplace.util.FireplaceUtil;

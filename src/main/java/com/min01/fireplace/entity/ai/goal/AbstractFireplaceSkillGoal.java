@@ -1,4 +1,4 @@
-package com.min01.fireplace.entity.goal;
+package com.min01.fireplace.entity.ai.goal;
 
 import com.min01.fireplace.entity.AbstractKaratFeng;
 
@@ -21,9 +21,9 @@ public abstract class AbstractFireplaceSkillGoal<T extends AbstractKaratFeng> ex
     public boolean canUse() 
     {
     	LivingEntity livingentity = this.mob.getTarget();
-    	if (livingentity != null && livingentity.isAlive()) 
+    	if(livingentity != null && livingentity.isAlive()) 
     	{
-    		if (this.mob.isUsingSkill())
+    		if(this.mob.isUsingSkill())
     		{
     			return false;
     		} 
@@ -75,7 +75,7 @@ public abstract class AbstractFireplaceSkillGoal<T extends AbstractKaratFeng> ex
     	}
     	
     	--this.skillWarmupDelay;
-    	if (this.skillWarmupDelay == 0) 
+    	if(this.skillWarmupDelay == 0) 
     	{
     		this.performSkill();
     	}

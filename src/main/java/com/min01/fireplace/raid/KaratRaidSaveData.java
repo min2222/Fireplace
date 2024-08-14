@@ -55,12 +55,12 @@ public class KaratRaidSaveData extends SavedData
 		while (iterator.hasNext())
 		{
 			KaratRaid raid = iterator.next();
-			if (this.level.getGameRules().getBoolean(GameRules.RULE_DISABLE_RAIDS)) 
+			if(this.level.getGameRules().getBoolean(GameRules.RULE_DISABLE_RAIDS)) 
 			{
 				raid.stop();
 			}
 
-			if (raid.isStopped()) 
+			if(raid.isStopped()) 
 			{
 				iterator.remove();
 				this.setDirty();
@@ -71,7 +71,7 @@ public class KaratRaidSaveData extends SavedData
 			}
 		}
 
-		if (this.tick % 200 == 0)
+		if(this.tick % 200 == 0)
 		{
 			this.setDirty();
 		}
@@ -82,7 +82,7 @@ public class KaratRaidSaveData extends SavedData
 
 	public static boolean canJoinRaid(AbstractKaratFeng p_37966_, KaratRaid p_37967_)
 	{
-		if (p_37966_ != null && p_37967_ != null && p_37967_.getLevel() != null)
+		if(p_37966_ != null && p_37967_ != null && p_37967_.getLevel() != null)
 		{
 			return p_37966_.isAlive() && p_37966_.canJoinRaid() && p_37966_.getNoActionTime() <= 2400 && p_37966_.level.dimensionType() == p_37967_.getLevel().dimensionType();
 		} 
@@ -95,18 +95,18 @@ public class KaratRaidSaveData extends SavedData
 	@Nullable
 	public KaratRaid createOrExtendRaid(ServerPlayer p_37964_)
 	{
-		if (p_37964_.isSpectator())
+		if(p_37964_.isSpectator())
 		{
 			return null;
 		} 
-		else if (this.level.getGameRules().getBoolean(GameRules.RULE_DISABLE_RAIDS))
+		else if(this.level.getGameRules().getBoolean(GameRules.RULE_DISABLE_RAIDS))
 		{
 			return null;
 		} 
 		else
 		{
 			DimensionType dimensiontype = p_37964_.level.dimensionType();
-			if (!dimensiontype.hasRaids()) 
+			if(!dimensiontype.hasRaids()) 
 			{
 				return null;
 			} 
@@ -120,7 +120,7 @@ public class KaratRaidSaveData extends SavedData
 				int i = 0;
 				Vec3 vec3 = Vec3.ZERO;
 
-				for (PoiRecord poirecord : list) 
+				for(PoiRecord poirecord : list) 
 				{
 					BlockPos blockpos2 = poirecord.getPos();
 					vec3 = vec3.add((double) blockpos2.getX(), (double) blockpos2.getY(), (double) blockpos2.getZ());
@@ -128,7 +128,7 @@ public class KaratRaidSaveData extends SavedData
 				}
 
 				BlockPos blockpos1;
-				if (i > 0) 
+				if(i > 0) 
 				{
 					vec3 = vec3.scale(1.0D / (double) i);
 					blockpos1 = new BlockPos(vec3);
@@ -140,16 +140,16 @@ public class KaratRaidSaveData extends SavedData
 
 				KaratRaid raid = this.getOrCreateRaid(p_37964_.getLevel(), blockpos1);
 				boolean flag = false;
-				if (!raid.isStarted())
+				if(!raid.isStarted())
 				{
-					if (!this.raidMap.containsKey(raid.getId()))
+					if(!this.raidMap.containsKey(raid.getId()))
 					{
 						this.raidMap.put(raid.getId(), raid);
 					}
 
 					flag = true;
 				}
-				else if (raid.getEffectLevel() < raid.getMaxEffectLevel())
+				else if(raid.getEffectLevel() < raid.getMaxEffectLevel())
 				{
 					flag = true;
 				} 
@@ -159,11 +159,11 @@ public class KaratRaidSaveData extends SavedData
 					p_37964_.connection.send(new ClientboundEntityEventPacket(p_37964_, (byte) 43));
 				}
 
-				if (flag) 
+				if(flag) 
 				{
 					raid.absorbEffect(p_37964_);
 					p_37964_.connection.send(new ClientboundEntityEventPacket(p_37964_, (byte) 43));
-					if (!raid.hasFirstWaveSpawned())
+					if(!raid.hasFirstWaveSpawned())
 					{
 						p_37964_.awardStat(Stats.RAID_TRIGGER);
 						CriteriaTriggers.BAD_OMEN.trigger(p_37964_);
@@ -205,7 +205,7 @@ public class KaratRaidSaveData extends SavedData
 		p_37976_.putInt("Tick", this.tick);
 		ListTag listtag = new ListTag();
 
-		for (KaratRaid raid : this.raidMap.values()) 
+		for(KaratRaid raid : this.raidMap.values()) 
 		{
 			CompoundTag compoundtag = new CompoundTag();
 			raid.save(compoundtag);
@@ -232,10 +232,10 @@ public class KaratRaidSaveData extends SavedData
 		KaratRaid raid = null;
 		double d0 = (double) p_37972_;
 
-		for (KaratRaid raid1 : this.raidMap.values()) 
+		for(KaratRaid raid1 : this.raidMap.values()) 
 		{
 			double d1 = raid1.getCenter().distSqr(p_37971_);
-			if (raid1.isActive() && d1 < d0) 
+			if(raid1.isActive() && d1 < d0) 
 			{
 				raid = raid1;
 				d0 = d1;

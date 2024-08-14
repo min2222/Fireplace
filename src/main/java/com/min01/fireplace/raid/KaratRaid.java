@@ -131,11 +131,11 @@ public class KaratRaid
 		this.numGroups = p_37697_.getInt("NumGroups");
 		this.status = KaratRaid.RaidStatus.getByName(p_37697_.getString("Status"));
 		this.heroesOfTheVillage.clear();
-		if (p_37697_.contains("HeroesOfTheVillage", 9)) 
+		if(p_37697_.contains("HeroesOfTheVillage", 9)) 
 		{
 			ListTag listtag = p_37697_.getList("HeroesOfTheVillage", 11);
 
-			for (int i = 0; i < listtag.size(); ++i) 
+			for(int i = 0; i < listtag.size(); ++i) 
 			{
 				this.heroesOfTheVillage.add(NbtUtils.loadUUID(listtag.get(i)));
 			}
@@ -181,7 +181,7 @@ public class KaratRaid
 	{
 		Set<AbstractKaratFeng> set = Sets.newHashSet();
 
-		for (Set<AbstractKaratFeng> set1 : this.groupRaiderMap.values()) 
+		for(Set<AbstractKaratFeng> set1 : this.groupRaiderMap.values()) 
 		{
 			set.addAll(set1);
 		}
@@ -218,17 +218,17 @@ public class KaratRaid
 		Set<ServerPlayer> set = Sets.newHashSet(this.raidEvent.getPlayers());
 		List<ServerPlayer> list = this.level.getPlayers(this.validPlayer());
 
-		for (ServerPlayer serverplayer : list) 
+		for(ServerPlayer serverplayer : list) 
 		{
-			if (!set.contains(serverplayer))
+			if(!set.contains(serverplayer))
 			{
 				this.raidEvent.addPlayer(serverplayer);
 			}
 		}
 
-		for (ServerPlayer serverplayer1 : set) 
+		for(ServerPlayer serverplayer1 : set) 
 		{
-			if (!list.contains(serverplayer1))
+			if(!list.contains(serverplayer1))
 			{
 				this.raidEvent.removePlayer(serverplayer1);
 			}
@@ -253,7 +253,7 @@ public class KaratRaid
 
 	public void absorbEffect(Player p_37729_) 
 	{
-		if (p_37729_.hasEffect(this.getEffect()))
+		if(p_37729_.hasEffect(this.getEffect()))
 		{
 			this.effectLevel += p_37729_.getEffect(this.getEffect()).getAmplifier() + 1;
 			this.effectLevel = Mth.clamp(this.effectLevel, 0, this.getMaxEffectLevel());
@@ -277,36 +277,36 @@ public class KaratRaid
 	@SuppressWarnings("deprecation")
 	public void tick()
 	{
-		if (!this.isStopped()) 
+		if(!this.isStopped()) 
 		{
-			if (this.status == KaratRaid.RaidStatus.ONGOING)
+			if(this.status == KaratRaid.RaidStatus.ONGOING)
 			{
 				boolean flag = this.active;
 				this.active = this.level.hasChunkAt(this.center);
-				if (this.level.getDifficulty() == Difficulty.PEACEFUL) 
+				if(this.level.getDifficulty() == Difficulty.PEACEFUL) 
 				{
 					this.stop();
 					return;
 				}
 
-				if (flag != this.active) 
+				if(flag != this.active) 
 				{
 					this.raidEvent.setVisible(this.active);
 				}
 
-				if (!this.active) 
+				if(!this.active) 
 				{
 					return;
 				}
 
-				if (!this.level.isVillage(this.center)) 
+				if(!this.level.isVillage(this.center)) 
 				{
 					this.moveRaidCenterToNearbyVillageSection();
 				}
 
-				if (!this.level.isVillage(this.center)) 
+				if(!this.level.isVillage(this.center)) 
 				{
-					if (this.groupsSpawned > 0) 
+					if(this.groupsSpawned > 0) 
 					{
 						this.status = KaratRaid.RaidStatus.LOSS;
 					} 
@@ -317,18 +317,18 @@ public class KaratRaid
 				}
 
 				++this.ticksActive;
-				if (this.ticksActive >= 48000L)
+				if(this.ticksActive >= 48000L)
 				{
 					this.stop();
 					return;
 				}
 
 				int i = this.getTotalRaidersAlive();
-				if (i == 0 && this.hasMoreWaves()) 
+				if(i == 0 && this.hasMoreWaves()) 
 				{
-					if (this.raidCooldownTicks <= 0) 
+					if(this.raidCooldownTicks <= 0) 
 					{
-						if (this.raidCooldownTicks == 0 && this.groupsSpawned > 0)
+						if(this.raidCooldownTicks == 0 && this.groupsSpawned > 0)
 						{
 							this.raidCooldownTicks = 300;
 							this.raidEvent.setName(RAID_NAME_COMPONENT);
@@ -339,19 +339,19 @@ public class KaratRaid
 					{
 						boolean flag1 = this.waveSpawnPos.isPresent();
 						boolean flag2 = !flag1 && this.raidCooldownTicks % 5 == 0;
-						if (flag1 && !this.level.isPositionEntityTicking(this.waveSpawnPos.get()))
+						if(flag1 && !this.level.isPositionEntityTicking(this.waveSpawnPos.get()))
 						{
 							flag2 = true;
 						}
 
-						if (flag2)
+						if(flag2)
 						{
 							int j = 0;
-							if (this.raidCooldownTicks < 100)
+							if(this.raidCooldownTicks < 100)
 							{
 								j = 1;
 							} 
-							else if (this.raidCooldownTicks < 40)
+							else if(this.raidCooldownTicks < 40)
 							{
 								j = 2;
 							}
@@ -359,7 +359,7 @@ public class KaratRaid
 							this.waveSpawnPos = this.getValidSpawnPos(j);
 						}
 
-						if (this.raidCooldownTicks == 300 || this.raidCooldownTicks % 20 == 0)
+						if(this.raidCooldownTicks == 300 || this.raidCooldownTicks % 20 == 0)
 						{
 							this.updatePlayers();
 						}
@@ -369,13 +369,13 @@ public class KaratRaid
 					}
 				}
 
-				if (this.ticksActive % 20L == 0L)
+				if(this.ticksActive % 20L == 0L)
 				{
 					this.updatePlayers();
 					this.updateRaiders();
-					if (i > 0) 
+					if(i > 0) 
 					{
-						if (i <= 2)
+						if(i <= 2)
 						{
 							this.raidEvent.setName(RAID_NAME_COMPONENT.copy().append(" - ").append(Component.translatable("event.fireplace.karatraid.karats_remaining", i)));
 						} 
@@ -396,11 +396,11 @@ public class KaratRaid
 				while (this.shouldSpawnGroup()) 
 				{
 					BlockPos blockpos = this.waveSpawnPos.isPresent() ? this.waveSpawnPos.get() : this.findRandomSpawnPos(k, 20);
-					if (blockpos != null) 
+					if(blockpos != null) 
 					{
 						this.started = true;
 						this.spawnGroup(blockpos);
-						if (!flag3) 
+						if(!flag3) 
 						{
 							this.playSound(blockpos);
 							flag3 = true;
@@ -411,16 +411,16 @@ public class KaratRaid
 						++k;
 					}
 
-					if (k > 3)
+					if(k > 3)
 					{
 						this.stop();
 						break;
 					}
 				}
 
-				if (this.isStarted() && !this.hasMoreWaves() && i == 0) 
+				if(this.isStarted() && !this.hasMoreWaves() && i == 0) 
 				{
-					if (this.postRaidTicks < 40)
+					if(this.postRaidTicks < 40)
 					{
 						++this.postRaidTicks;
 					} 
@@ -428,14 +428,14 @@ public class KaratRaid
 					{
 						this.status = KaratRaid.RaidStatus.VICTORY;
 
-						for (UUID uuid : this.heroesOfTheVillage)
+						for(UUID uuid : this.heroesOfTheVillage)
 						{
 							Entity entity = this.level.getEntity(uuid);
-							if (entity instanceof LivingEntity && !entity.isSpectator()) 
+							if(entity instanceof LivingEntity && !entity.isSpectator()) 
 							{
 								LivingEntity livingentity = (LivingEntity) entity;
 								livingentity.addEffect(new MobEffectInstance(MobEffects.HERO_OF_THE_VILLAGE, 48000, this.effectLevel - 1, false, false, true));
-								if (livingentity instanceof ServerPlayer) 
+								if(livingentity instanceof ServerPlayer) 
 								{
 									ServerPlayer serverplayer = (ServerPlayer) livingentity;
 									serverplayer.awardStat(Stats.RAID_WIN);
@@ -448,20 +448,20 @@ public class KaratRaid
 
 				this.setDirty();
 			} 
-			else if (this.isOver())
+			else if(this.isOver())
 			{
 				++this.celebrationTicks;
-				if (this.celebrationTicks >= 600) 
+				if(this.celebrationTicks >= 600) 
 				{
 					this.stop();
 					return;
 				}
 
-				if (this.celebrationTicks % 20 == 0)
+				if(this.celebrationTicks % 20 == 0)
 				{
 					this.updatePlayers();
 					this.raidEvent.setVisible(true);
-					if (this.isVictory())
+					if(this.isVictory())
 					{
 						this.raidEvent.setProgress(0.0F);
 						this.raidEvent.setName(RAID_BAR_VICTORY_COMPONENT);
@@ -486,10 +486,10 @@ public class KaratRaid
 
 	public Optional<BlockPos> getValidSpawnPos(int p_37764_) 
 	{
-		for (int i = 0; i < 3; ++i)
+		for(int i = 0; i < 3; ++i)
 		{
 			BlockPos blockpos = this.findRandomSpawnPos(p_37764_, 1);
-			if (blockpos != null)
+			if(blockpos != null)
 			{
 				return Optional.of(blockpos);
 			}
@@ -500,7 +500,7 @@ public class KaratRaid
 
 	public boolean hasMoreWaves() 
 	{
-		if (this.hasBonusWave()) 
+		if(this.hasBonusWave()) 
 		{
 			return !this.hasSpawnedBonusWave();
 		} 
@@ -539,24 +539,24 @@ public class KaratRaid
 		{
 			Set<AbstractKaratFeng> set1 = iterator.next();
 
-			for (AbstractKaratFeng raider : set1) 
+			for(AbstractKaratFeng raider : set1) 
 			{
 				BlockPos blockpos = raider.blockPosition();
-				if (!raider.isRemoved() && raider.level.dimension() == this.level.dimension() && !(this.center.distSqr(blockpos) >= 12544.0D))
+				if(!raider.isRemoved() && raider.level.dimension() == this.level.dimension() && !(this.center.distSqr(blockpos) >= 12544.0D))
 				{
-					if (raider.tickCount > 600)
+					if(raider.tickCount > 600)
 					{
-						if (this.level.getEntity(raider.getUUID()) == null) 
+						if(this.level.getEntity(raider.getUUID()) == null) 
 						{
 							set.add(raider);
 						}
 
-						if (!this.level.isVillage(blockpos) && raider.getNoActionTime() > 2400) 
+						if(!this.level.isVillage(blockpos) && raider.getNoActionTime() > 2400) 
 						{
 							raider.setTicksOutsideRaid(raider.getTicksOutsideRaid() + 1);
 						}
 
-						if (raider.getTicksOutsideRaid() >= 30) 
+						if(raider.getTicksOutsideRaid() >= 30) 
 						{
 							set.add(raider);
 						}
@@ -569,7 +569,7 @@ public class KaratRaid
 			}
 		}
 
-		for (AbstractKaratFeng raider1 : set) 
+		for(AbstractKaratFeng raider1 : set) 
 		{
 			this.removeFromRaid(raider1, true);
 		}
@@ -581,14 +581,14 @@ public class KaratRaid
 		Collection<ServerPlayer> collection = this.raidEvent.getPlayers();
 		long j = this.random.nextLong();
 
-		for (ServerPlayer serverplayer : this.level.players()) 
+		for(ServerPlayer serverplayer : this.level.players()) 
 		{
 			Vec3 vec3 = serverplayer.position();
 			Vec3 vec31 = Vec3.atCenterOf(p_37744_);
 			double d0 = Math.sqrt((vec31.x - vec3.x) * (vec31.x - vec3.x) + (vec31.z - vec3.z) * (vec31.z - vec3.z));
 			double d1 = vec3.x + 13.0D / d0 * (vec31.x - vec3.x);
 			double d2 = vec3.z + 13.0D / d0 * (vec31.z - vec3.z);
-			if (d0 <= 64.0D || collection.contains(serverplayer)) 
+			if(d0 <= 64.0D || collection.contains(serverplayer)) 
 			{
 				serverplayer.connection.send(new ClientboundSoundPacket(this.getRaidSound(), SoundSource.NEUTRAL, d1, serverplayer.getY(), d2, 64.0F, 1.0F, j));
 			}
@@ -612,7 +612,7 @@ public class KaratRaid
 		{
 			int j = this.getDefaultNumSpawns(entry.getValue(), i, flag1) + this.getPotentialBonusSpawns(entry.getKey(), this.random, i, difficultyinstance, flag1);
 
-			for (int l = 0; l < j; ++l)
+			for(int l = 0; l < j; ++l)
 			{
 				AbstractKaratFeng raider = entry.getKey().create(this.level);
 				this.joinRaid(i, raider, p_37756_, false);
@@ -633,13 +633,13 @@ public class KaratRaid
 	public void joinRaid(int p_37714_, AbstractKaratFeng p_37715_, @Nullable BlockPos p_37716_, boolean p_37717_)
 	{
 		boolean flag = this.addWaveMob(p_37714_, p_37715_);
-		if (flag) 
+		if(flag) 
 		{
 			p_37715_.setCurrentRaid(this);
 			p_37715_.setWave(p_37714_);
 			p_37715_.setCanJoinRaid(true);
 			p_37715_.setTicksOutsideRaid(0);
-			if (!p_37717_ && p_37716_ != null)
+			if(!p_37717_ && p_37716_ != null)
 			{
 				p_37715_.setPos((double) p_37716_.getX() + 0.5D, (double) p_37716_.getY() + 1.0D, (double) p_37716_.getZ() + 0.5D);
 				p_37715_.finalizeSpawn(this.level, this.level.getCurrentDifficultyAt(p_37716_), MobSpawnType.EVENT, (SpawnGroupData) null, (CompoundTag) null);
@@ -659,9 +659,9 @@ public class KaratRaid
 	{
 		float f = 0.0F;
 
-		for (Set<AbstractKaratFeng> set : this.groupRaiderMap.values())
+		for(Set<AbstractKaratFeng> set : this.groupRaiderMap.values())
 		{
-			for (AbstractKaratFeng raider : set) 
+			for(AbstractKaratFeng raider : set) 
 			{
 				f += raider.getHealth();
 			}
@@ -683,12 +683,12 @@ public class KaratRaid
 	public void removeFromRaid(AbstractKaratFeng p_37741_, boolean p_37742_)
 	{
 		Set<AbstractKaratFeng> set = this.groupRaiderMap.get(p_37741_.getWave());
-		if (set != null) 
+		if(set != null) 
 		{
 			boolean flag = set.remove(p_37741_);
-			if (flag) 
+			if(flag) 
 			{
-				if (p_37742_) 
+				if(p_37742_) 
 				{
 					this.totalHealth -= p_37741_.getHealth();
 				}
@@ -712,16 +712,16 @@ public class KaratRaid
 		int i = p_37708_ == 0 ? 2 : 2 - p_37708_;
 		BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
 
-		for (int i1 = 0; i1 < p_37709_; ++i1) 
+		for(int i1 = 0; i1 < p_37709_; ++i1) 
 		{
 			float f = this.level.random.nextFloat() * ((float) Math.PI * 2F);
 			int j = this.center.getX() + Mth.floor(Mth.cos(f) * 32.0F * (float) i) + this.level.random.nextInt(5);
 			int l = this.center.getZ() + Mth.floor(Mth.sin(f) * 32.0F * (float) i) + this.level.random.nextInt(5);
 			int k = this.level.getHeight(Heightmap.Types.WORLD_SURFACE, j, l);
 			blockpos$mutableblockpos.set(j, k, l);
-			if (!this.level.isVillage(blockpos$mutableblockpos) || p_37708_ >= 2)
+			if(!this.level.isVillage(blockpos$mutableblockpos) || p_37708_ >= 2)
 			{
-				if (this.level.hasChunksAt(blockpos$mutableblockpos.getX() - 10, blockpos$mutableblockpos.getZ() - 10,
+				if(this.level.hasChunksAt(blockpos$mutableblockpos.getX() - 10, blockpos$mutableblockpos.getZ() - 10,
 						blockpos$mutableblockpos.getX() + 10, blockpos$mutableblockpos.getZ() + 10)
 						&& this.level.isPositionEntityTicking(blockpos$mutableblockpos)
 						&& (NaturalSpawner.isSpawnPositionOk(SpawnPlacements.Type.ON_GROUND, this.level, blockpos$mutableblockpos, EntityType.RAVAGER) 
@@ -750,23 +750,23 @@ public class KaratRaid
 		Set<AbstractKaratFeng> set = this.groupRaiderMap.get(p_37719_);
 		AbstractKaratFeng raider = null;
 
-		for (AbstractKaratFeng raider1 : set)
+		for(AbstractKaratFeng raider1 : set)
 		{
-			if (raider1.getUUID().equals(p_37720_.getUUID())) 
+			if(raider1.getUUID().equals(p_37720_.getUUID())) 
 			{
 				raider = raider1;
 				break;
 			}
 		}
 
-		if (raider != null) 
+		if(raider != null) 
 		{
 			set.remove(raider);
 			set.add(p_37720_);
 		}
 
 		set.add(p_37720_);
-		if (p_37721_) 
+		if(p_37721_) 
 		{
 			this.totalHealth += p_37720_.getHealth();
 		}
@@ -824,7 +824,7 @@ public class KaratRaid
 		p_37748_.putInt("CZ", this.center.getZ());
 		ListTag listtag = new ListTag();
 
-		for (UUID uuid : this.heroesOfTheVillage) 
+		for(UUID uuid : this.heroesOfTheVillage) 
 		{
 			listtag.add(NbtUtils.createUUID(uuid));
 		}
@@ -842,15 +842,15 @@ public class KaratRaid
 	public float getEnchantOdds() 
 	{
 		int i = this.getEffectLevel();
-		if (i == 2) 
+		if(i == 2) 
 		{
 			return 0.1F;
 		} 
-		else if (i == 3)
+		else if(i == 3)
 		{
 			return 0.25F;
 		} 
-		else if (i == 4) 
+		else if(i == 4) 
 		{
 			return 0.5F;
 		} 
@@ -873,9 +873,9 @@ public class KaratRaid
 
 		static KaratRaid.RaidStatus getByName(String p_37804_)
 		{
-			for (KaratRaid.RaidStatus raid$raidstatus : VALUES)
+			for(KaratRaid.RaidStatus raid$raidstatus : VALUES)
 			{
-				if (p_37804_.equalsIgnoreCase(raid$raidstatus.name()))
+				if(p_37804_.equalsIgnoreCase(raid$raidstatus.name()))
 				{
 					return raid$raidstatus;
 				}
