@@ -1,4 +1,4 @@
-package com.min01.fireplace.entity.goal;
+package com.min01.fireplace.entity.ai.goal;
 
 import com.min01.fireplace.entity.AbstractKaratFeng;
 

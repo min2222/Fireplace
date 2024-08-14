@@ -5,16 +5,16 @@ import java.util.List;
 import java.util.UUID;
 
 import com.google.common.collect.Lists;
-import com.min01.fireplace.entity.goal.DodgeArrowsGoal;
-import com.min01.fireplace.entity.goal.KaratBuffMobsGoal;
-import com.min01.fireplace.entity.goal.KaratEatingGoldenAppleGoal;
-import com.min01.fireplace.entity.goal.KaratMeleeAttackGoal;
-import com.min01.fireplace.entity.goal.KaratMovingGoal;
-import com.min01.fireplace.entity.goal.KaratRangedAttackGoal;
-import com.min01.fireplace.entity.goal.KaratShootProjectileGoal;
-import com.min01.fireplace.entity.goal.KaratSplashPotionsGoal;
-import com.min01.fireplace.entity.goal.KaratSummonMobGoal;
-import com.min01.fireplace.entity.goal.KaratUsingShieldGoal;
+import com.min01.fireplace.entity.ai.goal.DodgeArrowsGoal;
+import com.min01.fireplace.entity.ai.goal.KaratBuffMobsGoal;
+import com.min01.fireplace.entity.ai.goal.KaratEatingGoldenAppleGoal;
+import com.min01.fireplace.entity.ai.goal.KaratMeleeAttackGoal;
+import com.min01.fireplace.entity.ai.goal.KaratMovingGoal;
+import com.min01.fireplace.entity.ai.goal.KaratRangedAttackGoal;
+import com.min01.fireplace.entity.ai.goal.KaratShootProjectileGoal;
+import com.min01.fireplace.entity.ai.goal.KaratSplashPotionsGoal;
+import com.min01.fireplace.entity.ai.goal.KaratSummonMobGoal;
+import com.min01.fireplace.entity.ai.goal.KaratUsingShieldGoal;
 import com.min01.fireplace.init.FireplaceItems;
 import com.min01.fireplace.util.FireplaceUtil;
 
@@ -111,7 +111,7 @@ public class EntityKaratFeng extends AbstractKaratFeng
     {
         return Monster.createMonsterAttributes()
     			.add(Attributes.MAX_HEALTH, 200.0D)
-    			.add(Attributes.MOVEMENT_SPEED, 0.35D)
+    			.add(Attributes.MOVEMENT_SPEED, 0.5D)
         		.add(Attributes.ARMOR, 2)
         		.add(Attributes.ARMOR_TOUGHNESS, 2)
         		.add(Attributes.ATTACK_DAMAGE, 4)

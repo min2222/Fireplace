@@ -1,4 +1,4 @@
-package com.min01.fireplace.entity.goal;
+package com.min01.fireplace.entity.ai.goal;
 
 import com.min01.fireplace.entity.AbstractKaratFeng.KaratSkills;
 import com.min01.fireplace.entity.EntityKaratFeng;
@@ -25,7 +25,7 @@ public class KaratRangedAttackGoal extends AbstractFireplaceSkillGoal<EntityKara
 	@Override
 	public boolean canUse() 
 	{
-		return super.canUse() && !this.mob.isFlying() && !this.mob.isChangeEquip() && this.mob.distanceTo(this.mob.getTarget()) >= 7;
+		return super.canUse() && !this.mob.isFlying() && !this.mob.isChangeEquip() && (this.mob.distanceTo(this.mob.getTarget()) >= 12 || !this.mob.getTarget().onGround());
 	}
 	
 	@Override
