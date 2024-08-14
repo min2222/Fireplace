@@ -63,7 +63,7 @@ public class KaratRangedAttackGoal extends AbstractFireplaceSkillGoal<EntityKara
 		if(this.mob.getTarget() != null)
 		{
 	        int i = this.mob.getTicksUsingItem();
-	        if (i >= 18) 
+	        if(i >= 18) 
 	        {
 	           this.mob.stopUsingItem();
 	           this.performRangedAttack(this.mob.getTarget(), BowItem.getPowerForTime(i));

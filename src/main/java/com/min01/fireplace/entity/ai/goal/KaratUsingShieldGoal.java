@@ -38,9 +38,9 @@ public class KaratUsingShieldGoal extends AbstractFireplaceSkillGoal<EntityKarat
 	public void tick() 
 	{
 		super.tick();
-		if (this.mob.isShielding()) 
+		if(this.mob.isShielding()) 
         {
-            if (this.shieldingTimer-- <= 0) 
+            if(this.shieldingTimer-- <= 0) 
             {
             	this.mob.setShielding(false);
                 this.mob.getAttribute(Attributes.MOVEMENT_SPEED).removeModifier(MODIFIER);

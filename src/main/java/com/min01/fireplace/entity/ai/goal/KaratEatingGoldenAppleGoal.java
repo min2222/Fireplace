@@ -55,7 +55,7 @@ public class KaratEatingGoldenAppleGoal extends AbstractFireplaceSkillGoal<Entit
 	public void tick() 
 	{
 		super.tick();
-		if (this.shouldTriggerItemUseEffects())
+		if(this.shouldTriggerItemUseEffects())
 		{
 	        this.mob.spawnItemParticles(this.goldenApple, 16);
 	        this.mob.playSound(SoundEvents.GENERIC_EAT, 0.5F + 0.5F * (float)this.mob.getRandom().nextInt(2), (this.mob.getRandom().nextFloat() - this.mob.getRandom().nextFloat()) * 0.2F + 1.0F);
@@ -78,7 +78,7 @@ public class KaratEatingGoldenAppleGoal extends AbstractFireplaceSkillGoal<Entit
 		this.mob.level.playSound((Player)null, this.mob.getX(), this.mob.getY(), this.mob.getZ(), SoundEvents.PLAYER_BURP, SoundSource.PLAYERS, 0.5F, this.mob.getRandom().nextFloat() * 0.1F + 0.9F);
 		for(Pair<MobEffectInstance, Float> pair : this.goldenApple.getFoodProperties(this.mob).getEffects()) 
 		{
-			if (!this.mob.level.isClientSide && pair.getFirst() != null && this.mob.getRandom().nextFloat() < pair.getSecond()) 
+			if(!this.mob.level.isClientSide && pair.getFirst() != null && this.mob.getRandom().nextFloat() < pair.getSecond()) 
 			{
 				this.mob.addEffect(new MobEffectInstance(pair.getFirst()));
 			}

@@ -162,13 +162,13 @@ public class EntityPresentProjectile extends ThrowableProjectile
 		CompoundTag compoundtag1 = itemstack.getOrCreateTagElement("Fireworks");
 		ListTag listtag = new ListTag();
 		CompoundTag compoundtag2 = itemstack1.getTagElement("Explosion");
-		if (compoundtag2 != null)
+		if(compoundtag2 != null)
 		{
 			listtag.add(compoundtag2);
 		}
 
 		compoundtag1.putByte("Flight", (byte)p_22698_);
-		if (!listtag.isEmpty())
+		if(!listtag.isEmpty())
 		{
 			compoundtag1.put("Explosions", listtag);
 		}

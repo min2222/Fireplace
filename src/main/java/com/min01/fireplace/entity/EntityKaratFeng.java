@@ -444,23 +444,23 @@ public class EntityKaratFeng extends AbstractKaratFeng
     {
         Entity entity = damageSourceIn.getDirectEntity();
         boolean flag = false;
-        if (entity instanceof AbstractArrow) 
+        if(entity instanceof AbstractArrow) 
         {
         	AbstractArrow abstractarrowentity = (AbstractArrow) entity;
-            if (abstractarrowentity.getPierceLevel() > 0) 
+            if(abstractarrowentity.getPierceLevel() > 0) 
             {
                 flag = true;
             }
         }
-        if (!damageSourceIn.is(DamageTypeTags.BYPASSES_ARMOR) && this.isBlocking() && !flag) 
+        if(!damageSourceIn.is(DamageTypeTags.BYPASSES_ARMOR) && this.isBlocking() && !flag) 
         {
         	Vec3 vec3d2 = damageSourceIn.getSourcePosition();
-            if (vec3d2 != null)
+            if(vec3d2 != null)
             {
                 Vec3 vec3d3 = this.getViewVector(1.0f);
                 Vec3 vec3d4 = vec3d2.vectorTo(this.position()).normalize();
                 vec3d4 = new Vec3(vec3d4.x, 0.0, vec3d4.z);
-                if (vec3d4.dot(vec3d3) < 0.0) 
+                if(vec3d4.dot(vec3d3) < 0.0) 
                 {
                     return true;
                 }

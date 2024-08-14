@@ -76,7 +76,7 @@ public class EntityUFO extends AbstractOwnableMonster<EntityAlienFeng>
 	public void travel(Vec3 travelVector) 
 	{
 		LivingEntity livingentity = (LivingEntity) this.getFirstPassenger();
-		if (this.isVehicle() && livingentity != null)
+		if(this.isVehicle() && livingentity != null)
 		{
 			if(this.getOwner() != null && livingentity == this.getOwner())
 			{

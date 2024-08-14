@@ -72,7 +72,7 @@ public class ModelAlienFeng extends PlayerModel<EntityAlienFeng>
 		this.root.getChild("right_arm").xRot = Mth.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount * 0.5F;
 		this.root.getChild("right_leg").xRot = Mth.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount * 0.5F;
 		this.root.getChild("left_leg").xRot = Mth.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount * 0.5F;
-		if (this.riding)
+		if(this.riding)
 		{
 			this.root.getChild("right_arm").xRot += (-(float)Math.PI / 5F);
 			this.root.getChild("left_arm").xRot += (-(float)Math.PI / 5F);
