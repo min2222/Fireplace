@@ -32,9 +32,9 @@ public class ModelKingsStaff extends Model
 		MeshDefinition meshdefinition = new MeshDefinition();
 		PartDefinition partdefinition = meshdefinition.getRoot();
 
-		partdefinition.addOrReplaceChild("The_Kings_Staff", CubeListBuilder.create().texOffs(0, 30).addBox(-9.0F, -16.0F, 7.0F, 2.0F, 32.0F, 2.0F, new CubeDeformation(0.0F))
-		.texOffs(8, 57).mirror().addBox(-9.0F, -17.0F, 3.0F, 2.0F, 1.0F, 6.0F, new CubeDeformation(0.0F)).mirror(false)
-		.texOffs(24, 56).addBox(-9.0F, -24.0F, 3.0F, 2.0F, 7.0F, 1.0F, new CubeDeformation(0.0F))
+		partdefinition.addOrReplaceChild("The_Kings_Staff", CubeListBuilder.create().texOffs(0, 30).addBox(-9.0F, -15.0F, 7.0F, 2.0F, 32.0F, 2.0F, new CubeDeformation(0.0F))
+		.texOffs(8, 57).mirror().addBox(-9.0F, -16.0F, 3.0F, 2.0F, 1.0F, 6.0F, new CubeDeformation(0.0F)).mirror(false)
+		.texOffs(24, 55).addBox(-9.0F, -24.0F, 3.0F, 2.0F, 8.0F, 1.0F, new CubeDeformation(0.0F))
 		.texOffs(30, 59).addBox(-9.0F, -25.0F, 3.0F, 2.0F, 1.0F, 4.0F, new CubeDeformation(0.0F))
 		.texOffs(42, 59).addBox(-9.0F, -27.0F, 7.0F, 2.0F, 3.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 24.0F, 0.0F));
 
