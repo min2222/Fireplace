@@ -1,7 +1,6 @@
 package com.min01.fireplace.init;
 
 import com.min01.fireplace.Fireplace;
-import com.min01.fireplace.entity.AbstractKaratFeng;
 import com.min01.fireplace.entity.EntityAlienFeng;
 import com.min01.fireplace.entity.EntityCarrotFang;
 import com.min01.fireplace.entity.EntityEvokerFeng;
@@ -19,7 +18,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
-import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
@@ -28,42 +26,27 @@ public class FireplaceEntities
 {
 	public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, Fireplace.MODID);
 	
-	public static final RegistryObject<EntityType<EntityKaratFeng>> KARAT_FENG = registerKarat(EntityKaratFeng::new, "karat_feng", MobCategory.MISC);
-	public static final RegistryObject<EntityType<EntityCarrotFang>> CARROT_FANG = registerKarat(EntityCarrotFang::new, "carrot_fang", MobCategory.MONSTER);
-	public static final RegistryObject<EntityType<EntitySnowyFeng>> SNOWY_FENG = registerKarat(EntitySnowyFeng::new, "snowy_feng", MobCategory.MONSTER);
-	public static final RegistryObject<EntityType<EntityEvokerFeng>> EVOKER_FENG = registerKarat(EntityEvokerFeng::new, "evoker_feng", MobCategory.MONSTER);
-	public static final RegistryObject<EntityType<EntitySantaFeng>> SANTA_FENG = registerKarat(EntitySantaFeng::new, "santa_feng", MobCategory.MONSTER);
-	public static final RegistryObject<EntityType<EntityVampireFeng>> VAMPIRE_FENG = registerKarat(EntityVampireFeng::new, "vampire_feng", MobCategory.MONSTER);
-	public static final RegistryObject<EntityType<EntityFireFeng>> FIRE_FENG = registerKaratWithFireImmune(EntityFireFeng::new, "fire_feng", MobCategory.MONSTER);
-	public static final RegistryObject<EntityType<EntityNecroFeng>> NECRO_FENG = registerKarat(EntityNecroFeng::new, "necro_feng", MobCategory.MONSTER);
-	public static final RegistryObject<EntityType<EntityAlienFeng>> ALIEN_FENG = registerKaratWithSize(EntityAlienFeng::new, 0.6F, 2.2F, "alien_feng", MobCategory.MONSTER);
-	public static final RegistryObject<EntityType<EntityUFO>> UFO = registerEntityWithSize(EntityUFO::new, 4F, 2F, "ufo", MobCategory.MONSTER);
+	public static final RegistryObject<EntityType<EntityKaratFeng>> KARAT_FENG = registerEntity("karat_feng", createBuilder(EntityKaratFeng::new, MobCategory.MISC));
+	public static final RegistryObject<EntityType<EntityCarrotFang>> CARROT_FANG = registerEntity("carrot_fang", createBuilder(EntityCarrotFang::new, MobCategory.MONSTER));
+	public static final RegistryObject<EntityType<EntitySnowyFeng>> SNOWY_FENG = registerEntity("snowy_feng", createBuilder(EntitySnowyFeng::new, MobCategory.MONSTER));
+	public static final RegistryObject<EntityType<EntityEvokerFeng>> EVOKER_FENG = registerEntity("evoker_feng", createBuilder(EntityEvokerFeng::new, MobCategory.MONSTER));
+	public static final RegistryObject<EntityType<EntitySantaFeng>> SANTA_FENG = registerEntity("santa_feng", createBuilder(EntitySantaFeng::new, MobCategory.MONSTER));
+	public static final RegistryObject<EntityType<EntityVampireFeng>> VAMPIRE_FENG = registerEntity("vampire_feng", createBuilder(EntityVampireFeng::new, MobCategory.MONSTER));
+	public static final RegistryObject<EntityType<EntityFireFeng>> FIRE_FENG = registerEntity("fire_feng", createBuilder(EntityFireFeng::new, MobCategory.MONSTER).fireImmune());
+	public static final RegistryObject<EntityType<EntityNecroFeng>> NECRO_FENG = registerEntity("necro_feng", createBuilder(EntityNecroFeng::new, MobCategory.MONSTER));
+	public static final RegistryObject<EntityType<EntityAlienFeng>> ALIEN_FENG = registerEntity("alien_feng", createBuilder(EntityAlienFeng::new, MobCategory.MONSTER).sized(0.6F, 2.2F));
+	public static final RegistryObject<EntityType<EntityUFO>> UFO = registerEntity("ufo", EntityType.Builder.<EntityUFO>of(EntityUFO::new, MobCategory.MONSTER).sized(4.0F, 2.0F));
 	
-	public static final RegistryObject<EntityType<EntityCarrotProjectile>> CARROT = registerProjectile(EntityCarrotProjectile::new, "carrot");
-	public static final RegistryObject<EntityType<EntityPresentProjectile>> PRESENT = registerProjectile(EntityPresentProjectile::new, "present");
+	public static final RegistryObject<EntityType<EntityCarrotProjectile>> CARROT = registerEntity("carrot", EntityType.Builder.<EntityCarrotProjectile>of(EntityCarrotProjectile::new, MobCategory.MISC).sized(0.25F, 0.25F));
+	public static final RegistryObject<EntityType<EntityPresentProjectile>> PRESENT = registerEntity("present", EntityType.Builder.<EntityPresentProjectile>of(EntityPresentProjectile::new, MobCategory.MISC).sized(0.25F, 0.25F));
 	
-	public static <T extends Projectile> RegistryObject<EntityType<T>> registerProjectile(EntityType.EntityFactory<T> entity, String name) 
+	public static <T extends Entity> EntityType.Builder<T> createBuilder(EntityType.EntityFactory<T> factory, MobCategory category)
 	{
-		return ENTITY_TYPES.register(name, () -> EntityType.Builder.of(entity, MobCategory.MISC).sized(0.25F, 0.25F).build(new ResourceLocation(Fireplace.MODID, name).toString()));
+		return EntityType.Builder.<T>of(factory, category);
 	}
 	
-	public static <T extends Entity> RegistryObject<EntityType<T>> registerEntityWithSize(EntityType.EntityFactory<T> entity, float width, float height, String name, MobCategory category) 
+	public static <T extends Entity> RegistryObject<EntityType<T>> registerEntity(String name, EntityType.Builder<T> builder) 
 	{
-		return ENTITY_TYPES.register(name, () -> EntityType.Builder.of(entity, category).sized(width, height).build(new ResourceLocation(Fireplace.MODID, name).toString()));
-	}
-	
-	public static <T extends AbstractKaratFeng> RegistryObject<EntityType<T>> registerKaratWithSize(EntityType.EntityFactory<T> entity, float width, float height, String name, MobCategory category) 
-	{
-		return ENTITY_TYPES.register(name, () -> EntityType.Builder.of(entity, category).sized(width, height).build(new ResourceLocation(Fireplace.MODID, name).toString()));
-	}
-	
-	public static <T extends AbstractKaratFeng> RegistryObject<EntityType<T>> registerKaratWithFireImmune(EntityType.EntityFactory<T> entity, String name, MobCategory category) 
-	{
-		return ENTITY_TYPES.register(name, () -> EntityType.Builder.of(entity, category).fireImmune().build(new ResourceLocation(Fireplace.MODID, name).toString()));
-	}
-	
-	public static <T extends AbstractKaratFeng> RegistryObject<EntityType<T>> registerKarat(EntityType.EntityFactory<T> entity, String name, MobCategory category) 
-	{
-		return ENTITY_TYPES.register(name, () -> EntityType.Builder.of(entity, category).build(new ResourceLocation(Fireplace.MODID, name).toString()));
+		return ENTITY_TYPES.register(name, () -> builder.build(new ResourceLocation(Fireplace.MODID, name).toString()));
 	}
 }
