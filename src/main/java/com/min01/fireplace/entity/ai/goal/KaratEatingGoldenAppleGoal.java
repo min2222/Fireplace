@@ -76,11 +76,14 @@ public class KaratEatingGoldenAppleGoal extends AbstractFireplaceSkillGoal<Entit
 	{
 		super.stop();
 		this.mob.level.playSound((Player)null, this.mob.getX(), this.mob.getY(), this.mob.getZ(), SoundEvents.PLAYER_BURP, SoundSource.PLAYERS, 0.5F, this.mob.getRandom().nextFloat() * 0.1F + 0.9F);
-		for(Pair<MobEffectInstance, Float> pair : this.goldenApple.getFoodProperties(this.mob).getEffects()) 
+		if(this.goldenApple.getFoodProperties(this.mob) != null)
 		{
-			if(!this.mob.level.isClientSide && pair.getFirst() != null && this.mob.getRandom().nextFloat() < pair.getSecond()) 
+			for(Pair<MobEffectInstance, Float> pair : this.goldenApple.getFoodProperties(this.mob).getEffects()) 
 			{
-				this.mob.addEffect(new MobEffectInstance(pair.getFirst()));
+				if(!this.mob.level.isClientSide && pair.getFirst() != null && this.mob.getRandom().nextFloat() < pair.getSecond()) 
+				{
+					this.mob.addEffect(new MobEffectInstance(pair.getFirst()));
+				}
 			}
 		}
 		this.mob.setItemInHand(InteractionHand.MAIN_HAND, this.prevItem);
