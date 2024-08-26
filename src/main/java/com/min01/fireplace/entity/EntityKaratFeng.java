@@ -54,6 +54,7 @@ import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.phys.Vec3;
 
 public class EntityKaratFeng extends AbstractKaratFeng
@@ -76,6 +77,12 @@ public class EntityKaratFeng extends AbstractKaratFeng
 		super(p_21368_, p_21369_);
 		this.moveControl = this.flyingControl;
 		this.setNoGravity(true);
+		this.setPathfindingMalus(BlockPathTypes.UNPASSABLE_RAIL, 0.0F);
+		this.setPathfindingMalus(BlockPathTypes.DAMAGE_OTHER, 8.0F);
+		this.setPathfindingMalus(BlockPathTypes.POWDER_SNOW, 8.0F);
+		this.setPathfindingMalus(BlockPathTypes.LAVA, 8.0F);
+		this.setPathfindingMalus(BlockPathTypes.DAMAGE_FIRE, 0.0F);
+		this.setPathfindingMalus(BlockPathTypes.DANGER_FIRE, 0.0F);
 	}
     
     @Override

@@ -40,5 +40,10 @@ public class ModelKaratFeng<T extends AbstractKaratFeng> extends PlayerModel<T>
             this.rightArm.xRot = (-(float)Math.PI / 2F) + this.head.xRot;
             this.leftArm.xRot = (-(float)Math.PI / 2F) + this.head.xRot;
 		}
+		if(entity.isBlocking())
+		{
+			this.leftArmPose = ArmPose.BLOCK;
+			this.rightArmPose = ArmPose.BLOCK;
+		}
 	}
 }

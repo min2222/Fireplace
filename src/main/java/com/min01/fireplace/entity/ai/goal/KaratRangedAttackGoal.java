@@ -106,7 +106,7 @@ public class KaratRangedAttackGoal extends AbstractFireplaceSkillGoal<EntityKara
 	@Override
 	protected int getSkillUsingInterval() 
 	{
-		return 20;
+		return 60;
 	}
 
 	@Override
