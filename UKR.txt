@@ -1,0 +1,28 @@
+you can give karat omen effect to start ultra karatted raid
+list of some fengs (?)
+
+kung fang (evil version of karat)
+farrot keng (inverted karat)
+star feng
+dia-feng
+creefeng
+chad feng
+
+carrot fang (throw carrot, which has small amount of damage and knockback) //done
+vampire feng (bite you and absorb health, turn to bat when below half health) //done
+snowy feng (slightly high defense, throw snowball that does damage and freeze you, also melee attack if too close) //done
+evoker feng (do a dash attack with jaw moving animation, like a croco fang from I&S) //done
+
+lord feng (mini boss, time traveler)
+
+sculk feng (transform to fengbiote when below half health)
+fengbiote (miniboss, high stat, using warden sonic boom, turn into a pile of sculk to travel faster through blocks)
+
+alien feng (miniboss, riding flying ufo, laser from ufo, invert gravity) need to make laser
+necro feng (miniboss, spawn random undead) //done
+fire feng (mini boss, shoot fire, fire breath, fire dash) //done
+santa feng (mini boss, throw various type of presents, green cause firework explosion, red cause normal explosion, blue spawn snowy feng) //done
+
+i wonder if i should add survival system in fireplace mod
+like a natural spawning of karat feng boss (probably in structure)
+and a way to get karat omen buff + some rewards for UKR
