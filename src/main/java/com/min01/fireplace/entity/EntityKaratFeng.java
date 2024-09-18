@@ -70,6 +70,8 @@ public class EntityKaratFeng extends AbstractKaratFeng
 	public Item[] diamondSet = {Items.DIAMOND_HELMET, Items.DIAMOND_CHESTPLATE, Items.DIAMOND_LEGGINGS, Items.DIAMOND_BOOTS, Items.SHIELD, Items.DIAMOND_SWORD};
 	public Item[] netheriteSet = {Items.NETHERITE_HELMET, Items.NETHERITE_CHESTPLATE, Items.NETHERITE_LEGGINGS, Items.NETHERITE_BOOTS, Items.SHIELD, Items.NETHERITE_AXE};
 	public EquipmentSlot[] slots = {EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET, EquipmentSlot.OFFHAND, EquipmentSlot.MAINHAND};
+    public int reducedDamageTicks;
+    public int setHealthIFrame;
 	
 	public EntityKaratFeng(EntityType<? extends Monster> p_21368_, Level p_21369_) 
 	{
@@ -126,6 +128,28 @@ public class EntityKaratFeng extends AbstractKaratFeng
     }
     
     @Override
+    public void setHealth(float p_21154_) 
+    {
+    	float healthValue = p_21154_ - this.getHealth();
+    	if(healthValue < 0)
+    	{
+    		if(Mth.abs(healthValue) > 15.0F && Mth.abs(healthValue) < 1000000000000.0F)
+    		{
+    			p_21154_ = this.getHealth() - 15.0F;
+    		}
+    		if(this.setHealthIFrame < 1)
+    		{
+    			super.setHealth(p_21154_);
+    			this.setHealthIFrame = 10;
+    		}
+    	}
+    	else
+    	{
+        	super.setHealth(p_21154_);
+    	}
+    }
+    
+    @Override
     protected PathNavigation createNavigation(Level p_186262_) 
     {
         FlyingPathNavigation flyingpathnavigation = new FlyingPathNavigation(this, p_186262_);
@@ -166,6 +190,16 @@ public class EntityKaratFeng extends AbstractKaratFeng
     public void tick() 
     {
     	super.tick();
+    	
+    	if(this.setHealthIFrame > 0)
+    	{
+        	this.setHealthIFrame--;
+    	}
+    	
+    	if(this.reducedDamageTicks > 0) 
+    	{
+    		this.reducedDamageTicks--;
+    	}
 
         this.navigation = this.createNavigation(this.level);
     	
@@ -211,7 +245,7 @@ public class EntityKaratFeng extends AbstractKaratFeng
     	if(this.getTarget() != null)
     	{
         	this.lookAt(Anchor.EYES, this.getTarget().getEyePosition());
-    		if(!this.isChangeEquip() && this.isMelee())
+    		if(!this.isChangeEquip() && this.isMelee() && this.canMove())
     		{
     			this.getNavigation().moveTo(this.getTarget(), this.getAttributeBaseValue(Attributes.MOVEMENT_SPEED));
     		}
@@ -443,7 +477,17 @@ public class EntityKaratFeng extends AbstractKaratFeng
         {
         	return false;
         }
-    	return super.hurt(p_21016_, p_21017_);
+        if(this.reducedDamageTicks > 0)
+        {
+            float reductionFactor = 1.0F - (this.reducedDamageTicks / 30.0F);
+            p_21017_ *= reductionFactor;
+        }
+        boolean flag = super.hurt(p_21016_, p_21017_);
+        if(flag)
+        {
+        	this.reducedDamageTicks = 30;
+        }
+    	return flag;
     }
     
     private boolean canBlockDamageSource(DamageSource damageSourceIn)

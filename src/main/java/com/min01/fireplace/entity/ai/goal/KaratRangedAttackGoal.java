@@ -48,6 +48,7 @@ public class KaratRangedAttackGoal extends AbstractFireplaceSkillGoal<EntityKara
 		this.mob.setItemInHand(InteractionHand.MAIN_HAND, this.bowItem);
 		this.mob.startUsingItem(InteractionHand.MAIN_HAND);
 		this.mob.setCanMove(false);
+		this.mob.getNavigation().stop();
 	}
 
 	@Override

@@ -27,7 +27,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -473,20 +472,6 @@ public abstract class AbstractKaratFeng extends Monster
     	this.setHurtCount(this.getHurtCount() + 1);
     	return super.hurt(p_21016_, p_21017_);
     }
-    
-    @Override
-	public void move(MoverType p_19973_, Vec3 p_19974_) 
-	{
-		if(this.canMove())
-		{
-			super.move(p_19973_, p_19974_);
-		}
-		else if(!this.canMove())
-		{
-			double yvec = this.onGround ? 0 : this.isNoGravity() ? 0 : this.getDeltaMovement().y;
-			super.move(p_19973_, new Vec3(0, yvec, 0));
-		}
-	}
     
 	@Override
 	protected void customServerAiStep() 

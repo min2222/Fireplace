@@ -1,6 +1,5 @@
 package com.min01.fireplace.entity;
 
-import net.minecraft.commands.arguments.EntityAnchorArgument.Anchor;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -54,7 +53,7 @@ public abstract class AbstractHostileKaratFeng extends AbstractKaratFeng
 			
 			if(flag)
 			{
-				this.lookAt(Anchor.EYES, this.getTarget().position().add(0, this.getTarget().getEyeHeight(), 0));
+				this.getLookControl().setLookAt(this.getTarget(), 30.0F, 30.0F);
 			}
 			
 			if(this.canMoveToTarget())
