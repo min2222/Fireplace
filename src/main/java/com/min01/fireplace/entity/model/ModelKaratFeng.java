@@ -5,7 +5,6 @@ import com.min01.fireplace.entity.AbstractKaratFeng;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.util.Mth;
-import net.minecraft.world.item.Items;
 
 public class ModelKaratFeng<T extends AbstractKaratFeng> extends PlayerModel<T>
 {
@@ -32,18 +31,6 @@ public class ModelKaratFeng<T extends AbstractKaratFeng> extends PlayerModel<T>
 			this.leftArm.yRot = 0.0F;
 			this.leftSleeve.copyFrom(this.leftArm);
 			this.rightSleeve.copyFrom(this.rightArm);
-		}
-		if(entity.isUsingItem() && entity.getMainHandItem().getItem() == Items.BOW)
-		{
-            this.rightArm.yRot = -0.1F + this.head.yRot;
-            this.leftArm.yRot = 0.1F + this.head.yRot + 0.4F;
-            this.rightArm.xRot = (-(float)Math.PI / 2F) + this.head.xRot;
-            this.leftArm.xRot = (-(float)Math.PI / 2F) + this.head.xRot;
-		}
-		if(entity.isBlocking())
-		{
-			this.leftArmPose = ArmPose.BLOCK;
-			this.rightArmPose = ArmPose.BLOCK;
 		}
 	}
 }

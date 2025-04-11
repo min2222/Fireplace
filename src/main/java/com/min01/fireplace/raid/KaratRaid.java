@@ -17,11 +17,10 @@ import javax.annotation.Nullable;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.min01.fireplace.config.FireplaceConfig;
+import com.min01.fireplace.effect.FireplaceEffects;
 import com.min01.fireplace.entity.AbstractKaratFeng;
-import com.min01.fireplace.init.FireplaceEffects;
 import com.min01.fireplace.misc.FireplaceBossBarType;
 import com.min01.fireplace.misc.FireplaceBossEvent;
-import com.min01.fireplace.misc.IKaratRaid;
 
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;

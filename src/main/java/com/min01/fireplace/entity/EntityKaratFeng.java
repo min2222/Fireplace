@@ -15,7 +15,7 @@ import com.min01.fireplace.entity.ai.goal.KaratShootProjectileGoal;
 import com.min01.fireplace.entity.ai.goal.KaratSplashPotionsGoal;
 import com.min01.fireplace.entity.ai.goal.KaratSummonMobGoal;
 import com.min01.fireplace.entity.ai.goal.KaratUsingShieldGoal;
-import com.min01.fireplace.init.FireplaceItems;
+import com.min01.fireplace.item.FireplaceItems;
 import com.min01.fireplace.util.FireplaceUtil;
 
 import net.minecraft.commands.arguments.EntityAnchorArgument.Anchor;
@@ -120,7 +120,7 @@ public class EntityKaratFeng extends AbstractKaratFeng
     {
         return Monster.createMonsterAttributes()
     			.add(Attributes.MAX_HEALTH, 200.0D)
-    			.add(Attributes.MOVEMENT_SPEED, 0.5D)
+    			.add(Attributes.MOVEMENT_SPEED, 0.65D)
         		.add(Attributes.ARMOR, 2)
         		.add(Attributes.ARMOR_TOUGHNESS, 2)
         		.add(Attributes.ATTACK_DAMAGE, 4)

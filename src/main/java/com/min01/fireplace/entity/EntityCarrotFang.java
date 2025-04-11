@@ -1,7 +1,6 @@
 package com.min01.fireplace.entity;
 
 import com.min01.fireplace.entity.projectile.EntityCarrotProjectile;
-import com.min01.fireplace.init.FireplaceEntities;
 import com.min01.fireplace.util.FireplaceUtil;
 
 import net.minecraft.world.InteractionHand;
@@ -23,6 +22,15 @@ public class EntityCarrotFang extends AbstractHostileKaratFeng
 		this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.CARROT));
 	}
 	
+    public static AttributeSupplier.Builder createAttributes()
+    {
+        return AbstractKaratFeng.createFireplaceAttributes()
+    			.add(Attributes.MAX_HEALTH, 20.0F)
+    			.add(Attributes.MOVEMENT_SPEED, 0.65F)
+        		.add(Attributes.ARMOR, 2.0F)
+        		.add(Attributes.ARMOR_TOUGHNESS, 2.0F);
+    }
+	
 	@Override
 	public void aiStep()
 	{
@@ -32,7 +40,7 @@ public class EntityCarrotFang extends AbstractHostileKaratFeng
 			if(this.distanceTo(this.getTarget()) <= 6)
 			{
 				this.setCanMoveToTarget(false);
-				if(this.tickCount % 30 == 0)
+				if(this.tickCount % 15 == 0)
 				{
 					EntityCarrotProjectile carrot = new EntityCarrotProjectile(FireplaceEntities.CARROT.get(), this, this.level);
 					carrot.setPos(this.position().add(0, this.getEyeHeight(), 0));
@@ -48,13 +56,4 @@ public class EntityCarrotFang extends AbstractHostileKaratFeng
 			}
 		}
 	}
-	
-    public static AttributeSupplier.Builder createAttributes()
-    {
-        return AbstractKaratFeng.createFireplaceAttributes()
-    			.add(Attributes.MAX_HEALTH, 20.0D)
-    			.add(Attributes.MOVEMENT_SPEED, 0.65D)
-        		.add(Attributes.ARMOR, 2)
-        		.add(Attributes.ARMOR_TOUGHNESS, 2);
-    }
 }

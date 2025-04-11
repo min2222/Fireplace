@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import com.min01.fireplace.misc.IKaratRaid;
+import com.min01.fireplace.raid.IKaratRaid;
 import com.min01.fireplace.raid.KaratRaid;
 import com.min01.fireplace.raid.KaratRaidSaveData;
 

@@ -1,6 +1,6 @@
-package com.min01.fireplace.raid;
+package com.min01.fireplace.effect;
 
-import com.min01.fireplace.misc.IKaratRaid;
+import com.min01.fireplace.raid.IKaratRaid;
 
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -19,21 +19,21 @@ public class EffectKaratOmen extends MobEffect
 	@Override
 	public void applyEffectTick(LivingEntity p_19467_, int p_19468_)
 	{
-		if(p_19467_ instanceof ServerPlayer serverplayer && !p_19467_.isSpectator()) 
+		if(p_19467_ instanceof ServerPlayer player && !player.isSpectator()) 
 		{
-			if(!serverplayer.level.isClientSide)
+			if(!player.level.isClientSide)
 			{
-				ServerLevel serverlevel = (ServerLevel) serverplayer.level;
-				if(serverlevel != null)
+				ServerLevel serverLevel = (ServerLevel) player.level;
+				if(serverLevel != null)
 				{
-					if(serverlevel.getDifficulty() == Difficulty.PEACEFUL)
+					if(serverLevel.getDifficulty() == Difficulty.PEACEFUL)
 					{
 						return;
 					}
 					
-		            if(serverlevel.isVillage(p_19467_.blockPosition()))
+		            if(serverLevel.isVillage(p_19467_.blockPosition()))
 		            {
-		            	((IKaratRaid)serverlevel).getRaids().createOrExtendRaid(serverplayer);
+		            	((IKaratRaid)serverLevel).getRaids().createOrExtendRaid(player);
 		            }
 				}
 			}

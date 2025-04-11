@@ -33,13 +33,13 @@ public class EventHandlerForge
 	private static final String TAG_ARROW_DODGE_CHECKED = Fireplace.MODID + "_dodge_check";
 	
 	@SubscribeEvent
-	public static void registerWaveMembers(LevelEvent.Load event)
+	public static void onLevelLoad(LevelEvent.Load event)
 	{
 		KaratRaidMembers.registerWaveMembers();       
 	}
 	
 	@SubscribeEvent
-	public static void karatExplosion(ExplosionEvent.Detonate event)
+	public static void onExplosionDetonate(ExplosionEvent.Detonate event)
 	{
     	Entity sourceMob = event.getExplosion().getDirectSourceEntity();
     	List<Entity> list = event.getAffectedEntities();
@@ -186,7 +186,7 @@ public class EventHandlerForge
 	}
 	
 	@SubscribeEvent
-	public static void karatTick(LivingTickEvent event)
+	public static void onLivingTick(LivingTickEvent event)
 	{
 		if(!event.getEntity().level.isClientSide)
 		{
@@ -215,7 +215,7 @@ public class EventHandlerForge
 	}
 	
 	@SubscribeEvent
-	public static void karatDamge(LivingDamageEvent event)
+	public static void onLivingDamage(LivingDamageEvent event)
 	{
 		Entity entity = event.getSource().getEntity();
 		Entity directentity = event.getSource().getEntity();
@@ -371,7 +371,7 @@ public class EventHandlerForge
 	}
 	
 	@SubscribeEvent
-	public static void karatChangeTarget(LivingChangeTargetEvent event)
+	public static void onLivingChangeTarget(LivingChangeTargetEvent event)
 	{
 		LivingEntity entity = event.getEntity();
 		LivingEntity newtarget = event.getNewTarget();
@@ -526,7 +526,7 @@ public class EventHandlerForge
 	}
 	
 	@SubscribeEvent
-	public static void karatLeaveLevel(EntityLeaveLevelEvent event)
+	public static void onEntityLeaveLevel(EntityLeaveLevelEvent event)
 	{
 		if(event.getLevel() instanceof ServerLevel)
 		{
@@ -566,7 +566,7 @@ public class EventHandlerForge
 	}
 	
 	@SubscribeEvent
-    public static void karatJoinLevel(EntityJoinLevelEvent event)
+    public static void onEntityJoinLevel(EntityJoinLevelEvent event)
 	{
 		if(event.getEntity() instanceof Projectile)
 		{
@@ -580,6 +580,15 @@ public class EventHandlerForge
 				}
 			}
 		}
+		
+        if(event.getLevel().isClientSide() || !event.getEntity().isAlive()) 
+        	return;
+        
+        if(event.getEntity() instanceof Projectile && !event.getEntity().getPersistentData().getBoolean(TAG_ARROW_DODGE_CHECKED)) 
+        {
+            event.getEntity().getPersistentData().putBoolean(TAG_ARROW_DODGE_CHECKED, true);
+            DodgeArrowsGoal.doDodgeCheckForArrow(event.getEntity());
+        }
 	}
 	
 	public static void syncUUIDWithProjectilOwner(Entity owner, Projectile proj, String name)
@@ -589,16 +598,4 @@ public class EventHandlerForge
 			proj.getPersistentData().putUUID(name, owner.getPersistentData().getUUID(name));
 		}
 	}
-	
-	@SubscribeEvent
-    public static void onJoinWorld(EntityJoinLevelEvent event)
-	{
-        if(event.getLevel().isClientSide() || !event.getEntity().isAlive()) return;
-        
-        if(event.getEntity() instanceof Projectile && !event.getEntity().getPersistentData().getBoolean(TAG_ARROW_DODGE_CHECKED)) 
-        {
-            event.getEntity().getPersistentData().putBoolean(TAG_ARROW_DODGE_CHECKED, true);
-            DodgeArrowsGoal.doDodgeCheckForArrow(event.getEntity());
-        }
-    }
 }

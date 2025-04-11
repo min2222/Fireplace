@@ -5,7 +5,7 @@ import java.util.List;
 import com.google.common.collect.Lists;
 import com.min01.fireplace.entity.AbstractKaratFeng;
 import com.min01.fireplace.entity.EntitySnowyFeng;
-import com.min01.fireplace.init.FireplaceEntities;
+import com.min01.fireplace.entity.FireplaceEntities;
 
 import net.minecraft.Util;
 import net.minecraft.nbt.CompoundTag;

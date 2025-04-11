@@ -1,10 +1,10 @@
-package com.min01.fireplace.init;
+package com.min01.fireplace.item;
 
 import java.util.function.Supplier;
 
 import com.min01.fireplace.Fireplace;
 import com.min01.fireplace.entity.AbstractKaratFeng;
-import com.min01.fireplace.item.KingStaffItem;
+import com.min01.fireplace.entity.FireplaceEntities;
 
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;

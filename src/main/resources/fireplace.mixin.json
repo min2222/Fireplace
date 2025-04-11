@@ -13,5 +13,5 @@
 	"injectors": {
 		"defaultRequire": 1
 	},
-	"refmap": "fireplace.mixin-refmap.json"
+	"refmap": "fireplace.refmap.json"
 }

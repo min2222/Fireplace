@@ -117,7 +117,7 @@ public class EntityUFO extends AbstractOwnableMonster<EntityAlienFeng>
 			{
 				this.lookAt(Anchor.EYES, this.getOwner().getTarget().position().add(0, this.getOwner().getTarget().getEyeHeight(), 0));
 				
-				List<LivingEntity> list = this.level.getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(6));
+				List<LivingEntity> list = this.level.getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(6), t -> !t.isAlliedTo(this));
 				for(int i = 0; i < list.size(); i++)
 				{
 					LivingEntity living = list.get(i);

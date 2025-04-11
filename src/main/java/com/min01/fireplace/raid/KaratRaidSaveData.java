@@ -8,7 +8,6 @@ import javax.annotation.Nullable;
 
 import com.google.common.collect.Maps;
 import com.min01.fireplace.entity.AbstractKaratFeng;
-import com.min01.fireplace.misc.IKaratRaid;
 
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;

@@ -167,19 +167,11 @@ public class FireplaceUtil
         }
 
         syncEntity(livingInstance, owner);
-        
-        //TODO?
-        //livingInstance.getEntityData().clearDirty();
     }
     
     public static void syncEntity(LivingEntity living, LivingEntity owner)
     {
     	syncEntityPosRot(living, owner);
-        
-    	//TODO?
-        /*living.walkAnimation.speedOld = owner.walkAnimation.speedOld;
-        living.walkAnimation.speed = owner.walkAnimation.speed;
-        living.walkAnimation.position = owner.walkAnimation.position;*/
         
         living.setDeltaMovement(owner.getDeltaMovement());
 

@@ -1,7 +1,6 @@
-package com.min01.fireplace.init;
+package com.min01.fireplace.effect;
 
 import com.min01.fireplace.Fireplace;
-import com.min01.fireplace.raid.EffectKaratOmen;
 
 import net.minecraft.world.effect.MobEffect;
 import net.minecraftforge.registries.DeferredRegister;

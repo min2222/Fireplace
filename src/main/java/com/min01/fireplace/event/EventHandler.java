@@ -11,8 +11,8 @@ import com.min01.fireplace.entity.EntitySantaFeng;
 import com.min01.fireplace.entity.EntitySnowyFeng;
 import com.min01.fireplace.entity.EntityUFO;
 import com.min01.fireplace.entity.EntityVampireFeng;
-import com.min01.fireplace.init.FireplaceEntities;
-import com.min01.fireplace.init.FireplaceItems;
+import com.min01.fireplace.entity.FireplaceEntities;
+import com.min01.fireplace.item.FireplaceItems;
 
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;

@@ -25,7 +25,7 @@ public abstract class AbstractFireplaceSkillGoal<T extends AbstractKaratFeng> ex
     		if(this.mob.isUsingSkill())
     		{
     			return false;
-    		} 
+    		}
     		else 
     		{
     			return this.mob.tickCount >= this.nextAttackTickCount;

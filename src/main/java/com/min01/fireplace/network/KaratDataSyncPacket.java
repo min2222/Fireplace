@@ -49,7 +49,7 @@ public class KaratDataSyncPacket
             ctx.get().enqueueWork(() ->
             {
             	Minecraft minecraft = Minecraft.getInstance();
-                switch (message.dataType)
+                switch(message.dataType)
                 {
 				case ENTITY_LIST:
 					ArrayList<LivingEntity> list = new ArrayList<>();

@@ -1,7 +1,4 @@
-package com.min01.fireplace.misc;
-
-import com.min01.fireplace.raid.KaratRaid;
-import com.min01.fireplace.raid.KaratRaidSaveData;
+package com.min01.fireplace.raid;
 
 import net.minecraft.core.BlockPos;
 

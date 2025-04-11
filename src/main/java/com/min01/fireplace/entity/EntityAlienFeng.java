@@ -1,7 +1,5 @@
 package com.min01.fireplace.entity;
 
-import com.min01.fireplace.init.FireplaceEntities;
-
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;

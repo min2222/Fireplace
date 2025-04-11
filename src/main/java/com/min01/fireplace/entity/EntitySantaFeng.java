@@ -2,7 +2,6 @@ package com.min01.fireplace.entity;
 
 import com.min01.fireplace.entity.projectile.EntityPresentProjectile;
 import com.min01.fireplace.entity.projectile.EntityPresentProjectile.PresentType;
-import com.min01.fireplace.init.FireplaceEntities;
 import com.min01.fireplace.util.FireplaceUtil;
 
 import net.minecraft.Util;
