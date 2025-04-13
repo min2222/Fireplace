@@ -89,7 +89,7 @@ public class EntityNecroFeng extends AbstractHostileKaratFeng
     	
     	if(this.getTarget() != null)
     	{
-    		if(this.distanceTo(this.getTarget()) <= 6)
+    		if(this.distanceTo(this.getTarget()) <= 12)
     		{
     			this.setCanMoveToTarget(false);
     		}

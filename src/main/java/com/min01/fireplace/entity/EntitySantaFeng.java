@@ -36,7 +36,7 @@ public class EntitySantaFeng extends AbstractHostileKaratFeng
     	super.aiStep();
 		if(this.getTarget() != null)
 		{
-			if(this.distanceTo(this.getTarget()) <= 10)
+			if(this.distanceTo(this.getTarget()) <= 12)
 			{
 				this.setCanMoveToTarget(false);
 				float tick = this.getHealth() == this.getHealth() / 2 ? 5 : 35;

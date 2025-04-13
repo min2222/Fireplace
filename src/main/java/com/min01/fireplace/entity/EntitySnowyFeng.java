@@ -46,7 +46,7 @@ public class EntitySnowyFeng extends AbstractHostileKaratFeng
 		super.aiStep();
 		if(this.getTarget() != null)
 		{
-			if(this.distanceTo(this.getTarget()) <= 6)
+			if(this.distanceTo(this.getTarget()) <= 12)
 			{
 				this.setCanMoveToTarget(false);
 				if(this.tickCount % 20 == 0)

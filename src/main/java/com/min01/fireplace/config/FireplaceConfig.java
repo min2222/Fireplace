@@ -40,11 +40,11 @@ public class FireplaceConfig
         FireplaceConfig.karatRaidMembers = config.comment("put any type of karat id for ultra karatted raid. example : fireplace:karat_feng=1,5,0,0,0,0,0").define("karatRaidMembers", Arrays.asList(new String[] {
         		"fireplace:carrot_fang=3,5,8,10,15,10,10,15,20,30", 
         		"fireplace:snowy_feng=3,5,5,4,6,6,5,8,12,20", 
-        		"fireplace:evoker_feng=2,3,4,2,5,7,7,9,15,20", 
-        		"fireplace:santa_feng=0,1,1,2,1,3,2,4,8,10", 
-        		"fireplace:vampire_feng=0,0,1,2,2,6,4,8,15,20", 
-        		"fireplace:fire_feng=0,0,0,0,1,1,2,4,8,10", 
-        		"fireplace:necro_feng=0,0,0,0,1,1,2,4,8,10",
+        		"fireplace:evoker_feng=10,15,10,8,7,7,7,9,15,20", 
+        		"fireplace:santa_feng=6,7,8,9,10,10,15,10,15,20", 
+        		"fireplace:vampire_feng=8,7,8,9,10,12,15,20,15,20", 
+        		"fireplace:fire_feng=5,7,8,9,10,10,20,15,10,30", 
+        		"fireplace:necro_feng=4,5,6,8,7,8,10,15,20,30",
         		"fireplace:alien_feng=0,0,0,0,0,0,0,0,0,0"}), String.class::isInstance);
         FireplaceConfig.maxWave = config.comment("max wave number for ultra karatted raid").define("maxWave", 10);
         config.pop();
